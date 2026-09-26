@@ -238,6 +238,8 @@ class Experiment029:
 
         Search is pivoted on an uncovered negative example. This avoids the
         lexicographic-order bias found in the first coverage implementation.
+        The bounded search is set above the complete 720-solution training space
+        discovered for this environment, so promotion cannot depend on truncation.
         """
         positives = [s for s in train if self.env.evaluate(s).allowed]
         negatives = [s for s in train if not self.env.evaluate(s).allowed]
@@ -278,7 +280,7 @@ class Experiment029:
                     solutions.append(self.language.compose(chosen))
                 return
 
-            if len(chosen) >= 5 or len(solutions) >= 512:
+            if len(chosen) >= 5 or len(solutions) >= 1024:
                 return
 
             pivot = next(
@@ -294,7 +296,7 @@ class Experiment029:
                 if new_covered == covered:
                     continue
                 dfs(chosen + [atom], new_covered)
-                if len(solutions) >= 512:
+                if len(solutions) >= 1024:
                     return
 
         dfs([], 0)
