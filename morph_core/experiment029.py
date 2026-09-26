@@ -236,7 +236,8 @@ class Experiment029:
         Synthesize conjunctions by covering every negative example while
         remaining true on every positive example.
 
-        This avoids the single-atom ranking bias exposed by the first CI run.
+        Search is pivoted on an uncovered negative example. This avoids the
+        lexicographic-order bias found in the first coverage implementation.
         """
         positives = [s for s in train if self.env.evaluate(s).allowed]
         negatives = [s for s in train if not self.env.evaluate(s).allowed]
@@ -256,39 +257,47 @@ class Experiment029:
             if mask:
                 compatible.append((atom, mask))
 
-        compatible.sort(key=lambda item: (-item[1].bit_count(), item[0].expression))
+        by_pivot: dict[int, list[tuple[Atom, int]]] = {}
+        for atom, mask in compatible:
+            for idx in range(len(negatives)):
+                if mask & (1 << idx):
+                    by_pivot.setdefault(idx, []).append((atom, mask))
+        for idx in by_pivot:
+            by_pivot[idx].sort(
+                key=lambda item: (-item[1].bit_count(), item[0].expression)
+            )
 
         solutions: list[Candidate] = []
         seen: set[tuple[str, ...]] = set()
 
-        def dfs(start: int, chosen: list[Atom], covered: int) -> None:
+        def dfs(chosen: list[Atom], covered: int) -> None:
             if covered == full_mask:
                 expressions = tuple(sorted(a.expression for a in chosen))
-                if expressions in seen:
-                    return
-                seen.add(expressions)
-                solutions.append(self.language.compose(chosen))
-                return
-            if len(chosen) >= 5 or len(solutions) >= 256:
+                if expressions not in seen:
+                    seen.add(expressions)
+                    solutions.append(self.language.compose(chosen))
                 return
 
-            # Remaining-union pruning.
-            remaining_union = covered
-            for _, mask in compatible[start:]:
-                remaining_union |= mask
-            if remaining_union != full_mask:
+            if len(chosen) >= 5 or len(solutions) >= 512:
                 return
 
-            for idx in range(start, len(compatible)):
-                atom, mask = compatible[idx]
+            pivot = next(
+                idx for idx in range(len(negatives))
+                if not (covered & (1 << idx))
+            )
+            chosen_names = {a.expression for a in chosen}
+
+            for atom, mask in by_pivot.get(pivot, []):
+                if atom.expression in chosen_names:
+                    continue
                 new_covered = covered | mask
                 if new_covered == covered:
                     continue
-                dfs(idx + 1, chosen + [atom], new_covered)
-                if len(solutions) >= 256:
+                dfs(chosen + [atom], new_covered)
+                if len(solutions) >= 512:
                     return
 
-        dfs(0, [], 0)
+        dfs([], 0)
         return solutions
 
     def learn(self) -> dict[str, Any]:
