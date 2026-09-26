@@ -297,7 +297,9 @@ class Experiment029:
         transfer = self._transfer()
 
         # Search from machine-observable atoms using positive-consistency + negative-coverage.
-        # This is genuine synthesis: the learner is not told which atoms matter.
+        # The first implementation ranked atoms independently; CI falsified that strategy
+        # because conjunction components can be weak in isolation. Coverage search is the
+        # repaired synthesis mechanism and is preserved as evidence in this experiment.
         pool = self._synthesize_conjunctions(train)
 
         # Evaluate candidates against unseen contexts before allowing any promotion.
@@ -380,6 +382,7 @@ class Experiment029:
                 "train": best.train_accuracy if best else None,
                 "holdout": best.holdout_accuracy if best else None,
                 "transfer": best.transfer_accuracy if best else None,
+                "challenge": best.challenge_accuracy if best else None,
                 "intervention_passes": best.intervention_passes if best else None,
                 "counterexamples": best.counterexamples if best else None,
             },
