@@ -1,1 +1,20 @@
 # Experiment 029 — Induced Rule Language\n\n## Question\n\nCan MORPH construct and search a machine-level rule language from typed observations, without being given human semantic rule names?\n\n## Design\n\nThe environment exposes only typed, observable state fields:\n- one categorical field\n- one categorical action\n- numeric fields\n- opaque context labels\n\nThe learner receives an operator grammar (equality, inequality, numeric comparison, conjunction), not domain explanations.\n\nTraining contains deliberate decoys:\n- context correlates with outcomes\n- familiar labels are not reliable\n- transfer reverses the decoy correlations\n\nMORPH:\n1. generates atomic predicates from the machine-level type system\n2. filters atoms by consistency with observed positive states and coverage of negative states\n3. synthesizes conjunctions using deterministic coverage search\n4. tests candidates on holdout and transfer contexts\n5. runs matched intervention pairs\n6. subjects the survivors to mechanically generated adversarial single-condition toggles\n7. keeps only candidates supported by all gates\n\n## Failure and repair recorded by CI\n\nThe first implementation ranked single atoms by individual accuracy and searched combinations only among the top-ranked atoms. CI falsified that strategy: the true rule is conjunctive, so its individual components can be weak alone. The repair changed synthesis to positive-consistency plus negative-coverage search. The failed strategy remains part of the evidence trail.\n\n## Epistemic status\n\n**EXPERIMENTALLY_SUPPORTED**\n\nScope is limited to the deterministic symbolic simulator.\n\nThis does not establish open-ended invention of new formal languages, nor real-world autonomous scientific discovery.\n\n## Research value\n\n029 removes the human semantic rule names used in 028 while retaining only a typed operator substrate. The next frontier is to let MORPH invent or modify the operator set itself rather than receiving it as part of the environment contract.\n
+## Verified result
+
+GitHub Actions verification run `36256599270` at commit `7405f542e152d8e1ad75f389ac426024bf4d153b` completed successfully.
+
+Observed:
+- 169 machine-level candidate atoms
+- 720 training-consistent conjunction candidates
+- selected complexity: 5
+- train / holdout / transfer / adversarial: 1.0 / 1.0 / 1.0 / 1.0
+- intervention passes: 5
+- counterexamples: 0
+
+Selected expression:
+
+`action != delete AND x0 == A AND x1 >= x2 AND x3 == x4 AND x5 <= x6`
+
+The expression is reported exactly as discovered by the runner; its symbols remain machine-level rather than human semantic labels.
+
+See `experiments/029/result.json` for the recorded evidence and repair history.
