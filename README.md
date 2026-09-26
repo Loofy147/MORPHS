@@ -17,17 +17,17 @@ Conversation notes and generated zip snapshots are not authoritative.
 
 ## Current boundary
 
-Experiment 029 is the latest native experiment.
+Experiment 030 is the latest native experiment.
 
 Its claim is:
 
-> MORPH can synthesize candidate machine-level rules from a typed operator substrate, then filter them with holdout, transfer, and intervention evidence.
+> MORPH can extend a machine-level rule language by selecting derived operators from a typed constructive substrate, then admitting them only after holdout, transfer, adversarial, and intervention evidence.
 
 Epistemic state: **EXPERIMENTALLY_SUPPORTED**
 
 Scope: deterministic symbolic simulator only.
 
-This does **not** establish open-ended autonomous invention of formal languages or real-world scientific discovery.
+This does **not** establish unrestricted invention of mathematical primitives or real-world scientific discovery.
 
 ## Development rule
 
@@ -47,6 +47,7 @@ python -m pytest -q
 python -m compileall morph_core tests
 python -m morph_core.experiment028
 python -m morph_core.experiment029
+python -m morph_core.experiment030
 ```
 
 The repository is intentionally small. Historical experiments 001-027 remain part of MORPH's lineage and will be normalized as structured records rather than copied blindly.
