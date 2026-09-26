@@ -1,6 +1,6 @@
 # Experiment lineage
 
-The MORPH research sequence currently contains 029 completed experiments in the local research lineage.
+The MORPH research sequence currently contains 030 completed experiments in the local research lineage.
 
 The sequence evolved through:
 - capability composition and mutation
@@ -12,8 +12,9 @@ The sequence evolved through:
 - theory competition and blind generalization
 - mechanical constitution induction
 - induced machine-level rule language
+- operator-language mutation
 
-The local historical bundles contain detailed records for experiments 001-028. Experiment 029 is the first native post-import experiment in the MORPHS repository.
+The local historical bundles contain detailed records for experiments 001-028. Experiments 029-030 are the first native post-import experiments in the MORPHS repository.
 
 Repository policy:
 1. Preserve original evidence.
@@ -24,5 +25,5 @@ Repository policy:
 
 Next frontier:
 - let MORPH modify or invent parts of the operator substrate itself
-- test whether a learned rule language survives external tool and environment shifts
+- test whether a learned operator survives external tool and environment shifts
 - separate architecture-induced bias from evidence-induced structure
