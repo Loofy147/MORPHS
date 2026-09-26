@@ -1,0 +1,62 @@
+{
+  "experiment": "030_operator_language_mutation",
+  "claim_state": "EXPERIMENTALLY_SUPPORTED",
+  "scope": "deterministic symbolic simulator",
+  "verification": {
+    "workflow_run_id": 36257127559,
+    "job_id": 108445917586,
+    "commit_sha": "8b75f2ff003e9c79ff8ae628acf6d3bae60ee32d",
+    "compile": "success",
+    "pytest": "success",
+    "experiment_028": "success",
+    "experiment_029": "success",
+    "experiment_030": "success"
+  },
+  "discovery": {
+    "primitive_operator_count": 47,
+    "proposal_count": 135,
+    "promoted_operators": [
+      {
+        "expression": "abs(x1-x2) <= 1",
+        "family": "derived_absdiff_le",
+        "parent_ops": [
+          "SUB",
+          "ABS",
+          "LE"
+        ],
+        "train_support": 1,
+        "holdout_support": 1,
+        "transfer_support": 1,
+        "adversarial_support": 3,
+        "intervention_passes": 1,
+        "counterexamples": 0
+      },
+      {
+        "expression": "x3+x4 == x5",
+        "family": "derived_sum_eq",
+        "parent_ops": [
+          "ADD",
+          "EQ"
+        ],
+        "train_support": 1,
+        "holdout_support": 1,
+        "transfer_support": 1,
+        "adversarial_support": 1,
+        "intervention_passes": 1,
+        "counterexamples": 0
+      }
+    ],
+    "final_rule": "abs(x1-x2) <= 1 AND action != delete AND x0 == A AND x3+x4 == x5",
+    "final_metrics": {
+      "train": 1,
+      "holdout": 1,
+      "transfer": 1,
+      "adversarial": 1
+    }
+  },
+  "repairs": [
+    "Initial operator-level scoring compared each derived operator directly with the full environment outcome; CI showed this incorrectly rejected partial rule components.",
+    "Admission was repaired so operator evidence measures positive-state consistency and discriminative contribution, while the composite rule carries the full holdout/transfer/adversarial gate."
+  ],
+  "limitation": "The typed arithmetic meta-substrate still supplies SUB/ABS/LE/ADD/EQ constructors. The experiment does not establish unrestricted invention of arbitrary mathematical primitives."
+}
