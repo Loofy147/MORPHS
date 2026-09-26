@@ -42,3 +42,13 @@ def test_no_human_semantic_rule_names():
 
 def test_reproducible_result():
     assert run_experiment029() == run_experiment029()
+
+
+def test_adversarial_challenge_passes():
+    result = run_experiment029()
+    assert result["assertions"]["adversarial_challenge_passed"]
+
+
+def test_challenge_is_reported_in_metrics():
+    result = run_experiment029()
+    assert result["best_metrics"]["challenge"] == 1.0
