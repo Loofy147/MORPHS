@@ -1,0 +1,37 @@
+{
+  "experiment": "029_induced_rule_language",
+  "claim_state": "EXPERIMENTALLY_SUPPORTED",
+  "scope": "deterministic symbolic simulator",
+  "verification": {
+    "commit_sha": "7405f542e152d8e1ad75f389ac426024bf4d153b",
+    "workflow_run_id": 36256599270,
+    "job_id": 108444437271,
+    "compile": "success",
+    "pytest": "success",
+    "experiment_028": "success",
+    "experiment_029": "success"
+  },
+  "discovery": {
+    "candidate_atom_count": 169,
+    "training_fit_candidates": 720,
+    "best_complexity": 5,
+    "best_expression": "action != delete AND x0 == A AND x1 >= x2 AND x3 == x4 AND x5 <= x6",
+    "train": 1,
+    "holdout": 1,
+    "transfer": 1,
+    "adversarial_challenge": 1,
+    "intervention_passes": 5,
+    "counterexamples": 0
+  },
+  "interpretation": {
+    "human_semantic_names_used": false,
+    "decoy_context_used": false,
+    "result_state": "supported",
+    "limitation": "The operator grammar and observable field types were supplied by the environment; open-ended invention of the grammar itself remains untested."
+  },
+  "repair_history": [
+    "Independent atom-ranking search was falsified by CI because conjunctive components were weak in isolation.",
+    "Coverage search was introduced but truncated at 512 candidates; independent enumeration showed 720 valid training-cover candidates and the correct solution was beyond the truncation.",
+    "Final search uses uncovered-negative pivoting and a bound above the complete 720-solution space; CI passed."
+  ]
+}
