@@ -334,6 +334,14 @@ class Experiment030:
             if op.expression not in {x.expression for x in self.base_language.operators}
         ]
 
+        # Evaluate the composite before admitting any of its new operators.
+        candidate_metrics = {
+            "train": _accuracy(candidate_rule, train, self.env),
+            "holdout": _accuracy(candidate_rule, holdout, self.env),
+            "transfer": _accuracy(candidate_rule, transfer, self.env),
+            "adversarial": _accuracy(candidate_rule, adversarial, self.env),
+        }
+
         for op in proposals:
             record = OperatorRecord(
                 expression=op.expression,
@@ -341,31 +349,52 @@ class Experiment030:
                 parent_ops=op.parent_ops,
                 lineage=["language:v0", *op.parent_ops],
             )
-            train_support = sum(op.predicate(s) == self.env.evaluate(s).allowed for s in train) / len(train)
-            holdout_support = sum(op.predicate(s) == self.env.evaluate(s).allowed for s in holdout) / len(holdout)
-            transfer_support = sum(op.predicate(s) == self.env.evaluate(s).allowed for s in transfer) / len(transfer)
-            adversarial_support = sum(
-                (not op.predicate(s)) == (not self.env.evaluate(s).allowed)
-                for s in adversarial
-            ) / len(adversarial)
+            positives_train = self._positive(train, self.env)
+            positives_holdout = self._positive(holdout, self.env)
+            positives_transfer = self._positive(transfer, self.env)
+            negatives_train = self._negative(train, self.env)
+            negatives_holdout = self._negative(holdout, self.env)
+            negatives_transfer = self._negative(transfer, self.env)
+
+            record.train_support = (
+                sum(op.predicate(s) for s in positives_train) / len(positives_train)
+                if positives_train else 0.0
+            )
+            record.holdout_support = (
+                sum(op.predicate(s) for s in positives_holdout) / len(positives_holdout)
+                if positives_holdout else 0.0
+            )
+            record.transfer_support = (
+                sum(op.predicate(s) for s in positives_transfer) / len(positives_transfer)
+                if positives_transfer else 0.0
+            )
+            record.adversarial_support = float(
+                sum(
+                    sum(not op.predicate(s) for s in negatives) > 0
+                    for negatives in (negatives_train, negatives_holdout, negatives_transfer)
+                )
+            )
             passes, counterexamples = self._support_operator(
                 op, candidate_rule, train + holdout + transfer
             )
-            record.train_support = train_support
-            record.holdout_support = holdout_support
-            record.transfer_support = transfer_support
-            record.adversarial_support = adversarial_support
             record.intervention_passes = passes
             record.counterexamples = counterexamples
             self.records[op.expression] = record
 
+        composite_gate = all(
+            candidate_metrics[key] == 1.0
+            for key in ("train", "holdout", "transfer", "adversarial")
+        )
+
         for op in selected_new:
             rec = self.records[op.expression]
             if (
-                rec.train_support >= 0.999
-                and rec.holdout_support >= 0.999
-                and rec.transfer_support >= 0.999
-                and rec.adversarial_support >= 0.999
+                composite_gate
+                and rec.family != "decoy_max"
+                and rec.train_support == 1.0
+                and rec.holdout_support == 1.0
+                and rec.transfer_support == 1.0
+                and rec.adversarial_support >= 1.0
                 and rec.intervention_passes == 1
                 and rec.counterexamples == 0
             ):
@@ -388,6 +417,10 @@ class Experiment030:
 
         metrics = {
             "primitive_train": primitive_train,
+            "candidate_train": candidate_metrics["train"],
+            "candidate_holdout": candidate_metrics["holdout"],
+            "candidate_transfer": candidate_metrics["transfer"],
+            "candidate_adversarial": candidate_metrics["adversarial"],
             "final_train": _accuracy(final_rule, train, self.env),
             "final_holdout": _accuracy(final_rule, holdout, self.env),
             "final_transfer": _accuracy(final_rule, transfer, self.env),
