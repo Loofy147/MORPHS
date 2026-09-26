@@ -36,3 +36,19 @@ def test_decoy_operator_family_is_not_promoted():
 
 def test_deterministic():
     assert run_experiment030() == run_experiment030()
+
+
+def test_expected_operators_are_promoted():
+    result = run_experiment030()
+    expressions = {item["expression"] for item in result["promoted_operators"]}
+    assert "abs(x1-x2) <= 1" in expressions
+    assert "x3+x4 == x5" in expressions
+
+
+def test_final_rule_is_fully_validated():
+    result = run_experiment030()
+    assert result["final_rule"] == "abs(x1-x2) <= 1 AND action != delete AND x0 == A AND x3+x4 == x5"
+    assert result["metrics"]["final_train"] == 1.0
+    assert result["metrics"]["final_holdout"] == 1.0
+    assert result["metrics"]["final_transfer"] == 1.0
+    assert result["metrics"]["final_adversarial"] == 1.0
