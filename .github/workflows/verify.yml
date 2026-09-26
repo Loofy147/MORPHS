@@ -19,5 +19,7 @@ jobs:
         run: python -m compileall morph_core tests
       - name: Test
         run: python -m pytest -q
-      - name: Run current experiment
+      - name: Run Experiment 028
         run: python -m morph_core.experiment028
+      - name: Run Experiment 029
+        run: python -m morph_core.experiment029
