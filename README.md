@@ -17,17 +17,17 @@ Conversation notes and generated zip snapshots are not authoritative.
 
 ## Current boundary
 
-Experiment 028 is the latest imported verified state.
+Experiment 029 is the latest native experiment.
 
 Its claim is:
 
-> MORPH can induce a small machine constitution from observable typed transitions using paired interventions, matched controls, transfer tests, and an evidence gate.
+> MORPH can synthesize candidate machine-level rules from a typed operator substrate, then filter them with holdout, transfer, and intervention evidence.
 
 Epistemic state: **EXPERIMENTALLY_SUPPORTED**
 
-Scope: deterministic simulator only.
+Scope: deterministic symbolic simulator only.
 
-This does **not** establish autonomous real-world constitutional discovery.
+This does **not** establish open-ended autonomous invention of formal languages or real-world scientific discovery.
 
 ## Development rule
 
@@ -46,6 +46,7 @@ Every material experiment should end in one of:
 python -m pytest -q
 python -m compileall morph_core tests
 python -m morph_core.experiment028
+python -m morph_core.experiment029
 ```
 
-The current repository is intentionally small. Historical experiments 001-027 remain part of MORPH's lineage and will be imported as structured records rather than copied blindly.
+The repository is intentionally small. Historical experiments 001-027 remain part of MORPH's lineage and will be normalized as structured records rather than copied blindly.
