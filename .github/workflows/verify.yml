@@ -23,3 +23,5 @@ jobs:
         run: python -m morph_core.experiment028
       - name: Run Experiment 029
         run: python -m morph_core.experiment029
+      - name: Run Experiment 030
+        run: python -m morph_core.experiment030
