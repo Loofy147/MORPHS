@@ -32,7 +32,7 @@ Experiment 036 is verified by GitHub Actions run 68.
 
 Experiment 037 is verified by GitHub Actions run 75.
 
-Experiment 038 is locally verified with 7 tests; its repository-wide GitHub Actions regression is pending at the time of this documentation update.
+Experiment 038 is verified by GitHub Actions run 88 (7 local tests also passed).
 
 The failed runs and fixture repairs preceding the verified burst are preserved as engineering evidence.
 
