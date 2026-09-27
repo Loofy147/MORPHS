@@ -30,11 +30,11 @@
     "self_authority_granted":false
   },
   "challenge":"MORPH: you may propose; you do not authorize. Pass the independent kernel or remain unpromoted.",
-  "verification":{
+  "verification":{"workflow_run_id":36332283936,"job_id":108656402142,"commit_sha":"fee1a7cfff07f95dd87e33911b72cbf778a7b7a7",
     "local_compile":"success",
     "local_execution":"success",
     "local_pytest":"5 passed",
-    "github_actions":"PENDING"
+    "github_actions":"success"
   },
   "limitation":"The candidate conjunction grammar and immutable kernel are supplied. 036 tests shadow verifier evolution, anti-gaming, and authority preservation, not unrestricted self-modification of verifier semantics."
 }
