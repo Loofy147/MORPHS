@@ -26,7 +26,7 @@ The selected body was:
 
 The system promotes it as constructor `K0` only after it fits independent training episodes and unseen holdout/transfer traces.
 
-## Verified local result
+## Verified result
 
 - candidate constructor programs: 349,185
 - promoted constructor: `K0`
@@ -40,6 +40,23 @@ The system promotes it as constructor `K0` only after it fits independent traini
 - no-constructor ablation: 0.7142857142857143
 - decoy fits training: false
 - semantic constructor name supplied: false
+
+## CI verification
+
+GitHub Actions run **39** completed successfully.
+
+Verification:
+- compile: success
+- pytest: success
+- Experiment 028: success
+- Experiment 029: success
+- Experiment 030: success
+- Experiment 031: success
+- Experiment 032: success
+
+Run ID: `36330684366`
+Job ID: `108651888355`
+Commit: `7288fd1ca2df28812b11d9a61225b469fbf6982d`
 
 ## Why the ablation matters
 

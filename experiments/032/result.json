@@ -5,7 +5,17 @@
   "verification": {
     "local_compile": "success",
     "local_execution": "success",
-    "github_actions": "PENDING"
+    "github_actions": "success",
+    "workflow_run_id": 36330684366,
+    "job_id": 108651888355,
+    "commit_sha": "7288fd1ca2df28812b11d9a61225b469fbf6982d",
+    "compile": "success",
+    "pytest": "success",
+    "experiment_028": "success",
+    "experiment_029": "success",
+    "experiment_030": "success",
+    "experiment_031": "success",
+    "experiment_032": "success"
   },
   "mutation_substrate": {
     "candidate_count": 349185,

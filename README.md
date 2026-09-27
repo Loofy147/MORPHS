@@ -17,17 +17,17 @@ Conversation notes and generated zip snapshots are not authoritative.
 
 ## Current boundary
 
-Experiment 031 is the latest native experiment.
+Experiment 032 is the latest native experiment.
 
 Its claim is:
 
-> MORPH can induce reusable, parameterized operator schemas from black-box labeled traces by searching a generic typed AST grammar, then rebind those schemas across independent episodes and unseen transfers.
+> MORPH can induce a reusable constructor from black-box traces and promote that constructor into the active surface language, then reuse it under unseen bindings and downstream transfer gates.
 
 Epistemic state: **EXPERIMENTALLY_SUPPORTED**
 
-Scope: deterministic symbolic simulator with black-box labeled traces.
+Scope: deterministic symbolic simulator with black-box numeric traces.
 
-This does **not** establish unrestricted invention of primitive mathematical operators. The constructive AST vocabulary is still supplied by the experiment.
+This does **not** establish unrestricted invention of primitive mathematical operators or self-modification of an arbitrary runtime. The constructor-mutation meta-language remains supplied by the experiment.
 
 ## Development rule
 
@@ -49,6 +49,7 @@ python -m morph_core.experiment028
 python -m morph_core.experiment029
 python -m morph_core.experiment030
 python -m morph_core.experiment031
+python -m morph_core.experiment032
 ```
 
 The repository is intentionally small. Historical experiments 001-027 remain part of MORPH's lineage and will be normalized as structured records rather than copied blindly.
