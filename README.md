@@ -12,44 +12,23 @@ Conversation notes and generated snapshots are not authoritative.
 
 Experiments 033-035 are repository-verified by GitHub Actions run 59.
 
-Experiment 037 is the latest native frontier:
+Experiment 037 established independent verifier diversity and safe DEFER on verifier disagreement.
 
-> MORPH can propose a shadow verifier that matches an immutable host verifier across training, protected holdout, and anti-gaming evidence, while remaining unable to grant itself verifier authority.
+Experiment 038 is the current native research frontier:
 
-Epistemic state: **EXPERIMENTALLY_SUPPORTED**
+> MORPH can investigate a verifier disagreement by testing repeatability, verifier conformance, and a bounded intervention probe, then select an investigation target — CLAIM, VERIFIER, ENVIRONMENT, or DEFER — without converting that target into a truth verdict.
 
-Scope: deterministic symbolic verifier-evolution simulator.
+Epistemic state: EXPERIMENTALLY_SUPPORTED
 
-This does **not** establish unrestricted self-modification of verifier semantics. The candidate grammar and immutable host kernel are supplied.
+Scope: deterministic diagnostic simulator with host-supplied audit and probe mechanisms.
 
-GitHub Actions run **68** is the verified regression for 036 on the final implementation commit.
+This does not establish unrestricted automated root-cause identification. The audit contract, intervention range, verifier implementations, and protected authority remain supplied by the host.
 
-- compile: success
-- pytest: success
-- Experiment 028: success
-- Experiment 029: success
-- Experiment 030: success
-- Experiment 031: success
-- Experiment 032: success
-- Experiment 033: success
-- Experiment 034: success
-- Experiment 035: success
-- Experiment 036: success
+### Verification status
 
-GitHub Actions run **75** is the verified regression for 037 on the final implementation branch.
-
-- compile: success
-- pytest: success
-- Experiment 028: success
-- Experiment 029: success
-- Experiment 030: success
-- Experiment 031: success
-- Experiment 032: success
-- Experiment 033: success
-- Experiment 034: success
-- Experiment 035: success
-- Experiment 036: success
-- Experiment 037: success
+- Experiment 036: GitHub Actions run 68 — verified
+- Experiment 037: GitHub Actions run 75 — verified
+- Experiment 038: local compile + 7 tests — verified locally; GitHub Actions regression is pending
 
 ## Development rule
 
@@ -64,18 +43,20 @@ Every material experiment should end in one of:
 
 ## Verification
 
-```bash
-python -m pytest -q
-python -m compileall morph_core tests
-python -m morph_core.experiment028
-python -m morph_core.experiment029
-python -m morph_core.experiment030
-python -m morph_core.experiment031
-python -m morph_core.experiment032
-python -m morph_core.experiment033
-python -m morph_core.experiment034
-python -m morph_core.experiment035
-python -m morph_core.experiment036
-```
+    python -m pytest -q
+    python -m compileall morph_core tests
+    python -m morph_core.experiment028
+    python -m morph_core.experiment029
+    python -m morph_core.experiment030
+    python -m morph_core.experiment031
+    python -m morph_core.experiment032
+    python -m morph_core.experiment033
+    python -m morph_core.experiment034
+    python -m morph_core.experiment035
+    python -m morph_core.experiment036
+    python -m morph_core.experiment037
+    python -m morph_core.experiment038
+
+The full construction and evidence path is documented in docs/RESEARCH_PATHS.md.
 
 Historical experiments 001-027 remain part of MORPH's lineage and are not being rewritten to fit the native repository experiments.
