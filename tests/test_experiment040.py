@@ -17,6 +17,7 @@ def test_valid_rollback_is_revalidated_and_history_is_preserved():
 
 def test_unauthorized_transition_is_blocked():
     assert run_experiment040()["assertions"]["unauthorized_transition_blocked"]
+    assert run_experiment040()["assertions"]["authorized_second_promotion"]
 
 def test_drift_blocks_stale_rollback():
     assert run_experiment040()["assertions"]["drift_blocks_stale_rollback"]
