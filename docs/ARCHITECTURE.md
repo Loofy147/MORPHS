@@ -89,6 +89,8 @@ MORPHS now has a host-specified native protocol baseline in docs/MORPHS_PROTOCOL
 
 039 adds protocol grounding: the system may receive high-level host facts without treating those facts as discoveries, while keeping unknown mechanisms open to evidence-gated experimentation.
 
+040 adds reversible adaptation: promoted versions can be rolled back only with host authority and current revalidation; history is preserved and stale rollback is blocked.
+
 ## Assembly intent
 
 The project is not currently trying to prove unrestricted self-modification.
