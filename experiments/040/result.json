@@ -15,7 +15,8 @@
     "drift_blocks_stale_rollback": true,
     "audit_tamper_is_observable": true,
     "active_version_is_reverted": true,
-    "deterministic": true
+    "deterministic": true,
+    "audit_preserved_event_count": true
   },
   "verification": {
     "github_actions": "pending",
@@ -31,6 +32,15 @@
     "failure_class": "SCHEMA/VERIFICATION",
     "observed": "v0 rollback revalidation returned false; active version remained v1",
     "cause": "promotion-candidate predicate was incorrectly reused for rollback-target revalidation",
-    "repaired_by": "separating revalidation from payload identity and testing a two-version chain"
+    "repaired_by": "separating revalidation from payload identity and testing a two-version chain",
+    "second": {
+      "workflow_run_id": 36360329008,
+      "job_id": 108736100500,
+      "head_sha": "c83b721144a1972c35341f98cd9fff7ea8015be7",
+      "failure_class": "MEASUREMENT",
+      "observed": "rollback behavior assertions passed but audit_preserved was false",
+      "cause": "expected audit event count was 3 while the exercised path produced 4 transitions",
+      "repaired_by": "counting the complete transition path rather than assuming only successful transitions"
+    }
   }
 }
