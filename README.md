@@ -17,17 +17,15 @@ Conversation notes and generated zip snapshots are not authoritative.
 
 ## Current boundary
 
-Experiment 032 is the latest native experiment.
+Experiments 033-035 extend the current native frontier.
 
-Its claim is:
+Their claims are currently treated separately:
 
-> MORPH can induce a reusable constructor from black-box traces and promote that constructor into the active surface language, then reuse it under unseen bindings and downstream transfer gates.
+- **033 — EXPERIMENTALLY_SUPPORTED candidate pending final CI closure:** MORPH can detect a resource-induced representation bottleneck and introduce a generic binding mechanism that changes the active constructor language.
+- **034 — EXPERIMENTALLY_SUPPORTED candidate pending final CI closure:** MORPH can defer, reuse, or evolve under explicit budget and mutation-risk gates.
+- **035 — EXPERIMENTALLY_SUPPORTED candidate pending final CI closure:** MORPH can revalidate learned schema memory under rebinding and semantic drift, preserve contradicted memory historically, and require revalidation before replacement.
 
-Epistemic state: **EXPERIMENTALLY_SUPPORTED**
-
-Scope: deterministic symbolic simulator with black-box numeric traces.
-
-This does **not** establish unrestricted invention of primitive mathematical operators or self-modification of an arbitrary runtime. The constructor-mutation meta-language remains supplied by the experiment.
+These remain deterministic simulator claims. They do not establish unrestricted self-modification or unrestricted invention of primitive semantics.
 
 ## Development rule
 
@@ -50,6 +48,9 @@ python -m morph_core.experiment029
 python -m morph_core.experiment030
 python -m morph_core.experiment031
 python -m morph_core.experiment032
+python -m morph_core.experiment033
+python -m morph_core.experiment034
+python -m morph_core.experiment035
 ```
 
 The repository is intentionally small. Historical experiments 001-027 remain part of MORPH's lineage and will be normalized as structured records rather than copied blindly.
