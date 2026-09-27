@@ -1,6 +1,6 @@
 # Experiment lineage
 
-The MORPH research sequence currently contains 035 completed experiments in the local research lineage.
+The MORPH research sequence currently contains 036 completed experiments in the local research lineage.
 
 The sequence evolved through:
 - capability composition and mutation
@@ -18,17 +18,17 @@ The sequence evolved through:
 - meta-language mutation under resource pressure
 - budget-aware language evolution
 - memory drift and constructor revalidation
+- verifier shadow evolution
 
-Experiments 029-035 are the first native post-import experiments in the MORPHS repository.
+Experiments 029-036 are the first native post-import experiments in the MORPHS repository.
 
 ## Verified burst
 
-The 033-035 burst is verified by GitHub Actions run 59.
+Experiments 033-035 are verified by GitHub Actions run 59.
 
-The failed runs preceding it are preserved as engineering evidence:
-- 034 initially failed because the uncertainty fixture left reuse admissible despite a high mutation-risk gate.
-- 035 initially failed because an assertion referenced the wrong local variable name.
-- The corrected burst passed the full regression.
+Experiment 036 is locally verified and is pending its own CI closure.
+
+The failed runs preceding the verified burst are preserved as engineering evidence.
 
 Repository policy:
 1. Preserve original evidence.
@@ -38,8 +38,8 @@ Repository policy:
 5. Never upgrade a claim merely because it was repeated in later experiments.
 
 Next frontier:
-- mutate the constructor meta-language itself beyond binding/refactoring mechanisms
-- introduce verifier diversity so the learner cannot define its own acceptance criteria
-- test language mutations through external tool/runtime adapters
-- quantify reversibility, rollback, and irreversibility risk of learned language changes
-- test whether cost-aware evolution remains stable when the environment itself changes its resource economics
+- independent verifier diversity
+- disagreement testing between independently implemented acceptance kernels
+- rollback and irreversibility analysis for learned language changes
+- external tool/runtime transfer
+- attacks where the learner attempts to influence verifier inputs rather than verifier logic itself
