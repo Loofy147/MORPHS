@@ -1,6 +1,6 @@
 # Experiment lineage
 
-The MORPH research sequence currently contains 039 completed experiments in the local research lineage.
+The MORPH research sequence currently contains 040 completed experiments in the local research lineage.
 
 The sequence evolved through:
 - capability composition and mutation
@@ -22,6 +22,7 @@ The sequence evolved through:
 - independent verifier diversity
 - disagreement investigation
 - protocol grounding
+- reversible adaptation
 
 Experiments 029-039 are the first native post-import experiments in the MORPHS repository.
 
@@ -36,6 +37,8 @@ Experiment 037 is verified by GitHub Actions run 75.
 Experiment 038 is verified by GitHub Actions run 88 (7 local tests also passed).
 
 Experiment 039 is verified by GitHub Actions run 103.
+
+Experiment 040 is the reversible-adaptation frontier; repository-wide CI verification is pending after its addition.
 
 The failed runs and fixture repairs preceding the verified burst are preserved as engineering evidence.
 
@@ -52,7 +55,7 @@ Repository policy:
 
 disagreement → diagnose observable source → remain DEFER → independently resolve
 
-The current protocol-grounding baseline is now repository-verified. The next frontier is to use it to reduce rediscovery while keeping unknown mechanisms genuinely experimental.
+The protocol-grounding baseline is repository-verified. 040 now tests whether adaptive changes remain reversible without deleting lineage or bypassing revalidation.
 
 Likely pressure points:
 - extend investigation coverage without turning probes into hidden truth rules
