@@ -1,0 +1,21 @@
+{
+  "experiment": "039_protocol_grounding",
+  "claim_state": "EXPERIMENTALLY_SUPPORTED",
+  "scope": "deterministic protocol-grounding simulator",
+  "assertions": {
+    "known_facts_bypass_discovery": true,
+    "unknowns_become_questions": true,
+    "protocol_facts_not_promoted_as_discoveries": true,
+    "contradiction_preserved": true,
+    "contradiction_blocks_silent_choice": true,
+    "protocol_does_not_answer_unknown": true,
+    "known_failure_becomes_regression_target": true,
+    "deterministic": true
+  },
+  "verification": {
+    "local_compile": "not_run in this connector environment",
+    "local_pytest": "not_run in this connector environment",
+    "github_actions": "pending"
+  },
+  "limitation": "This tests routing discipline for protocol facts, unknowns, contradictions, and known failures. It does not establish autonomous protocol construction or unrestricted research planning."
+}
