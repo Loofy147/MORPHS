@@ -12,7 +12,7 @@ Conversation notes and generated snapshots are not authoritative.
 
 Experiments 033-035 are repository-verified by GitHub Actions run 59.
 
-Experiment 036 is the latest native frontier:
+Experiment 037 is the latest native frontier:
 
 > MORPH can propose a shadow verifier that matches an immutable host verifier across training, protected holdout, and anti-gaming evidence, while remaining unable to grant itself verifier authority.
 
@@ -35,6 +35,21 @@ GitHub Actions run **68** is the verified regression for 036 on the final implem
 - Experiment 034: success
 - Experiment 035: success
 - Experiment 036: success
+
+GitHub Actions run **75** is the verified regression for 037 on the final implementation branch.
+
+- compile: success
+- pytest: success
+- Experiment 028: success
+- Experiment 029: success
+- Experiment 030: success
+- Experiment 031: success
+- Experiment 032: success
+- Experiment 033: success
+- Experiment 034: success
+- Experiment 035: success
+- Experiment 036: success
+- Experiment 037: success
 
 ## Development rule
 
