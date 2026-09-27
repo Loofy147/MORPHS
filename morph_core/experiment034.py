@@ -54,7 +54,7 @@ def run_experiment034() -> dict[str, object]:
         Frontier("stable_reuse", True, 1.0, 1.0, True, 1.0, 5.0, 0.1),
         Frontier("blocked_frontier", False, 0.0, 1.0, True, 3.0, 2.0, 0.2),
         Frontier("expensive_mutation", True, 1.0, 1.0, True, 3.0, 5.0, 0.2),
-        Frontier("uncertain_mutation", True, 1.0, 1.0, True, 2.0, 2.5, 0.8),
+        Frontier("uncertain_mutation", False, 0.0, 1.0, True, 2.0, 2.5, 0.8),
     )
     budget = 4.0
     decisions = {
