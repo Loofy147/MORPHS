@@ -11,6 +11,8 @@ The stable substrate is the machine-enforced layer:
 - evidence-gated promotion
 - protected verifier authority
 
+This layer is not the object of unrestricted learner modification.
+
 ## Adaptive ecology
 
 The adaptive layer may evolve:
@@ -22,6 +24,9 @@ The adaptive layer may evolve:
 - conditional rules
 - reusable operator schemas
 - shadow verifier proposals
+- disagreement-investigation targets
+
+An adaptive artifact is evidence-bearing state. It does not become authority merely because it is learned.
 
 ## Authority boundary
 
@@ -35,16 +40,71 @@ An experiment result is evidence with scope, not a universal truth.
 
 A shadow verifier is not the verifier authority.
 
-The host kernel owns promotion and verifier integrity.
+An investigation target is not a truth verdict.
 
-## Current research direction
+The host kernel owns promotion, verifier integrity, audit integrity, and external side-effect authorization.
 
-MORPH now has experimental evidence for evolving operators, language structure, budget-aware mutation, memory revalidation, and shadow verifier proposals.
+## Research construction path
 
-036 makes the authority boundary executable:
-- candidate verifier logic can be proposed and tested
-- protected evidence gates remain outside candidate control
-- promotion is decided by an immutable host kernel
-- self-granted verifier authority is denied
+The native experiments are building one bounded organism from two coupled paths.
 
-The next experiment should introduce independent verifier diversity, so success cannot depend on matching one implementation of the kernel.
+### Adaptive-language path
+
+028 constitution induction
+→ 029 fixed rule-language induction
+→ 030 operator-language evolution
+→ 031 reusable parameterized schemas
+→ 032 constructor-vocabulary evolution
+→ 033 meta-language mutation under resource pressure
+→ 034 budget-aware reuse/evolve/defer
+→ 035 memory drift and constructor revalidation
+
+This path asks how the adaptive ecology can change its representational and procedural machinery while remaining inside explicit resource, lineage, memory, and evidence constraints.
+
+### Verification-authority path
+
+036 shadow verifier evolution
+→ 037 independent verifier diversity
+→ 038 disagreement investigation
+
+This path asks how learned verification machinery can be proposed and tested without allowing the learner to acquire verifier authority.
+
+The two paths meet at promotion:
+
+proposal → independent evidence → protected verification → promotion or DEFER → audit record
+
+## Current boundary
+
+036 made shadow verifier evolution executable while keeping the kernel protected.
+
+037 added verifier diversity and established DEFER when independent verifier implementations disagree.
+
+038 adds a bounded diagnostic layer: the system may investigate the source of disagreement, but the investigation itself cannot promote a truth verdict.
+
+## Assembly intent
+
+The project is not currently trying to prove unrestricted self-modification.
+
+It is assembling a host-bounded adaptive system with:
+- explicit authority boundaries
+- reproducible experiments
+- evidence-gated promotion
+- independent verification
+- preserved failed observations
+- memory revalidation
+- explicit residual uncertainty
+- a growing but auditable adaptive language
+
+This distinction is central to every subsequent experiment.
+
+## Evidence discipline
+
+When a flaw is exposed:
+1. classify the flaw
+2. preserve the failed observation
+3. change the experiment or implementation
+4. rerun the affected tests
+5. rerun the regression suite
+6. record the changed interpretation
+
+The experiment lineage must describe what the system can do, what remains supplied by the host, and what remains OPEN.
