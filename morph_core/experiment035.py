@@ -71,8 +71,8 @@ def make_env(kind: str) -> tuple[Trace, ...]:
     if kind == "decoy":
         return (
             Trace((5, 5), True),
-            Trace((5, 4), True),
-            Trace((5, 3), False),
+            Trace((5, 4), False),
+            Trace((5, 3), True),
             Trace((5, 1), False),
             Trace((2, 7), False),
         )
