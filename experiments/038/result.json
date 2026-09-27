@@ -1,0 +1,52 @@
+{
+  "experiment": "038_disagreement_investigation",
+  "claim_state": "EXPERIMENTALLY_SUPPORTED",
+  "scope": "deterministic diagnostic simulator with injected instability and ambiguity cases",
+  "protocol": "disagreement -> repeatability -> verifier audit -> minimal intervention -> investigation target -> DEFER verdict",
+  "cases": {
+    "claim": {
+      "target": "claim",
+      "reason": "stable, conformant verifiers disagree only on an unspecified boundary",
+      "verdict": "defer",
+      "stability": [true, true]
+    },
+    "verifier": {
+      "target": "verifier",
+      "reason": "at least one verifier violates the protected audit contract",
+      "verdict": "defer",
+      "stability": [true, true]
+    },
+    "environment": {
+      "target": "environment",
+      "reason": "repeated identical input produced unstable verifier output",
+      "verdict": "defer",
+      "stability": [true, false]
+    },
+    "unresolved": {
+      "target": "defer",
+      "reason": "available probes do not localize the disagreement",
+      "verdict": "defer",
+      "stability": [true, true]
+    }
+  },
+  "authority": {
+    "investigator_selects_target_not_truth": true,
+    "verdict_remains_defer_during_investigation": true
+  },
+  "assertions": {
+    "claim_disagreement_targets_claim": true,
+    "verifier_fault_targets_verifier": true,
+    "instability_targets_environment": true,
+    "unlocalized_case_remains_defer": true,
+    "investigation_does_not_grant_truth": true,
+    "all_investigation_verdicts_remain_defer": true,
+    "deterministic_clean_path": true
+  },
+  "verification": {
+    "local_compile": "success",
+    "local_pytest": "7 passed",
+    "github_actions": "pending"
+  },
+  "challenge": "MORPH: disagreement is evidence, not noise. Do not erase it. Locate the unresolved source, but never promote a verdict from the investigation itself.",
+  "limitation": "The audit contract, diagnostic probes, and ambiguity fixture are supplied by the host. Target classification is experimentally supported only for these observable cases."
+}
