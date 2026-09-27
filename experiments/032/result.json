@@ -1,0 +1,52 @@
+{
+  "experiment": "032_constructor_language_evolution",
+  "claim_state": "EXPERIMENTALLY_SUPPORTED",
+  "scope": "deterministic symbolic simulator with black-box numeric traces",
+  "verification": {
+    "local_compile": "success",
+    "local_execution": "success",
+    "github_actions": "PENDING"
+  },
+  "mutation_substrate": {
+    "candidate_count": 349185,
+    "constructors": ["ARG", "CONST", "ADD", "SUB", "LE", "IF"],
+    "named_derived_families_given": false
+  },
+  "induction": {
+    "promoted_constructor": "K0",
+    "body": "if($a0<=$a1,($a1-$a0),($a0-$a1))",
+    "body_cost": 10,
+    "train_fit": true,
+    "holdout_fit": true,
+    "transfer_fit": true,
+    "semantic_name_given": false
+  },
+  "language_use": {
+    "interface_rebinding": true,
+    "surface_constructor_used": true,
+    "expanded_body_forbidden_in_surface_rule": true
+  },
+  "downstream": {
+    "composite_accuracy": 1.0,
+    "adversarial_accuracy": 1.0,
+    "ablation_accuracy": 0.7142857142857143
+  },
+  "controls": {
+    "provenance_ok": true,
+    "decoy_fits_training": false,
+    "oracle_name_leak": false
+  },
+  "assertions": {
+    "constructor_induced": true,
+    "constructor_holdout": true,
+    "constructor_transfer": true,
+    "interface_rebinding": true,
+    "constructor_promoted_without_named_family": true,
+    "provenance_recorded": true,
+    "decoy_rejected": true,
+    "downstream_composite_gate": true,
+    "downstream_adversarial_gate": true,
+    "deterministic": true
+  },
+  "limitation": "The mutation meta-language itself is supplied (ARG/CONST/ADD/SUB/LE/IF); 032 tests evolution of the active constructor vocabulary, not invention of arbitrary primitive evaluation semantics."
+}
