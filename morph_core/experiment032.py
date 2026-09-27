@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from functools import lru_cache
 from itertools import product
 from typing import Callable
 
@@ -168,6 +169,7 @@ def make_episodes() -> tuple[Episode, ...]:
     return tuple(episodes) + (holdout, transfer)
 
 
+@lru_cache(maxsize=1)
 def mutation_candidates() -> list[Term]:
     # Generic constructor-mutation substrate.
     # It exposes arithmetic composition + a branch combinator, but no
@@ -229,6 +231,7 @@ def downstream_eval(
     )
 
 
+@lru_cache(maxsize=1)
 def run_experiment032() -> dict[str, object]:
     all_episodes = make_episodes()
     train = all_episodes[:3]
