@@ -3,8 +3,20 @@
   "claim_state":"EXPERIMENTALLY_SUPPORTED",
   "scope":"deterministic symbolic simulator with resource-bounded black-box traces",
   "baseline":{"fit":true,"cost":21,"resource_budget":16,"admissible":false},
-  "mutation":{"promoted":"let(if(le(arg0,arg1),sub(arg1,arg0),sub(arg0,arg1)),add(ref,ref))","promoted_cost":14,"active_language_after":["ARG","ADD","SUB","LE","IF","BIND","REF"]},
+  "mutation":{
+    "proposal_count":5,
+    "promoted":"let(if(le(arg0,arg1),sub(arg1,arg0),sub(arg0,arg1)),add(ref,ref))",
+    "promoted_cost":14,
+    "active_language_before":["ARG","ADD","SUB","LE","IF"],
+    "active_language_after":["ARG","ADD","SUB","LE","IF","BIND","REF"]
+  },
   "generalization":{"holdout":true,"transfer":true,"downstream_reuse":true},
   "controls":{"ablation_without_binding":true,"decoy_alternatives_survived":0,"semantic_name_leak":false},
-  "verification":{"github_actions":"PENDING"}
+  "verification":{
+    "github_actions":"success",
+    "workflow_run_id":36331478479,
+    "job_id":108654138220,
+    "commit_sha":"e9abf38bb2b3e7814045a71333b324e53229238d"
+  },
+  "limitation":"The mutation mechanism is supplied as a generic common-subexpression abstraction scheme. 033 does not establish unrestricted invention of arbitrary evaluator semantics."
 }

@@ -2,17 +2,39 @@
 
 ## Question
 
-Can MORPH recognize that a resource failure is caused by the representation language, then mutate that language by adding a generic binding mechanism rather than adding a domain-specific primitive?
+Can MORPH recognize that a resource failure is caused by the representation language, then mutate that language by adding a generic binding mechanism rather than a domain-specific primitive?
 
-## Protocol
+## Verified result
 
-`black-box traces → over-budget fitting program → residual resource failure → repeated-subtree analysis → binding mutation → holdout → transfer → downstream reuse`
+GitHub Actions run 59 passed the complete regression.
 
-The baseline program exactly fits the traces but costs 21 units against a budget of 16.
+- baseline exact fit: true
+- baseline cost: 21
+- resource budget: 16
+- baseline admissible: false
+- mutation proposals: 5
+- promoted program cost: 14
+- holdout: true
+- transfer: true
+- downstream reuse: true
+- decoy alternatives surviving: 0
+- semantic name leakage: false
 
-The mutation introduces a generic `BIND/REF` mechanism and rewrites the repeated subterm once.
+Promoted structure:
 
-The promoted program costs 14 while preserving the same outputs.
+`let(if(le(arg0,arg1),sub(arg1,arg0),sub(arg0,arg1)),add(ref,ref))`
+
+The active surface language changed from:
+
+`ARG, ADD, SUB, LE, IF`
+
+to:
+
+`ARG, ADD, SUB, LE, IF, BIND, REF`
+
+## Repair history
+
+No 033-specific correctness failure appeared in the final burst. The regression work exposed a performance issue in 031, which was independently cached without changing its semantics.
 
 ## Epistemic status
 
@@ -20,4 +42,4 @@ The promoted program costs 14 while preserving the same outputs.
 
 Scope: deterministic symbolic simulator with resource-bounded black-box traces.
 
-Limitation: the mutation method (common-subexpression abstraction) is supplied as a generic transformation. This is not unrestricted invention of arbitrary meta-semantics.
+Limitation: common-subexpression abstraction is supplied as the generic mutation mechanism. This is evidence-driven meta-language extension, not unrestricted invention of evaluator semantics.

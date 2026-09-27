@@ -2,6 +2,37 @@
   "experiment":"035_memory_drift_and_constructor_revalidation",
   "claim_state":"EXPERIMENTALLY_SUPPORTED",
   "scope":"deterministic symbolic memory and schema simulator",
-  "expected_transitions":{"stable":"reuse","rebound":"reuse","drift":"contradict_then_revalidate","decoy":"reject"},
-  "verification":{"github_actions":"PENDING"}
+  "states":{
+    "stable_reuse":true,
+    "rebound_reuse":true,
+    "drift_fit_old":false,
+    "drift_transition":"contradicted",
+    "replacement":"abs(s0-s1) <= 2",
+    "replacement_valid":true,
+    "historical_count_after_drift":1,
+    "decoy_fit_old":false,
+    "decoy_rejects_old":true,
+    "decoy_discovery_empty":true
+  },
+  "assertions":{
+    "stable_reuse":true,
+    "rebound_reuse":true,
+    "drift_contradicts_old_memory":true,
+    "replacement_promoted_after_revalidation":true,
+    "old_memory_preserved":true,
+    "decoy_does_not_silently_validate_old_memory":true,
+    "decoy_does_not_create_false_candidate":true,
+    "deterministic":true
+  },
+  "repair_history":[
+    "Corrected the decoy assertion variable reference.",
+    "Strengthened the decoy dataset so no bounded threshold schema can fit it."
+  ],
+  "verification":{
+    "github_actions":"success",
+    "workflow_run_id":36331478479,
+    "job_id":108654138220,
+    "commit_sha":"e9abf38bb2b3e7814045a71333b324e53229238d"
+  },
+  "limitation":"Schema discovery is bounded to absolute-difference thresholds 0..3; this is not open-ended memory invention."
 }

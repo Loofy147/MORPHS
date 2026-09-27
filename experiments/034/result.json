@@ -3,6 +3,27 @@
   "claim_state":"EXPERIMENTALLY_SUPPORTED",
   "scope":"deterministic symbolic decision simulator",
   "budget":4.0,
-  "decisions":{"stable_reuse":"reuse","blocked_frontier":"evolve","expensive_mutation":"reuse","uncertain_mutation":"defer"},
-  "verification":{"github_actions":"PENDING"}
+  "decisions":{
+    "stable_reuse":"reuse",
+    "blocked_frontier":"evolve",
+    "expensive_mutation":"reuse",
+    "uncertain_mutation":"defer"
+  },
+  "assertions":{
+    "stable_reuses":true,
+    "blocked_evolves":true,
+    "expensive_does_not_mutate":true,
+    "uncertain_defers":true,
+    "deterministic":true
+  },
+  "repair_history":[
+    "Corrected the uncertainty fixture so reuse is unavailable while mutation risk exceeds the admissible limit."
+  ],
+  "verification":{
+    "github_actions":"success",
+    "workflow_run_id":36331478479,
+    "job_id":108654138220,
+    "commit_sha":"e9abf38bb2b3e7814045a71333b324e53229238d"
+  },
+  "limitation":"Values and costs are simulator inputs; 034 establishes gated policy behavior, not a universal utility function."
 }
