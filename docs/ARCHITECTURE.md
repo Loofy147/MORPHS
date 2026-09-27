@@ -9,6 +9,7 @@ The stable substrate is the machine-enforced layer:
 - append-oriented audit traces
 - explicit epistemic states
 - evidence-gated promotion
+- protected verifier authority
 
 ## Adaptive ecology
 
@@ -20,6 +21,7 @@ The adaptive layer may evolve:
 - experiment policies
 - conditional rules
 - reusable operator schemas
+- shadow verifier proposals
 
 ## Authority boundary
 
@@ -31,17 +33,18 @@ An observation is not automatically a capability.
 
 An experiment result is evidence with scope, not a universal truth.
 
+A shadow verifier is not the verifier authority.
+
+The host kernel owns promotion and verifier integrity.
+
 ## Current research direction
 
-After 028, MORPH is being moved from a sequence of isolated simulators toward a persistent research environment in which:
-- experiments are first-class objects
-- evidence has lineage
-- memory has different classes
-- contradictions remain queryable
-- the learner can construct candidate rule languages
-- reusable operator schemas can be induced and rebound
-- external tools can be attached through explicit adapters
+MORPH now has experimental evidence for evolving operators, language structure, budget-aware mutation, memory revalidation, and shadow verifier proposals.
 
-031 establishes a stronger boundary than 030: the learner is not handed named derived-operator families, but it still works inside a supplied constructive AST vocabulary.
+036 makes the authority boundary executable:
+- candidate verifier logic can be proposed and tested
+- protected evidence gates remain outside candidate control
+- promotion is decided by an immutable host kernel
+- self-granted verifier authority is denied
 
-The next experiment should attack that remaining boundary: constructor-language evolution itself, with explicit controls against hidden-oracle leakage and loss of verifier authority.
+The next experiment should introduce independent verifier diversity, so success cannot depend on matching one implementation of the kernel.
