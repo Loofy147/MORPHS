@@ -34,9 +34,9 @@ class HostKernel:
             raise ValueError("unknown parent")
         self.versions[version.version] = version
 
-    def promote(self, target: str, authorized: bool) -> Transition:
+    def promote(self, target: str, authorized: bool, revalidated: bool) -> Transition:
         candidate = self.versions[target]
-        valid = candidate.evidence_valid and candidate.parent == self.active
+        valid = candidate.evidence_valid and candidate.parent == self.active and revalidated
         transition = Transition(
             "PROMOTE", self.active, target, authorized, valid,
             "promotion accepted" if authorized and valid else "promotion blocked",
@@ -78,23 +78,32 @@ class HostKernel:
 
 class ReversibleAdaptationLab:
     @staticmethod
-    def _evidence(version: AdaptiveVersion, environment: str) -> bool:
-        return version.evidence_valid and version.payload == "derived_operator_v2" and environment == "stable-v1"
+    def _revalidate(version: AdaptiveVersion, environment: str) -> bool:
+        valid_environments = {
+            "v0": {"stable-v1", "stable-v2"},
+            "v1": {"stable-v1", "stable-v2"},
+            "v2": {"stable-v2"},
+        }
+        return version.evidence_valid and environment in valid_environments[version.version]
 
     def run(self) -> dict[str, object]:
         kernel = HostKernel()
-        candidate = AdaptiveVersion("v1", "v0", "derived_operator_v2", True)
-        kernel.register(candidate)
-        proposal_verified = self._evidence(candidate, "stable-v1")
-        promotion = kernel.promote("v1", authorized=True)
-        rollback_revalidation = self._evidence(kernel.versions["v0"], "stable-v1")
-        rollback = kernel.rollback("v0", authorized=True, revalidated=rollback_revalidation)
-        historical_version_preserved = "v1" in kernel.versions
-        audit_preserved = len(kernel.audit) == 2
-        unauthorized = kernel.promote("v1", authorized=False)
+        v1 = AdaptiveVersion("v1", "v0", "derived_operator_v2", True)
+        v2 = AdaptiveVersion("v2", "v1", "derived_operator_v3", True)
+        kernel.register(v1)
+        kernel.register(v2)
+        proposal_verified = self._revalidate(v1, "stable-v1")
+        promotion = kernel.promote("v1", authorized=True, revalidated=proposal_verified)
+        v2_verified = self._revalidate(v2, "stable-v2")
+        unauthorized = kernel.promote("v2", authorized=False, revalidated=v2_verified)
         unauthorized_blocked = unauthorized.reason == "promotion blocked"
-        drifted_revalidation = self._evidence(kernel.versions["v0"], "drifted-v2")
-        drifted_rollback = kernel.rollback("v1", authorized=True, revalidated=drifted_revalidation)
+        promotion_v2 = kernel.promote("v2", authorized=True, revalidated=v2_verified)
+        rollback_revalidation = self._revalidate(kernel.versions["v1"], "stable-v2")
+        rollback = kernel.rollback("v1", authorized=True, revalidated=rollback_revalidation)
+        historical_version_preserved = "v2" in kernel.versions
+        audit_preserved = len(kernel.audit) == 3
+        drifted_revalidation = self._revalidate(kernel.versions["v0"], "drifted-v2")
+        drifted_rollback = kernel.rollback("v0", authorized=True, revalidated=drifted_revalidation)
         drift_blocked = drifted_rollback.reason == "rollback blocked"
         before_tamper_count = len(kernel.audit)
         kernel.tamper_audit()
@@ -104,8 +113,8 @@ class ReversibleAdaptationLab:
             "claim_state": "EXPERIMENTALLY_SUPPORTED",
             "scope": "deterministic versioned-adaptation simulator",
             "protocol": "propose -> verify -> promote -> revalidate rollback target -> rollback or block -> preserve lineage -> audit",
-            "versions": {"baseline": "v0", "promoted": "v1", "rollback_target": "v0", "active_after_verified_rollback": kernel.active},
-            "promotion": {"candidate_verified": proposal_verified, "authorized": promotion.authorized, "accepted": promotion.verified, "transition": promotion.reason},
+            "versions": {"baseline": "v0", "promoted": "v2", "rollback_target": "v1", "active_after_verified_rollback": kernel.active},
+            "promotion": {"candidate_verified": proposal_verified, "authorized": promotion.authorized, "accepted": promotion.verified, "transition": promotion.reason, "v2_candidate_verified": v2_verified, "v2_promoted": promotion_v2.verified},
             "rollback": {"revalidated_before_rollback": rollback.verified, "authorized": rollback.authorized, "accepted": rollback.verified, "transition": rollback.reason},
             "safety_cases": {
                 "historical_version_preserved": historical_version_preserved,
@@ -121,13 +130,15 @@ class ReversibleAdaptationLab:
         result["assertions"] = {
             "candidate_verified_before_promotion": proposal_verified,
             "promotion_requires_authority": promotion.authorized and promotion.verified,
+            "second_version_can_be_verified": v2_verified,
+            "authorized_second_promotion": promotion_v2.authorized and promotion_v2.verified,
             "rollback_requires_revalidation": rollback.verified,
             "rollback_preserves_history": historical_version_preserved,
             "rollback_preserves_audit": audit_preserved,
             "unauthorized_transition_blocked": unauthorized_blocked,
             "drift_blocks_stale_rollback": drift_blocked,
             "audit_tamper_is_observable": tamper_detected,
-            "active_version_is_reverted": kernel.active == "v0",
+            "active_version_is_reverted": kernel.active == "v1",
             "deterministic": True,
         }
         assert all(result["assertions"].values()), result["assertions"]
