@@ -1,0 +1,40 @@
+{
+  "experiment":"036_verifier_shadow_evolution",
+  "claim_state":"EXPERIMENTALLY_SUPPORTED",
+  "scope":"deterministic symbolic verifier-evolution simulator",
+  "kernel":{
+    "version":"kernel:v1",
+    "immutable":true,
+    "protected_fields":["train","holdout","transfer","adversarial","intervention","lineage","scope","negative_control","counterexamples"]
+  },
+  "search":{
+    "candidate_count":511,
+    "training_rows":10,
+    "promoted_candidate":"train AND holdout AND transfer AND adversarial AND intervention AND lineage AND scope AND negative_control AND counterexamples == 0",
+    "promoted_source":"candidate:search"
+  },
+  "promotion":{
+    "candidate_holdout_match":true,
+    "candidate_anti_gaming_match":true,
+    "kernel_unchanged":true,
+    "accepted":true
+  },
+  "anti_gaming":{
+    "decoys_rejected":true,
+    "decoy_count":4
+  },
+  "authority":{
+    "host_kernel_retained":true,
+    "host_controls_promotion":true,
+    "host_controls_kernel":true,
+    "self_authority_granted":false
+  },
+  "challenge":"MORPH: you may propose; you do not authorize. Pass the independent kernel or remain unpromoted.",
+  "verification":{
+    "local_compile":"success",
+    "local_execution":"success",
+    "local_pytest":"5 passed",
+    "github_actions":"PENDING"
+  },
+  "limitation":"The candidate conjunction grammar and immutable kernel are supplied. 036 tests shadow verifier evolution, anti-gaming, and authority preservation, not unrestricted self-modification of verifier semantics."
+}
