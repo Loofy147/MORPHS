@@ -157,7 +157,7 @@ These remain OPEN boundaries unless later experiments produce stronger evidence.
 
 ### Path D — reversible adaptation
 
-Test whether learned language or operator changes can move through:
+040 begins this path. It tests whether learned language or operator changes can move through:
 
 propose → verify → promote → roll back → revalidate
 
