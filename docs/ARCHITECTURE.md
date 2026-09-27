@@ -19,6 +19,7 @@ The adaptive layer may evolve:
 - hypotheses
 - experiment policies
 - conditional rules
+- reusable operator schemas
 
 ## Authority boundary
 
@@ -38,6 +39,9 @@ After 028, MORPH is being moved from a sequence of isolated simulators toward a 
 - memory has different classes
 - contradictions remain queryable
 - the learner can construct candidate rule languages
+- reusable operator schemas can be induced and rebound
 - external tools can be attached through explicit adapters
 
-The next experiment should be implemented natively in this repository rather than as an external zip snapshot.
+031 establishes a stronger boundary than 030: the learner is not handed named derived-operator families, but it still works inside a supplied constructive AST vocabulary.
+
+The next experiment should attack that remaining boundary: constructor-language evolution itself, with explicit controls against hidden-oracle leakage and loss of verifier authority.
