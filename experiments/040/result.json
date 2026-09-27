@@ -1,0 +1,25 @@
+{
+  "experiment": "040_reversible_adaptation",
+  "claim_state": "EXPERIMENTALLY_SUPPORTED",
+  "scope": "deterministic versioned-adaptation simulator",
+  "protocol": "propose -> verify -> promote -> revalidate rollback target -> rollback or block -> preserve lineage -> audit",
+  "assertions": {
+    "candidate_verified_before_promotion": true,
+    "promotion_requires_authority": true,
+    "rollback_requires_revalidation": true,
+    "rollback_preserves_history": true,
+    "rollback_preserves_audit": true,
+    "unauthorized_transition_blocked": true,
+    "drift_blocks_stale_rollback": true,
+    "audit_tamper_is_observable": true,
+    "active_version_is_reverted": true,
+    "deterministic": true
+  },
+  "verification": {
+    "github_actions": "pending",
+    "workflow_run_id": null,
+    "job_id": null,
+    "commit_sha": null
+  },
+  "limitation": "The version graph, authorization, revalidation predicate, and audit mechanism are host-supplied. This does not establish rollback correctness for arbitrary external side effects or irreversible systems."
+}
