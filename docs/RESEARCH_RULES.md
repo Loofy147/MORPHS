@@ -45,3 +45,16 @@ The host retains authority over:
 - verifier integrity
 - audit integrity
 - external side-effect authorization
+
+
+## Protocol grounding
+
+MORPHS may receive host-supplied protocol facts and constraints. These are not experimental discoveries.
+
+Keep two axes separate:
+- protocol status: HOST_CONSTRAINT / HOST_PROTOCOL / ADAPTIVE_ARTIFACT
+- epistemic status: ESTABLISHED or the repository-supported research state in use for the specific claim
+
+A known host fact should constrain execution rather than consume an experiment whose purpose is discovery. Unknown mechanisms remain hypotheses until tested. Contradictions and known failures remain durable evidence.
+
+A protocol must never silently answer the research question it is meant to structure. If the mechanism under study is already fixed by the protocol, the experiment should test transmission, compliance, or implementation—not rediscover the same fact.
