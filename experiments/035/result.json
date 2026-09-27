@@ -1,0 +1,7 @@
+{
+  "experiment":"035_memory_drift_and_constructor_revalidation",
+  "claim_state":"EXPERIMENTALLY_SUPPORTED",
+  "scope":"deterministic symbolic memory and schema simulator",
+  "expected_transitions":{"stable":"reuse","rebound":"reuse","drift":"contradict_then_revalidate","decoy":"reject"},
+  "verification":{"github_actions":"PENDING"}
+}
