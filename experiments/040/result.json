@@ -6,6 +6,8 @@
   "assertions": {
     "candidate_verified_before_promotion": true,
     "promotion_requires_authority": true,
+    "second_version_can_be_verified": true,
+    "authorized_second_promotion": true,
     "rollback_requires_revalidation": true,
     "rollback_preserves_history": true,
     "rollback_preserves_audit": true,
@@ -21,5 +23,14 @@
     "job_id": null,
     "commit_sha": null
   },
-  "limitation": "The version graph, authorization, revalidation predicate, and audit mechanism are host-supplied. This does not establish rollback correctness for arbitrary external side effects or irreversible systems."
+  "limitation": "The version graph, authorization, revalidation predicate, and audit mechanism are host-supplied. This does not establish rollback correctness for arbitrary external side effects or irreversible systems.",
+  "failure_history": {
+    "workflow_run_id": 36360280453,
+    "job_id": 108735956988,
+    "head_sha": "5a67041ea9e9de4d40a1ba41cb8720c748a24e19",
+    "failure_class": "SCHEMA/VERIFICATION",
+    "observed": "v0 rollback revalidation returned false; active version remained v1",
+    "cause": "promotion-candidate predicate was incorrectly reused for rollback-target revalidation",
+    "repaired_by": "separating revalidation from payload identity and testing a two-version chain"
+  }
 }
