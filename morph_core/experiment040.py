@@ -101,7 +101,7 @@ class ReversibleAdaptationLab:
         rollback_revalidation = self._revalidate(kernel.versions["v1"], "stable-v2")
         rollback = kernel.rollback("v1", authorized=True, revalidated=rollback_revalidation)
         historical_version_preserved = "v2" in kernel.versions
-        audit_preserved = len(kernel.audit) == 3
+        audit_preserved = len(kernel.audit) == 4
         drifted_revalidation = self._revalidate(kernel.versions["v0"], "drifted-v2")
         drifted_rollback = kernel.rollback("v0", authorized=True, revalidated=drifted_revalidation)
         drift_blocked = drifted_rollback.reason == "rollback blocked"
