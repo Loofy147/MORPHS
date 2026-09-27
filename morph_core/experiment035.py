@@ -142,7 +142,7 @@ def run_experiment035() -> dict[str, object]:
         "drift_contradicts_old_memory": transition == MemoryState.CONTRADICTED,
         "replacement_promoted_after_revalidation": replacement_valid and memory.active == replacement,
         "old_memory_preserved": len(memory.historical) == 1 and memory.historical[0] == old,
-        "decoy_does_not_silently_validate_old_memory": decoy_rejects_old,
+        "decoy_does_not_silently_validate_old_memory": decoy_holdout_rejects_old,
         "decoy_does_not_create_false_candidate": decoy_discovery_empty,
         "deterministic": True,
     }
