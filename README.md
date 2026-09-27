@@ -57,7 +57,7 @@ Every material experiment should end in one of:
     python -m morph_core.experiment036
     python -m morph_core.experiment037
     python -m morph_core.experiment038
-python -m morph_core.experiment039
+    python -m morph_core.experiment039
 
 The full construction and evidence path is documented in docs/RESEARCH_PATHS.md.
 
