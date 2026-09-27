@@ -35,7 +35,7 @@ Experiment 037 is verified by GitHub Actions run 75.
 
 Experiment 038 is verified by GitHub Actions run 88 (7 local tests also passed).
 
-Experiment 039 is the native protocol-grounding frontier; repository-wide CI verification is pending after its addition.
+Experiment 039 is verified by GitHub Actions run 103.
 
 The failed runs and fixture repairs preceding the verified burst are preserved as engineering evidence.
 
@@ -52,7 +52,7 @@ Repository policy:
 
 disagreement → diagnose observable source → remain DEFER → independently resolve
 
-The next frontier is to use a host-supplied protocol baseline to reduce rediscovery while keeping unknown mechanisms genuinely experimental.
+The current protocol-grounding baseline is now repository-verified. The next frontier is to use it to reduce rediscovery while keeping unknown mechanisms genuinely experimental.
 
 Likely pressure points:
 - extend investigation coverage without turning probes into hidden truth rules
