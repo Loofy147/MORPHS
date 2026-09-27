@@ -1,6 +1,6 @@
 # Experiment lineage
 
-The MORPH research sequence currently contains 032 completed experiments in the local research lineage.
+The MORPH research sequence currently contains 035 completed experiments in the local research lineage.
 
 The sequence evolved through:
 - capability composition and mutation
@@ -15,8 +15,11 @@ The sequence evolved through:
 - operator-language mutation
 - reusable parameterized operator-schema induction
 - active constructor-vocabulary evolution
+- meta-language mutation under resource pressure
+- budget-aware language evolution
+- memory drift and constructor revalidation
 
-The local historical bundles contain detailed records for experiments 001-028. Experiments 029-032 are the first native post-import experiments in the MORPHS repository.
+The local historical bundles contain detailed records for experiments 001-028. Experiments 029-035 are the first native post-import experiments in the MORPHS repository.
 
 Repository policy:
 1. Preserve original evidence.
@@ -26,7 +29,8 @@ Repository policy:
 5. Never upgrade a claim merely because it was repeated in later experiments.
 
 Next frontier:
-- let MORPH alter parts of the constructor meta-language itself
-- require mutated substrate components to survive transfer and independent audits
-- quantify the value/cost tradeoff between language evolution and reuse
-- separate architecture-induced bias from evidence-induced structure
+- let MORPH mutate parts of the constructor meta-language itself rather than only add binding structure
+- test constructor mutations across external tool/runtime adapters
+- measure language-evolution cost against capability value without collapsing everything into one scalar reward
+- introduce independent verifier diversity so the learner cannot define its own acceptance criteria
+- search for failure modes where learned language changes become irreversible or self-reinforcing
