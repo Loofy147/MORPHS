@@ -73,6 +73,12 @@ The two paths meet at promotion:
 
 proposal → independent evidence → protected verification → promotion or DEFER → audit record
 
+## Native protocol baseline
+
+MORPHS now has a host-specified native protocol baseline in docs/MORPHS_PROTOCOLS.md. The protocol separates host constraints from adaptive artifacts and keeps protocol status separate from epistemic research status.
+
+039 makes one part of that separation executable: known protocol facts are used as constraints, unknown mechanisms become experiment questions, contradictions are preserved, and known failures become regression targets.
+
 ## Current boundary
 
 036 made shadow verifier evolution executable while keeping the kernel protected.
@@ -80,6 +86,8 @@ proposal → independent evidence → protected verification → promotion or DE
 037 added verifier diversity and established DEFER when independent verifier implementations disagree.
 
 038 adds a bounded diagnostic layer: the system may investigate the source of disagreement, but the investigation itself cannot promote a truth verdict.
+
+039 adds protocol grounding: the system may receive high-level host facts without treating those facts as discoveries, while keeping unknown mechanisms open to evidence-gated experimentation.
 
 ## Assembly intent
 
