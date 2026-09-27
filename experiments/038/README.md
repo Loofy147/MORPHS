@@ -35,11 +35,24 @@ A deliberately flaky verifier alternates output for identical input. The repeata
 
 Two stable, conformant verifiers disagree at boundary `2`, while the current minimal probe only checks `-1, 0, 1`. The disagreement is not localized, so the investigator remains at **DEFER**.
 
-## Local verification
+## Verification
 
 - `python -m py_compile morph_core/experiment038.py tests/test_experiment038.py`
 - `pytest -q tests/test_experiment038.py`
 - result: **7 passed**
+
+## CI verification
+
+GitHub Actions run **88** completed successfully.
+
+- compile: success
+- pytest: success
+- Experiments 028-037: success
+- Experiment 038: success
+
+Run ID: 36333611826
+Job ID: 108660138696
+Head commit: f737b3d1f3a8bb2eee4e5f423e69299cf59fff93
 
 ## Preserved engineering failure
 
