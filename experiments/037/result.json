@@ -1,36 +1,45 @@
 {
-  "experiment":"037_independent_verifier_diversity",
-  "claim_state":"EXPERIMENTALLY_SUPPORTED",
-  "scope":"deterministic verifier-diversity simulator",
-  "candidate":{
-    "expression":"train AND holdout AND transfer AND adversarial AND intervention AND lineage AND scope AND negative_control AND counterexamples == 0",
-    "source":"037:candidate"
+  "experiment": "037_independent_verifier_diversity",
+  "claim_state": "EXPERIMENTALLY_SUPPORTED",
+  "scope": "deterministic verifier-diversity simulator",
+  "candidate": {
+    "expression": "train AND holdout AND transfer AND adversarial AND intervention AND lineage AND scope AND negative_control AND counterexamples == 0",
+    "source": "037:candidate"
   },
-  "clean_verifiers":{
-    "versions":["kernel:A:v1","kernel:B:v1"],
-    "training_agreement":true,
-    "holdout_agreement":true,
-    "candidate_matches_training":true,
-    "candidate_matches_holdout":true,
-    "promotion":true
+  "clean_verifiers": {
+    "versions": [
+      "kernel:A:v1",
+      "kernel:B:v1"
+    ],
+    "training_agreement": true,
+    "holdout_agreement": true,
+    "candidate_matches_training": true,
+    "candidate_matches_holdout": true,
+    "promotion": true
   },
-  "fault_injection":{
-    "versions":["kernel:A:v1","kernel:B:fault-negative-control-omitted"],
-    "agreement":false,
-    "candidate_match":false,
-    "decision":"defer"
+  "fault_injection": {
+    "versions": [
+      "kernel:A:v1",
+      "kernel:B:fault-negative-control-omitted"
+    ],
+    "agreement": false,
+    "candidate_match": false,
+    "decision": "defer"
   },
-  "authority":{
-    "candidate_cannot_override_disagreement":true,
-    "independent_verifier_count":2,
-    "faulty_verifier_detected_by_divergence":true
+  "authority": {
+    "candidate_cannot_override_disagreement": true,
+    "independent_verifier_count": 2,
+    "faulty_verifier_detected_by_divergence": true
   },
-  "challenge":"MORPH: one verifier is not enough. If independent verifiers disagree, you do not get to choose the verdict. You defer.",
-  "verification":{
-    "local_compile":"success",
-    "local_execution":"success",
-    "local_pytest":"6 passed",
-    "github_actions":"PENDING"
+  "challenge": "MORPH: one verifier is not enough. If independent verifiers disagree, you do not get to choose the verdict. You defer.",
+  "verification": {
+    "local_compile": "success",
+    "local_execution": "success",
+    "local_pytest": "6 passed",
+    "github_actions": "success",
+    "workflow_run_id": 36332375799,
+    "job_id": 108656659870,
+    "commit_sha": "2686c7ca017cf722834b43d76e46cc6db2589b70"
   },
-  "limitation":"Kernel implementations are supplied and deterministic; diversity is implemented as independent code paths, not proof of semantic independence under arbitrary future implementations."
+  "limitation": "Kernel implementations are supplied and deterministic; diversity is implemented as independent code paths, not proof of semantic independence under arbitrary future implementations."
 }
