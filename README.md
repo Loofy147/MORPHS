@@ -29,7 +29,7 @@ This does not establish unrestricted automated root-cause identification. The au
 - Experiment 036: GitHub Actions run 68 — verified
 - Experiment 037: GitHub Actions run 75 — verified
 - Experiment 038: GitHub Actions run 88 — verified (local compile + 7 tests also passed)
-- Experiment 039: repository regression pending after adding the native protocol baseline
+- Experiment 039: GitHub Actions run 103 — verified (compile + pytest + Experiments 028-039 all passed)
 
 ## Development rule
 
