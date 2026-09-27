@@ -1,0 +1,55 @@
+{
+  "experiment": "031_reusable_operator_schema_induction",
+  "claim_state": "EXPERIMENTALLY_SUPPORTED",
+  "scope": "deterministic symbolic simulator with black-box labeled traces",
+  "verification": {
+    "local_compile": "success",
+    "local_execution": "success",
+    "github_actions": "PENDING"
+  },
+  "grammar": {
+    "predicate_count": 11511,
+    "constructors": [
+      "VAR",
+      "CONST",
+      "ABS",
+      "ADD",
+      "SUB",
+      "EQ",
+      "LE"
+    ]
+  },
+  "discovery": {
+    "near_schema": "abs((s0-s1)) <= 1",
+    "near_ast_size": 6,
+    "near_mappings": [
+      [1, 2],
+      [0, 4],
+      [3, 5]
+    ],
+    "sum_schema": "s2 == (s1+s0)",
+    "sum_ast_size": 5,
+    "sum_mappings": [
+      [0, 1, 2],
+      [0, 1, 2],
+      [0, 5, 3]
+    ]
+  },
+  "generalization": {
+    "near_holdout": 1.0,
+    "near_transfer": 1.0,
+    "sum_holdout": 1.0,
+    "sum_transfer": 1.0
+  },
+  "composition": {
+    "final_accuracy": 1.0,
+    "adversarial_accuracy": 1.0,
+    "decoy_crossfit_match": false
+  },
+  "lineage": {
+    "source": "generic_constructive_grammar:v1",
+    "semantic_family_names_given": false,
+    "parameterized_macro": true
+  },
+  "limitation": "The experiment supplies the constructive AST vocabulary. It tests reusable schema induction and rebinding, not unrestricted invention of arbitrary primitive operators."
+}
