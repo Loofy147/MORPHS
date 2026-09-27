@@ -16,11 +16,25 @@ Experiment 036 is the latest native frontier:
 
 > MORPH can propose a shadow verifier that matches an immutable host verifier across training, protected holdout, and anti-gaming evidence, while remaining unable to grant itself verifier authority.
 
-Epistemic state: **EXPERIMENTALLY_SUPPORTED locally; CI PENDING**
+Epistemic state: **EXPERIMENTALLY_SUPPORTED**
 
 Scope: deterministic symbolic verifier-evolution simulator.
 
 This does **not** establish unrestricted self-modification of verifier semantics. The candidate grammar and immutable host kernel are supplied.
+
+GitHub Actions run **68** is the verified regression for 036 on the final implementation commit.
+
+- compile: success
+- pytest: success
+- Experiment 028: success
+- Experiment 029: success
+- Experiment 030: success
+- Experiment 031: success
+- Experiment 032: success
+- Experiment 033: success
+- Experiment 034: success
+- Experiment 035: success
+- Experiment 036: success
 
 ## Development rule
 
