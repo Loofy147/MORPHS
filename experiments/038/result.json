@@ -8,25 +8,37 @@
       "target": "claim",
       "reason": "stable, conformant verifiers disagree only on an unspecified boundary",
       "verdict": "defer",
-      "stability": [true, true]
+      "stability": [
+        true,
+        true
+      ]
     },
     "verifier": {
       "target": "verifier",
       "reason": "at least one verifier violates the protected audit contract",
       "verdict": "defer",
-      "stability": [true, true]
+      "stability": [
+        true,
+        true
+      ]
     },
     "environment": {
       "target": "environment",
       "reason": "repeated identical input produced unstable verifier output",
       "verdict": "defer",
-      "stability": [true, false]
+      "stability": [
+        true,
+        false
+      ]
     },
     "unresolved": {
       "target": "defer",
       "reason": "available probes do not localize the disagreement",
       "verdict": "defer",
-      "stability": [true, true]
+      "stability": [
+        true,
+        true
+      ]
     }
   },
   "authority": {
@@ -45,7 +57,10 @@
   "verification": {
     "local_compile": "success",
     "local_pytest": "7 passed",
-    "github_actions": "pending"
+    "github_actions": "success",
+    "workflow_run_id": 36333611826,
+    "job_id": 108660138696,
+    "commit_sha": "f737b3d1f3a8bb2eee4e5f423e69299cf59fff93"
   },
   "challenge": "MORPH: disagreement is evidence, not noise. Do not erase it. Locate the unresolved source, but never promote a verdict from the investigation itself.",
   "limitation": "The audit contract, diagnostic probes, and ambiguity fixture are supplied by the host. Target classification is experimentally supported only for these observable cases."
