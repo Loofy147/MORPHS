@@ -1,0 +1,8 @@
+{
+  "experiment":"034_budget_aware_language_evolution",
+  "claim_state":"EXPERIMENTALLY_SUPPORTED",
+  "scope":"deterministic symbolic decision simulator",
+  "budget":4.0,
+  "decisions":{"stable_reuse":"reuse","blocked_frontier":"evolve","expensive_mutation":"reuse","uncertain_mutation":"defer"},
+  "verification":{"github_actions":"PENDING"}
+}
