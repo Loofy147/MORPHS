@@ -10,30 +10,17 @@ Conversation notes and generated snapshots are not authoritative.
 
 ## Current boundary
 
-Experiments 033-035 are now repository-verified:
+Experiments 033-035 are repository-verified by GitHub Actions run 59.
 
-- **033 — EXPERIMENTALLY_SUPPORTED:** MORPH can detect a resource-induced representation bottleneck and extend the active constructor language with a generic binding mechanism that reduces representation cost while preserving transfer.
-- **034 — EXPERIMENTALLY_SUPPORTED:** MORPH can reuse, evolve, or defer under explicit budget and mutation-risk gates rather than mutating by default.
-- **035 — EXPERIMENTALLY_SUPPORTED:** MORPH can reuse schema memory across valid rebinding, detect semantic drift, preserve contradicted memory historically, and promote a replacement only after revalidation.
+Experiment 036 is the latest native frontier:
 
-Scope for all three: deterministic symbolic simulators.
+> MORPH can propose a shadow verifier that matches an immutable host verifier across training, protected holdout, and anti-gaming evidence, while remaining unable to grant itself verifier authority.
 
-These experiments do **not** establish unrestricted self-modification, unrestricted invention of primitive semantics, or real-world scientific discovery.
+Epistemic state: **EXPERIMENTALLY_SUPPORTED locally; CI PENDING**
 
-## Evidence status
+Scope: deterministic symbolic verifier-evolution simulator.
 
-GitHub Actions run **59** is the final verified regression for the 033-035 burst.
-
-- compile: success
-- pytest: success
-- Experiment 028: success
-- Experiment 029: success
-- Experiment 030: success
-- Experiment 031: success
-- Experiment 032: success
-- Experiment 033: success
-- Experiment 034: success
-- Experiment 035: success
+This does **not** establish unrestricted self-modification of verifier semantics. The candidate grammar and immutable host kernel are supplied.
 
 ## Development rule
 
@@ -59,6 +46,7 @@ python -m morph_core.experiment032
 python -m morph_core.experiment033
 python -m morph_core.experiment034
 python -m morph_core.experiment035
+python -m morph_core.experiment036
 ```
 
 Historical experiments 001-027 remain part of MORPH's lineage and are not being rewritten to fit the native repository experiments.
