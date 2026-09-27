@@ -188,6 +188,6 @@ These are branches of one construction, not separate projects.
 
 - 037: verified — independent verifier diversity
 - 038: locally verified — disagreement investigation
-- 038 repository-wide CI: pending at the time this file was written
+- 038: repository-wide CI verified by GitHub Actions run 88
 
 The next decision point should be made from the CI result and the preserved evidence, not from conversation momentum.
