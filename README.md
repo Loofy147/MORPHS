@@ -28,7 +28,7 @@ This does not establish unrestricted automated root-cause identification. The au
 
 - Experiment 036: GitHub Actions run 68 — verified
 - Experiment 037: GitHub Actions run 75 — verified
-- Experiment 038: local compile + 7 tests — verified locally; GitHub Actions regression is pending
+- Experiment 038: GitHub Actions run 88 — verified (local compile + 7 tests also passed)
 
 ## Development rule
 
