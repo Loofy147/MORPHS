@@ -25,9 +25,18 @@ When the independent verifiers disagree, the learner is not allowed to choose th
 - disagreement → DEFER: true
 - candidate cannot override disagreement: true
 
+## CI verification
+
+GitHub Actions run **75** completed successfully.
+
+- compile: success
+- pytest: success
+- Experiments 028-036: success
+- Experiment 037: success
+
 ## Epistemic status
 
-**EXPERIMENTALLY_SUPPORTED locally; CI PENDING**
+**EXPERIMENTALLY_SUPPORTED**
 
 Scope: deterministic verifier-diversity simulator.
 
@@ -47,4 +56,4 @@ and explicitly treats disagreement as a first-class epistemic state rather than 
 
 ## Next pressure point
 
-The next challenge is to let the learner observe verifier disagreement as evidence and decide whether to investigate the **claim**, the **verifier**, or the **environment** without being allowed to erase the disagreement.
+037 establishes DEFER as the immediate safe response. The next challenge is harder: let MORPH investigate the disagreement and choose whether the unresolved evidence points to the **claim**, the **verifier**, or the **environment**, without being allowed to erase the disagreement.
