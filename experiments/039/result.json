@@ -13,9 +13,12 @@
     "deterministic": true
   },
   "verification": {
-    "local_compile": "not_run in this connector environment",
-    "local_pytest": "not_run in this connector environment",
-    "github_actions": "pending"
+    "local_compile": "not run in this connector environment; direct clone blocked by DNS",
+    "local_pytest": "not run in this connector environment; direct clone blocked by DNS",
+    "github_actions": "success",
+    "workflow_run_id": 36350027718,
+    "job_id": 108706797864,
+    "commit_sha": "ab5a4837e1750d3fd59edfb7cbb4b50c0492296c"
   },
   "limitation": "This tests routing discipline for protocol facts, unknowns, contradictions, and known failures. It does not establish autonomous protocol construction or unrestricted research planning."
 }
