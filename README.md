@@ -17,17 +17,17 @@ Conversation notes and generated zip snapshots are not authoritative.
 
 ## Current boundary
 
-Experiment 030 is the latest native experiment.
+Experiment 031 is the latest native experiment.
 
 Its claim is:
 
-> MORPH can extend a machine-level rule language by selecting derived operators from a typed constructive substrate, then admitting them only after holdout, transfer, adversarial, and intervention evidence.
+> MORPH can induce reusable, parameterized operator schemas from black-box labeled traces by searching a generic typed AST grammar, then rebind those schemas across independent episodes and unseen transfers.
 
 Epistemic state: **EXPERIMENTALLY_SUPPORTED**
 
-Scope: deterministic symbolic simulator only.
+Scope: deterministic symbolic simulator with black-box labeled traces.
 
-This does **not** establish unrestricted invention of mathematical primitives or real-world scientific discovery.
+This does **not** establish unrestricted invention of primitive mathematical operators. The constructive AST vocabulary is still supplied by the experiment.
 
 ## Development rule
 
@@ -48,6 +48,7 @@ python -m compileall morph_core tests
 python -m morph_core.experiment028
 python -m morph_core.experiment029
 python -m morph_core.experiment030
+python -m morph_core.experiment031
 ```
 
 The repository is intentionally small. Historical experiments 001-027 remain part of MORPH's lineage and will be normalized as structured records rather than copied blindly.
