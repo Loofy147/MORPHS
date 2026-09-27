@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from functools import lru_cache
 from itertools import permutations, product
 
 
@@ -299,6 +300,7 @@ def evaluate_composite(
     return correct / len(rows) if rows else 0.0
 
 
+@lru_cache(maxsize=1)
 def run_experiment031() -> dict[str, object]:
     predicates = gen_preds()
 
