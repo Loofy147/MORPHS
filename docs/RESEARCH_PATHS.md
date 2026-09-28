@@ -115,6 +115,9 @@ failure
 Example from 043:
 the first implementation attempts exposed a result-construction self-reference in the experiment entry point. The confirmed CI failure was preserved in the result record, the implementation was repaired, and the full regression passed in Run 157.
 
+Example from 043b:
+the live mutation itself completed with a concrete provider response; no ambiguous network outcome was induced. Unknown-outcome handling was therefore tested as a deterministic containment path rather than falsely labelled as live evidence.
+
 This is part of the research evidence, not noise to remove.
 
 ## 7. Authority graph
@@ -151,7 +154,9 @@ The present lineage does not establish:
 - rollback correctness for irreversible changes
 - resilience against adversarial corruption of verifier inputs or investigation traces
 - provider-independent verification of external world state
-- safe mutation of real external systems
+- real ambiguous mutation outcomes
+- irreversible mutation safety
+- distributed transaction semantics
 
 These remain OPEN boundaries unless later experiments produce stronger evidence.
 
@@ -171,7 +176,7 @@ without corrupting lineage or audit history.
 
 042 extends it to dependency cascades and partial external state.
 
-043 now crosses a real GitHub provider boundary in read-only mode:
+043 crosses a real GitHub provider boundary in read-only mode:
 
 discover
 → classify
@@ -183,24 +188,25 @@ discover
 → verify postcondition
 → record provenance and freshness
 
-This establishes an initial real-boundary transfer result while deliberately excluding mutation authority.
-
-### Path E-next — authorized reversible mutation
-
-The next research step is 043b, not a broad jump to arbitrary external orchestration.
-
-Target protocol:
+043b extends the path one step further with a narrowly scoped real mutation on an isolated branch:
 
 pre-read
-→ dependency/authority check
+→ authority check
 → idempotency check
 → explicit mutation
 → independent post-read
-→ unknown-outcome containment
-→ rollback or compensation
-→ audit and revalidation
+→ rollback preflight
+→ rollback
+→ revalidate
 
-This step must remain narrowly scoped and reversible.
+The live mutation and rollback were both independently observed, and the final blob identity matched the original baseline.
+
+### Path E-next — verification independence and controlled uncertainty
+
+Before any broader external side effects, the next research step should strengthen one or both of:
+
+- provider-independent verification
+- controlled unknown-outcome injection at the adapter boundary
 
 ### Path F — adversarial verification pressure
 
@@ -221,5 +227,6 @@ These are branches of one construction, not separate projects.
 - 041: verified — external-world equilibrium
 - 042: verified — dependency cascades and partial external failure
 - 043: verified — real external read-only runtime transfer
+- 043b: verified — authorized reversible mutation on an isolated real provider boundary
 
-The next decision point is 043b, whose authority and side-effect contract must be explicit before any real mutation is attempted.
+The next decision point is 043c, focused on verification independence or controlled unknown-outcome handling before expanding mutation scope.

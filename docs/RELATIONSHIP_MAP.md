@@ -44,21 +44,25 @@ propose -> verify -> promote -> active state -> revalidate -> rollback or block 
 041: external-world equilibrium
 042: dependency cascades and partial external failure
 043: real external read-only runtime transfer
+043b: authorized reversible mutation on an isolated real provider boundary
 
-The external reconciliation path now has three scales:
+The external reconciliation path now has four scales:
 
 deterministic world
 -> dependency-aware world
 -> real provider observation
+-> real reversible provider mutation
 
-For the real provider boundary, the verified relationship is:
+For the mutation boundary, the verified relationship is:
 
-discover capability
--> bind provider/resource
--> execute read
--> independently observe
--> compare postcondition
--> record provenance/freshness
+pre-read
+-> authority check
+-> idempotency check
+-> mutate
+-> independent post-read
+-> rollback preflight
+-> rollback
+-> revalidate
 
 ## 3. Relationship types
 
@@ -142,6 +146,8 @@ Possible classification:
 - partially applied
 - unresolved
 
+043b verifies this containment deterministically. The live mutation returned a concrete provider response, so no live ambiguous network outcome is claimed.
+
 ## 9. Verification relation
 
 External execution increases the required independence of verification.
@@ -150,7 +156,9 @@ intent -> action -> provider result -> independent read -> postcondition -> depe
 
 A provider success response is not equivalent to external equilibrium.
 
-043 demonstrates this relation on a read-only real provider boundary. It does not yet validate the mutation branch.
+043 demonstrates this relation on a read-only real provider boundary.
+
+043b demonstrates the mutation branch on a single reversible text-file canary and verifies rollback by independent read and final blob identity.
 
 ## 10. Current architecture frontier
 
@@ -161,12 +169,13 @@ A provider success response is not equivalent to external equilibrium.
 041 external-world reconciliation
 042 dependency cascade propagation and partial external state
 043 real external read-only runtime transfer
+043b authorized reversible mutation on an isolated real provider boundary
 
 Next unresolved dimensions:
-- authorized reversible mutation
-- real unknown mutation outcome
-- independent provider verification
+- provider-independent mutation verification
+- real ambiguous mutation outcomes
 - irreversible side effects
 - provider substitution under contract equivalence
 - adversarial world-state reporting
 - long-lived drift and re-equilibration
+- distributed transaction semantics

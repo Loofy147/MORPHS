@@ -1,0 +1,42 @@
+{
+  "experiment": "043b_authorized_reversible_mutation",
+  "claim_state": "EXPERIMENTALLY_SUPPORTED",
+  "scope": "one reversible text-file mutation on a dedicated GitHub branch plus deterministic protocol regressions",
+  "verification": {
+    "github_actions": "success",
+    "workflow_run_id": 36476970679,
+    "run_number": 163,
+    "job_id": 109112991260,
+    "verified_commit_sha": "cc002bdebda21fd10c452d775c85f99642d0591b",
+    "note": "Run 163 compiled, passed pytest, and executed Experiments 028-043b successfully before this evidence-record update."
+  },
+  "live_evidence": {
+    "provider": "github",
+    "branch": "experiment-043b-canary",
+    "path": "experiments/043b/live_canary.txt",
+    "authority": "user-authorized repository write",
+    "baseline_commit": "21ea9e1a62540592b277dfcf0f5173a3753ef0e6",
+    "baseline_blob_sha": "1831c4b6a79350f2b5cb75729be015b0b9c46228",
+    "mutation_commit": "a8506777be2ef5f7c7ba302b8cf982fd5bec8d36",
+    "mutated_blob_sha": "6bc77249dbb9001daee2d677b9a6b4fa476220f7",
+    "mutation_independent_read_matched": true,
+    "rollback_commit": "6a47d4db094839bfb2193a81449f7d69690df216",
+    "rollback_blob_sha": "1831c4b6a79350f2b5cb75729be015b0b9c46228",
+    "rollback_restored_original_blob": true,
+    "rollback_independent_read_matched": true
+  },
+  "unknown_outcome": {
+    "live": false,
+    "reason": "The live provider returned a concrete mutation response; ambiguous network outcome was not induced.",
+    "deterministic_containment_test": "PASS"
+  },
+  "limitations": [
+    "single reversible file mutation",
+    "isolated branch only",
+    "same-provider cross-surface verification",
+    "no real ambiguous network outcome",
+    "no irreversible effects",
+    "no distributed transaction",
+    "no provider-independent verifier"
+  ]
+}
