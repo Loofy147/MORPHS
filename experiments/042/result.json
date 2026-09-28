@@ -16,10 +16,10 @@
     "deterministic": true
   },
   "verification": {
-    "github_actions": "pending",
-    "workflow_run_id": null,
-    "job_id": null,
-    "commit_sha": null
+    "github_actions": "success",
+    "workflow_run_id": 36389552798,
+    "job_id": 108822125243,
+    "commit_sha": "991d489dc541b958d818b2cc76990735cf3fd95f"
   },
   "limitation": "Dependencies and failure injection are deterministic and host-specified. This does not establish safe orchestration of arbitrary distributed systems, transactions, or irreversible effects.",
   "failure_history": {
