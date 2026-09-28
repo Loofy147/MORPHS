@@ -165,6 +165,8 @@ without corrupting lineage or audit history.
 
 ### Path E — external runtime transfer
 
+042 strengthens the pre-transfer model by testing multi-resource dependencies and partial external state.
+
 041 begins this path in a deterministic external-world model. The next step is to move the evidence and verification loop across a real external tool or runtime boundary while preserving:
 - authority separation
 - evidence provenance
