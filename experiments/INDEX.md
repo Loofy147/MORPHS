@@ -44,7 +44,7 @@ Experiment 040 is verified by GitHub Actions run 123.
 
 Experiment 041 is verified by GitHub Actions run 133.
 
-Experiment 042 is the dependency-cascade and partial-failure frontier; repository-wide CI verification is pending after its addition.
+Experiment 042 is verified by GitHub Actions run 148.
 
 The failed runs and fixture repairs preceding the verified burst are preserved as engineering evidence.
 
