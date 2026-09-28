@@ -14,15 +14,15 @@ Experiments 033-035 are repository-verified by GitHub Actions run 59.
 
 Experiment 037 established independent verifier diversity and safe DEFER on verifier disagreement.
 
-Experiment 043 is the current native research frontier:
+Experiment 043b is the current native research frontier:
 
-> MORPH can transfer its capability, authority, provenance, freshness, and independent-postcondition protocol across a real GitHub read-only boundary without treating provider success as world verification.
+> MORPH can execute a narrowly authorized reversible mutation on a real GitHub boundary, verify the postcondition independently, contain unknown outcomes, and roll back only when the external state still matches the expected mutated state.
 
 Epistemic state: EXPERIMENTALLY_SUPPORTED
 
-Scope: real GitHub read-only boundary with captured cross-surface observation plus deterministic protocol regression.
+Scope: one reversible text-file mutation on a dedicated GitHub branch plus deterministic protocol regressions.
 
-This does not establish unrestricted automated root-cause identification. The audit contract, intervention range, verifier implementations, and protected authority remain supplied by the host.
+This does not establish unrestricted automated root-cause identification, arbitrary external mutation safety, irreversible side-effect safety, distributed transaction semantics, or provider-independent mutation verification.
 
 ### Verification status
 
@@ -34,6 +34,7 @@ This does not establish unrestricted automated root-cause identification. The au
 - Experiment 041: GitHub Actions run 133 — verified
 - Experiment 042: GitHub Actions run 148 — verified (compile + pytest + Experiments 028-042 all passed)
 - Experiment 043: GitHub Actions run 157 — verified (compile + pytest + Experiments 028-043 all passed)
+- Experiment 043b: GitHub Actions run 164 — verified (compile + pytest + Experiments 028-043b all passed on the verified experiment branch head)
 
 ## Development rule
 
@@ -66,6 +67,7 @@ Every material experiment should end in one of:
     python -m morph_core.experiment041
     python -m morph_core.experiment042
     python -m morph_core.experiment043
+    python -m morph_core.experiment043b
 
 The full construction and evidence path is documented in docs/RESEARCH_PATHS.md.
 
