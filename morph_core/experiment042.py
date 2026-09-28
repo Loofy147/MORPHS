@@ -87,8 +87,12 @@ class CascadeReconciliationLab:
             status = WorldStatus.EQUILIBRATED
         elif applied or failed:
             status = WorldStatus.PARTIAL
-        elif blocked:
+        elif blocked and len(actions) == 0:
             status = WorldStatus.BLOCKED
+        elif blocked and all(a.endswith(":BLOCKED") for a in actions):
+            status = WorldStatus.BLOCKED
+        elif blocked:
+            status = WorldStatus.PARTIAL
         else:
             status = WorldStatus.BLOCKED
         return {"before": before, "actions": actions, "after": after, "status": status.value, "events": list(world.events)}
