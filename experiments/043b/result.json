@@ -3,10 +3,12 @@
   "claim_state": "EXPERIMENTALLY_SUPPORTED",
   "scope": "one reversible text-file mutation on a dedicated GitHub branch plus deterministic protocol regressions",
   "verification": {
-    "github_actions": "PENDING",
-    "workflow_run_id": null,
-    "job_id": null,
-    "commit_sha": null
+    "github_actions": "success",
+    "workflow_run_id": 36476970679,
+    "run_number": 163,
+    "job_id": 109112991260,
+    "verified_commit_sha": "cc002bdebda21fd10c452d775c85f99642d0591b",
+    "note": "Run 163 compiled, passed pytest, and executed Experiments 028-043b successfully before this evidence-record update."
   },
   "live_evidence": {
     "provider": "github",
