@@ -1,0 +1,21 @@
+{
+  "experiment": "041_external_world_equilibrium",
+  "claim_state": "EXPERIMENTALLY_SUPPORTED",
+  "scope": "deterministic external-world reconciliation simulator",
+  "assertions": {
+    "reconciliation_reaches_equilibrium": true,
+    "drift_is_observable": true,
+    "dependency_failure_blocks_reconciliation": true,
+    "unknown_mutation_requires_reobservation": true,
+    "authorization_blocks_external_mutation": true,
+    "postcondition_is_observed_not_assumed": true,
+    "deterministic": true
+  },
+  "verification": {
+    "github_actions": "pending",
+    "workflow_run_id": null,
+    "job_id": null,
+    "commit_sha": null
+  },
+  "limitation": "External world is simulated and deterministic; arbitrary APIs, irreversible effects, network partitions, and adversarial state reporting remain OPEN."
+}
