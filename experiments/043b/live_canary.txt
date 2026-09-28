@@ -1,4 +1,4 @@
 MORPHS-043B-CANARY
-state=mutated
-version=2
+state=baseline
+version=1
 purpose=reversible-mutation-test
