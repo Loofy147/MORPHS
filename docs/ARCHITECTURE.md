@@ -93,6 +93,8 @@ MORPHS now has a host-specified native protocol baseline in docs/MORPHS_PROTOCOL
 
 041 adds the external-world boundary: reconciliation is based on fresh observation and dependency satisfaction, not internal memory. Unknown external outcomes require observation before replay.
 
+042 adds dependency-cascade semantics and a distinct PARTIAL state: an upstream dependency failure can block an entire downstream branch, while a mutation failure after earlier mutations leaves observable partial state that must be reconciled explicitly.
+
 ## Assembly intent
 
 The project is not currently trying to prove unrestricted self-modification.
