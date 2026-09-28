@@ -1,0 +1,34 @@
+{
+  "experiment": "043_real_external_runtime_transfer",
+  "claim_state": "EXPERIMENTALLY_SUPPORTED",
+  "scope": "real GitHub read-only boundary with captured cross-surface observation; deterministic protocol regression in CI",
+  "live_evidence": {
+    "provider": "github",
+    "surface_primary": "repository contents",
+    "surface_independent": "raw content",
+    "repository": "Loofy147/MORPHS",
+    "path": "README.md",
+    "ref": "main",
+    "commit_sha": "30bc9deec90f5ae1310fde4aac9e780a363829f8",
+    "blob_sha": "dcc769dfd7de612db827393bf82c56a61b29e47c",
+    "observed_content_sha256": "3dfd5c5c5b66afbd76ec9fe7cb22216f5f36d071d0a4119564c2ec4b14ba391d",
+    "primary_and_independent_content_match": true,
+    "authority": "READ_ONLY",
+    "side_effects": [],
+    "captured_at": "2026-09-28T08:38:11Z"
+  },
+  "verification": {
+    "github_actions": "PENDING",
+    "workflow_run_id": null,
+    "job_id": null,
+    "commit_sha": null
+  },
+  "limitations": [
+    "read-only external boundary only",
+    "same-provider cross-surface verification, not provider-independent verification",
+    "no real mutation",
+    "no irreversible side effects",
+    "no real unknown mutation outcome",
+    "no real rollback"
+  ]
+}
