@@ -165,7 +165,7 @@ without corrupting lineage or audit history.
 
 ### Path E — external runtime transfer
 
-Move the evidence and verification loop across a real external tool or runtime boundary while preserving:
+041 begins this path in a deterministic external-world model. The next step is to move the evidence and verification loop across a real external tool or runtime boundary while preserving:
 - authority separation
 - evidence provenance
 - failure capture
