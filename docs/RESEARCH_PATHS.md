@@ -112,8 +112,8 @@ failure
 → rerun regression
 → record changed interpretation
 
-Example from 038:
-the first unresolved fixture violated the protected audit contract, producing a VERIFIER classification instead of DEFER. The fixture was corrected and the failed observation retained in the experiment record.
+Example from 043:
+the first implementation attempts exposed a result-construction self-reference in the experiment entry point. The confirmed CI failure was preserved in the result record, the implementation was repaired, and the full regression passed in Run 157.
 
 This is part of the research evidence, not noise to remove.
 
@@ -150,6 +150,8 @@ The present lineage does not establish:
 - safe external side effects without a host authorization layer
 - rollback correctness for irreversible changes
 - resilience against adversarial corruption of verifier inputs or investigation traces
+- provider-independent verification of external world state
+- safe mutation of real external systems
 
 These remain OPEN boundaries unless later experiments produce stronger evidence.
 
@@ -165,14 +167,40 @@ without corrupting lineage or audit history.
 
 ### Path E — external runtime transfer
 
-042 strengthens the pre-transfer model by testing multi-resource dependencies and partial external state.
+041 begins this path in a deterministic external-world model.
 
-041 begins this path in a deterministic external-world model. The next step is to move the evidence and verification loop across a real external tool or runtime boundary while preserving:
-- authority separation
-- evidence provenance
-- failure capture
-- idempotence
-- rollback semantics
+042 extends it to dependency cascades and partial external state.
+
+043 now crosses a real GitHub provider boundary in read-only mode:
+
+discover
+→ classify
+→ bind
+→ authorize
+→ execute
+→ observe
+→ independently observe
+→ verify postcondition
+→ record provenance and freshness
+
+This establishes an initial real-boundary transfer result while deliberately excluding mutation authority.
+
+### Path E-next — authorized reversible mutation
+
+The next research step is 043b, not a broad jump to arbitrary external orchestration.
+
+Target protocol:
+
+pre-read
+→ dependency/authority check
+→ idempotency check
+→ explicit mutation
+→ independent post-read
+→ unknown-outcome containment
+→ rollback or compensation
+→ audit and revalidation
+
+This step must remain narrowly scoped and reversible.
 
 ### Path F — adversarial verification pressure
 
@@ -188,8 +216,10 @@ These are branches of one construction, not separate projects.
 
 ## 10. Current research state
 
-- 037: verified — independent verifier diversity
-- 038: locally verified — disagreement investigation
-- 038: repository-wide CI verified by GitHub Actions run 88
+- 039: verified — protocol grounding
+- 040: verified — reversible adaptation
+- 041: verified — external-world equilibrium
+- 042: verified — dependency cascades and partial external failure
+- 043: verified — real external read-only runtime transfer
 
-The next decision point should be made from the CI result and the preserved evidence, not from conversation momentum.
+The next decision point is 043b, whose authority and side-effect contract must be explicit before any real mutation is attempted.
