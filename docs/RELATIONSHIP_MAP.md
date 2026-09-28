@@ -42,6 +42,7 @@ known failure -> regression protection
 propose -> verify -> promote -> active state -> revalidate -> rollback or block -> preserve lineage -> audit
 
 041: external-world equilibrium
+042: dependency cascades and partial external failure
 desired state -> observe world -> resolve dependencies -> plan reconciliation -> authorize mutation -> execute -> observe post-state -> verify convergence
 
 The external world can drift again:
@@ -144,10 +145,12 @@ A provider success response is not equivalent to external equilibrium.
 039 protocol grounding
 040 reversible state transitions
 041 external-world reconciliation
+-> 042 dependency cascade propagation and partial external state
 
 Next unresolved dimensions:
 - multi-system dependency cascades
 - partial external failure
+- dependency cascade propagation
 - irreversible side effects
 - provider substitution under contract equivalence
 - adversarial world-state reporting
