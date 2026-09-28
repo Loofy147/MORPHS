@@ -4,8 +4,10 @@
   "scope": "deterministic multi-resource external-world simulator",
   "assertions": {
     "healthy_converges": true,
-    "cascade_is_blocked": true,
+    "cascade_is_partial_globally": true,
     "cascade_blocks_api_and_app": true,
+    "cascade_preserves_independent_cache_progress": true,
+    "cascade_is_not_equilibrated": true,
     "partial_failure_is_distinct": true,
     "partial_state_is_observable": true,
     "partial_failure_preserves_events": true,
@@ -19,5 +21,24 @@
     "job_id": null,
     "commit_sha": null
   },
-  "limitation": "Dependencies and failure injection are deterministic and host-specified. This does not establish safe orchestration of arbitrary distributed systems, transactions, or irreversible effects."
+  "limitation": "Dependencies and failure injection are deterministic and host-specified. This does not establish safe orchestration of arbitrary distributed systems, transactions, or irreversible effects.",
+  "failure_history": {
+    "initial_run": {
+      "workflow_run_id": 36389365561,
+      "job_id": 108821550197,
+      "head_sha": "31543069e9a42a81be476bccf40776dc7a6b2411",
+      "failure_class": "MODEL_CLASSIFICATION",
+      "observed": "db blocked api/app but independent cache progressed; aggregate status was PARTIAL rather than BLOCKED",
+      "cause": "global reconciliation state was incorrectly assumed to equal dependency-branch state"
+    },
+    "intermediate_run": {
+      "workflow_run_id": 36389442157,
+      "job_id": 108821784665,
+      "head_sha": "ad4ee0e0faf7623053e74844b6f5fc90478605b5",
+      "failure_class": "MODEL_CLASSIFICATION",
+      "observed": "first classification repair still expected global BLOCKED while independent cache was applied",
+      "cause": "aggregate status logic did not model branch scope explicitly"
+    },
+    "repair": "distinguish branch-level BLOCKED from global PARTIAL and preserve independent branch progress"
+  }
 }
