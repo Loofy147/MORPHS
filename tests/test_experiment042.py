@@ -8,8 +8,10 @@ def test_healthy_world_converges():
 
 def test_dependency_cascade_blocks_downstream_branch():
     result = run_experiment042()
-    assert result["assertions"]["cascade_is_blocked"]
+    assert result["assertions"]["cascade_is_partial_globally"]
     assert result["assertions"]["cascade_blocks_api_and_app"]
+    assert result["assertions"]["cascade_preserves_independent_cache_progress"]
+    assert result["assertions"]["cascade_is_not_equilibrated"]
 
 def test_partial_failure_is_not_collapsed_to_blocked():
     result = run_experiment042()
