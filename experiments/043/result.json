@@ -18,10 +18,33 @@
     "captured_at": "2026-09-28T08:38:11Z"
   },
   "verification": {
-    "github_actions": "PENDING",
-    "workflow_run_id": null,
-    "job_id": null,
-    "commit_sha": null
+    "github_actions": "success",
+    "workflow_run_id": 36398745132,
+    "job_id": 108851288415,
+    "commit_sha": "cd2e250a2e057ede926dfb8bffb610b17e7dcd31"
+  },
+  "failure_history": {
+    "initial_ci_failures": [
+      {
+        "run_number": 154,
+        "classification": "IMPLEMENTATION_FAILURE",
+        "status": "failure"
+      },
+      {
+        "run_number": 155,
+        "classification": "IMPLEMENTATION_FAILURE",
+        "status": "failure"
+      }
+    ],
+    "confirmed_failure": {
+      "run_number": 156,
+      "workflow_run_id": 36398690335,
+      "job_id": 108851106427,
+      "classification": "IMPLEMENTATION_FAILURE",
+      "cause": "run_experiment043 constructed its assertions dictionary while referencing result before result was assigned",
+      "repair": "replace self-reference with explicit live-capture fields",
+      "revalidation_run_number": 157
+    }
   },
   "limitations": [
     "read-only external boundary only",
