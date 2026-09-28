@@ -43,10 +43,22 @@ propose -> verify -> promote -> active state -> revalidate -> rollback or block 
 
 041: external-world equilibrium
 042: dependency cascades and partial external failure
-desired state -> observe world -> resolve dependencies -> plan reconciliation -> authorize mutation -> execute -> observe post-state -> verify convergence
+043: real external read-only runtime transfer
 
-The external world can drift again:
-converged -> external drift -> mismatch -> re-observe -> replan -> reconcile
+The external reconciliation path now has three scales:
+
+deterministic world
+-> dependency-aware world
+-> real provider observation
+
+For the real provider boundary, the verified relationship is:
+
+discover capability
+-> bind provider/resource
+-> execute read
+-> independently observe
+-> compare postcondition
+-> record provenance/freshness
 
 ## 3. Relationship types
 
@@ -138,6 +150,8 @@ intent -> action -> provider result -> independent read -> postcondition -> depe
 
 A provider success response is not equivalent to external equilibrium.
 
+043 demonstrates this relation on a read-only real provider boundary. It does not yet validate the mutation branch.
+
 ## 10. Current architecture frontier
 
 028-035 adaptive machinery
@@ -145,12 +159,13 @@ A provider success response is not equivalent to external equilibrium.
 039 protocol grounding
 040 reversible state transitions
 041 external-world reconciliation
--> 042 dependency cascade propagation and partial external state
+042 dependency cascade propagation and partial external state
+043 real external read-only runtime transfer
 
 Next unresolved dimensions:
-- multi-system dependency cascades
-- partial external failure
-- dependency cascade propagation
+- authorized reversible mutation
+- real unknown mutation outcome
+- independent provider verification
 - irreversible side effects
 - provider substitution under contract equivalence
 - adversarial world-state reporting
