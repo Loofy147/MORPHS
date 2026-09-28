@@ -1,6 +1,6 @@
 # Experiment lineage
 
-The MORPH research sequence currently contains 041 completed experiments in the local research lineage.
+The MORPH research sequence currently contains 042 completed experiments in the local research lineage.
 
 The sequence evolved through:
 - capability composition and mutation
@@ -24,6 +24,7 @@ The sequence evolved through:
 - protocol grounding
 - reversible adaptation
 - external-world equilibrium
+- dependency cascades and partial failure
 
 Experiments 029-039 are the first native post-import experiments in the MORPHS repository.
 
@@ -41,7 +42,9 @@ Experiment 039 is verified by GitHub Actions run 103.
 
 Experiment 040 is verified by GitHub Actions run 123.
 
-Experiment 041 is the external-world equilibrium frontier; repository-wide CI verification is pending after its addition.
+Experiment 041 is verified by GitHub Actions run 133.
+
+Experiment 042 is the dependency-cascade and partial-failure frontier; repository-wide CI verification is pending after its addition.
 
 The failed runs and fixture repairs preceding the verified burst are preserved as engineering evidence.
 
@@ -58,7 +61,7 @@ Repository policy:
 
 disagreement → diagnose observable source → remain DEFER → independently resolve
 
-The protocol-grounding baseline and reversible-adaptation path are repository-verified. 041 now tests how those rules behave when state and dependencies live outside MORPHS.
+The protocol-grounding, reversible-adaptation, and external-world equilibrium paths are repository-verified. 042 now tests dependency propagation and observable partial external state.
 
 Likely pressure points:
 - extend investigation coverage without turning probes into hidden truth rules
