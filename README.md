@@ -14,13 +14,13 @@ Experiments 033-035 are repository-verified by GitHub Actions run 59.
 
 Experiment 037 established independent verifier diversity and safe DEFER on verifier disagreement.
 
-Experiment 042 is the current native research frontier:
+Experiment 043 is the current native research frontier:
 
-> MORPH can distinguish dependency-blocked external reconciliation from partial external mutation, preserving downstream cascade state and transition evidence rather than collapsing both into a generic failure.
+> MORPH can transfer its capability, authority, provenance, freshness, and independent-postcondition protocol across a real GitHub read-only boundary without treating provider success as world verification.
 
 Epistemic state: EXPERIMENTALLY_SUPPORTED
 
-Scope: deterministic multi-resource external-world reconciliation simulator built on the protocol-grounding, verification, and reversible-state boundaries.
+Scope: real GitHub read-only boundary with captured cross-surface observation plus deterministic protocol regression.
 
 This does not establish unrestricted automated root-cause identification. The audit contract, intervention range, verifier implementations, and protected authority remain supplied by the host.
 
@@ -33,6 +33,7 @@ This does not establish unrestricted automated root-cause identification. The au
 - Experiment 040: GitHub Actions run 123 — verified
 - Experiment 041: GitHub Actions run 133 — verified
 - Experiment 042: GitHub Actions run 148 — verified (compile + pytest + Experiments 028-042 all passed)
+- Experiment 043: GitHub Actions run 157 — verified (compile + pytest + Experiments 028-043 all passed)
 
 ## Development rule
 
@@ -64,6 +65,7 @@ Every material experiment should end in one of:
     python -m morph_core.experiment040
     python -m morph_core.experiment041
     python -m morph_core.experiment042
+    python -m morph_core.experiment043
 
 The full construction and evidence path is documented in docs/RESEARCH_PATHS.md.
 
