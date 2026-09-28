@@ -91,6 +91,8 @@ MORPHS now has a host-specified native protocol baseline in docs/MORPHS_PROTOCOL
 
 040 adds reversible adaptation: promoted versions can be rolled back only with host authority and current revalidation; history is preserved and stale rollback is blocked.
 
+041 adds the external-world boundary: reconciliation is based on fresh observation and dependency satisfaction, not internal memory. Unknown external outcomes require observation before replay.
+
 ## Assembly intent
 
 The project is not currently trying to prove unrestricted self-modification.
