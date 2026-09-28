@@ -24,19 +24,19 @@ This is a transfer experiment, not a claim of unrestricted external orchestratio
 
 Provider: GitHub
 
-Repository: \`Loofy147/MORPHS\`
+Repository: `Loofy147/MORPHS`
 
-Operation: read \`README.md\` at \`main\`
+Operation: read `README.md` at `main`
 
 Primary surface: repository contents
 
 Independent surface: raw content
 
-Authority: \`READ_ONLY\`
+Authority: `READ_ONLY`
 
 Side effects: none
 
-The captured live observation matched across the two surfaces for the same repository/path/ref and was tied to the observed \`main\` commit and README blob identity.
+The captured live observation matched across the two surfaces for the same repository/path/ref and was tied to the observed `main` commit and README blob identity.
 
 ## Deterministic regression cases
 
@@ -48,9 +48,17 @@ The experiment also tests the protocol against three controlled cases:
 
 The second case is the key safety test: a tool/provider response is not accepted as the external postcondition by itself.
 
+## Verification
+
+GitHub Actions run 157 passed.
+
+The CI verification included compile, the full pytest suite, and execution through Experiment 043.
+
+The implementation also preserved an engineering failure: the first 043 CI attempts exposed a self-reference during result construction. The confirmed failure was fixed, and Run 157 passed after the repair.
+
 ## Epistemic status
 
-\`EXPERIMENTALLY_SUPPORTED\`
+`EXPERIMENTALLY_SUPPORTED`
 
 Scope: one real read-only GitHub boundary plus deterministic protocol regression.
 
@@ -86,4 +94,4 @@ The live observation demonstrates the transfer path through a real external surf
 - rollback or compensating action
 - preserved audit lineage
 
-Mutation should remain a separate research step, not be smuggled into 043.
+Mutation remains a separate research step, not an implicit extension of 043.
