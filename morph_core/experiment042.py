@@ -87,12 +87,8 @@ class CascadeReconciliationLab:
             status = WorldStatus.EQUILIBRATED
         elif applied or failed:
             status = WorldStatus.PARTIAL
-        elif blocked and len(actions) == 0:
-            status = WorldStatus.BLOCKED
-        elif blocked and all(a.endswith(":BLOCKED") for a in actions):
-            status = WorldStatus.BLOCKED
         elif blocked:
-            status = WorldStatus.PARTIAL
+            status = WorldStatus.BLOCKED
         else:
             status = WorldStatus.BLOCKED
         return {"before": before, "actions": actions, "after": after, "status": status.value, "events": list(world.events)}
@@ -162,8 +158,10 @@ class CascadeReconciliationLab:
         }
         result["assertions"] = {
             "healthy_converges": healthy_result["status"] == WorldStatus.EQUILIBRATED.value,
-            "cascade_is_blocked": cascade_result["status"] == WorldStatus.BLOCKED.value,
+            "cascade_is_partial_globally": cascade_result["status"] == WorldStatus.PARTIAL.value,
             "cascade_blocks_api_and_app": all(x in cascade_result["actions"] for x in ("api:BLOCKED", "app:BLOCKED")),
+            "cascade_preserves_independent_cache_progress": cascade_result["after"]["versions"]["cache"] == "cache-v2",
+            "cascade_is_not_equilibrated": cascade_result["after"]["converged"] is False,
             "partial_failure_is_distinct": partial_result["status"] == WorldStatus.PARTIAL.value,
             "partial_state_is_observable": partial_result["after"]["versions"]["db"] == "db-v2" and partial_result["after"]["versions"]["api"] == "api-v2" and partial_result["after"]["versions"]["app"] == "app-v1",
             "partial_failure_preserves_events": "app:FAILED_EXTERNAL" in partial_result["events"],
