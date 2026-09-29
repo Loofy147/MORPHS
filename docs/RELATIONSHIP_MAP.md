@@ -43,26 +43,15 @@ propose -> verify -> promote -> active state -> revalidate -> rollback or block 
 
 041: external-world equilibrium
 042: dependency cascades and partial external failure
-043: real external read-only runtime transfer
-043b: authorized reversible mutation on an isolated real provider boundary
+043: read-only protocol transfer model + host-captured external observation
+043b: mutation protocol hardening + host-captured reversible canary
 
-The external reconciliation path now has four scales:
+The external path now has a strict evidence separation:
 
-deterministic world
--> dependency-aware world
--> real provider observation
--> real reversible provider mutation
-
-For the mutation boundary, the verified relationship is:
-
-pre-read
--> authority check
--> idempotency check
--> mutate
--> independent post-read
--> rollback preflight
--> rollback
--> revalidate
+deterministic protocol evidence
+-> host-captured external evidence
+-> MORPHS runtime integration (OPEN)
+-> independent provider verification (OPEN)
 
 ## 3. Relationship types
 
@@ -93,6 +82,10 @@ Example: v2 -> parent v1.
 RECONCILIATION DEPENDENCY
 The plan must be regenerated when observed external state differs from expected state.
 Example: desired != observed -> replan.
+
+IDENTITY DEPENDENCY
+Semantic state labels are insufficient when external content identity can change.
+Example: same logical state + different blob -> DEFER.
 
 ## 4. External-world model
 
@@ -146,7 +139,9 @@ Possible classification:
 - partially applied
 - unresolved
 
-043b verifies this containment deterministically. The live mutation returned a concrete provider response, so no live ambiguous network outcome is claimed.
+043b now requires both semantic state and content identity to resolve the known/unknown branch safely.
+
+A live ambiguous provider outcome remains OPEN.
 
 ## 9. Verification relation
 
@@ -156,9 +151,9 @@ intent -> action -> provider result -> independent read -> postcondition -> depe
 
 A provider success response is not equivalent to external equilibrium.
 
-043 demonstrates this relation on a read-only real provider boundary.
+043 demonstrates the deterministic protocol semantics plus a host-captured read observation. It does not establish MORPHS runtime invocation or provider-independent verification.
 
-043b demonstrates the mutation branch on a single reversible text-file canary and verifies rollback by independent read and final blob identity.
+043b demonstrates the hardened mutation protocol and preserves the host-captured canary mutation/compensation sequence. It does not establish MORPHS runtime invocation.
 
 ## 10. Current architecture frontier
 
@@ -168,11 +163,13 @@ A provider success response is not equivalent to external equilibrium.
 040 reversible state transitions
 041 external-world reconciliation
 042 dependency cascade propagation and partial external state
-043 real external read-only runtime transfer
-043b authorized reversible mutation on an isolated real provider boundary
+043 read-only external protocol boundary
+043b mutation protocol integrity + host-captured reversible canary
 
 Next unresolved dimensions:
-- provider-independent mutation verification
+- MORPHS runtime -> provider adapter execution
+- durable invocation receipts
+- provider-independent verification
 - real ambiguous mutation outcomes
 - irreversible side effects
 - provider substitution under contract equivalence
