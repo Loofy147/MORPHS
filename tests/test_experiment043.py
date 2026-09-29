@@ -117,3 +117,8 @@ def test_capability_rejects_side_effects():
 
 def test_deterministic():
     assert run_experiment043() == run_experiment043()
+
+
+def test_runtime_integration_is_explicitly_open():
+    result = run_experiment043()
+    assert result["runtime_integration"]["status"] == "OPEN"
