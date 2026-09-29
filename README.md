@@ -14,27 +14,29 @@ Experiments 033-035 are repository-verified by GitHub Actions run 59.
 
 Experiment 037 established independent verifier diversity and safe DEFER on verifier disagreement.
 
-Experiment 043b is the current native research frontier:
+Experiment 043b is the current research frontier for the external-mutation protocol:
 
-> MORPH can execute a narrowly authorized reversible mutation on a real GitHub boundary, verify the postcondition independently, contain unknown outcomes, and roll back only when the external state still matches the expected mutated state.
+> The deterministic MORPHS mutation protocol requires exact state/content identity, capability-bound authorization, independent postcondition verification, unknown-outcome containment, and rollback revalidation.
 
 Epistemic state: EXPERIMENTALLY_SUPPORTED
 
-Scope: one reversible text-file mutation on a dedicated GitHub branch plus deterministic protocol regressions.
+Scope: deterministic mutation protocol model. A separate host-side GitHub canary mutation and rollback is recorded as external evidence.
 
-This does not establish unrestricted automated root-cause identification, arbitrary external mutation safety, irreversible side-effect safety, distributed transaction semantics, or provider-independent mutation verification.
+The current repository evidence does NOT establish that the MORPHS runtime itself invoked GitHub mutation.
 
 ### Verification status
 
 - Experiment 036: GitHub Actions run 68 — verified
 - Experiment 037: GitHub Actions run 75 — verified
-- Experiment 038: GitHub Actions run 88 — verified (local compile + 7 tests also passed)
-- Experiment 039: GitHub Actions run 103 — verified (compile + pytest + Experiments 028-039 all passed)
-- Experiment 040: GitHub Actions run 123 — verified
-- Experiment 041: GitHub Actions run 133 — verified
-- Experiment 042: GitHub Actions run 148 — verified (compile + pytest + Experiments 028-042 all passed)
-- Experiment 043: GitHub Actions run 157 — verified (compile + pytest + Experiments 028-043 all passed)
-- Experiment 043b: GitHub Actions run 164 — verified (compile + pytest + Experiments 028-043b all passed on the verified experiment branch head)
+- Experiment 038: GitHub Actions run 88 — verified
+- Experiment 039: repository-verified protocol grounding
+- Experiment 040: repository-verified reversible adaptation
+- Experiment 041: repository-verified external-world equilibrium
+- Experiment 042: GitHub Actions run 148 — verified
+- Experiment 043: revalidation pending after evidence-boundary hardening
+- Experiment 043b: revalidation pending after adversarial identity/authority hardening
+
+Prior green CI runs remain historical evidence; they do not certify the newly modified HEAD until the new HEAD passes.
 
 ## Development rule
 
