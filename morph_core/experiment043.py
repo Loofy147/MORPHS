@@ -63,7 +63,11 @@ class TransferResult:
 
 
 class ExternalRuntimeTransfer:
-    """Host-bounded read-only transfer protocol for a real provider boundary."""
+    """Protocol model for a read-only external boundary.
+
+    The deterministic experiment does not invoke GitHub itself. Any live
+    provider observation is captured and recorded separately as host evidence.
+    """
 
     def __init__(
         self,
@@ -178,9 +182,6 @@ class ExternalRuntimeTransfer:
 
 def run_experiment043() -> dict[str, object]:
     fixed_now = datetime(2026, 9, 28, 8, 30, tzinfo=timezone.utc)
-    commit_sha = "30bc9deec90f5ae1310fde4aac9e780a363829f8"
-    blob_sha = "dcc769dfd7de612db827393bf82c56a61b29e47c"
-    live_digest = "3dfd5c5c5b66afbd76ec9fe7cb22216f5f36d071d0a4119564c2ec4b14ba391d"
 
     capability = CapabilityDescriptor(
         capability_id="github.repository.read_file",
@@ -200,8 +201,8 @@ def run_experiment043() -> dict[str, object]:
             repository="Loofy147/MORPHS",
             path="README.md",
             ref="main",
-            commit_sha=commit_sha,
-            blob_sha=blob_sha,
+            commit_sha="captured-commit",
+            blob_sha="captured-blob",
             content="captured-readme",
             observed_at=fixed_now,
         )
@@ -249,28 +250,17 @@ def run_experiment043() -> dict[str, object]:
     result = {
         "experiment": "043_real_external_runtime_transfer",
         "claim_state": ClaimState.EXPERIMENTALLY_SUPPORTED.value,
-        "scope": "real GitHub read-only boundary with captured cross-surface observation; deterministic protocol regression in CI",
-        "question": "Can MORPHS transfer its capability, authority, provenance, freshness, and postcondition protocol across a real external provider boundary without treating provider success as world verification?",
+        "scope": "deterministic read-only external-boundary protocol model; host-captured GitHub observation recorded separately",
+        "runtime_integration": {
+            "status": "OPEN",
+            "reason": "run_experiment043 does not invoke GitHub. The live read observation was captured by host-side tooling and is not used as runtime evidence by this module.",
+        },
+        "question": "Can the read-only protocol require explicit capability, authority, provenance, freshness, cross-surface binding, and postcondition verification?",
         "protocol": "DISCOVER -> CLASSIFY -> BIND -> AUTHORIZE -> EXECUTE -> OBSERVE -> INDEPENDENT_READ -> VERIFY_POSTCONDITION -> RECORD",
         "cases": {
             "clean_transfer": clean_result.__dict__,
             "provider_result_disagrees_with_independent_observation": mismatch_result.__dict__,
             "stale_observation": stale_result.__dict__,
-        },
-        "live_evidence": {
-            "provider": "github",
-            "surface_primary": "repository contents",
-            "surface_independent": "raw content",
-            "repository": "Loofy147/MORPHS",
-            "path": "README.md",
-            "ref": "main",
-            "commit_sha": commit_sha,
-            "blob_sha": blob_sha,
-            "observed_content_sha256": live_digest,
-            "primary_and_independent_content_match": True,
-            "authority": "READ_ONLY",
-            "side_effects": [],
-            "captured_at": "2026-09-28T08:38:11Z",
         },
         "assertions": {
             "capability_is_explicit": clean_result.provenance_complete,
@@ -279,23 +269,11 @@ def run_experiment043() -> dict[str, object]:
             "independent_postcondition_required": mismatch_result.verification == VerificationState.DEFER.value,
             "mismatch_is_not_collapsed_to_success": mismatch_result.reason == "provider result did not satisfy independent postcondition",
             "freshness_is_enforced": stale_result.verification == VerificationState.DEFER.value,
-            "live_capture_record_is_complete": all(
-                (
-                    commit_sha,
-                    blob_sha,
-                    live_digest,
-                    "github",
-                    "Loofy147/MORPHS",
-                    "README.md",
-                    "main",
-                    "2026-09-28T08:38:11Z",
-                )
-            ),
+            "runtime_integration_is_not_overclaimed": result["runtime_integration"]["status"] == "OPEN",
             "deterministic": True,
         },
-        "limitation": "The live evidence covers a read-only GitHub boundary. Both verification surfaces are operated through GitHub, so this is not yet provider-independent verification, does not test mutation, unknown mutation outcomes, irreversible effects, or real rollback.",
-        "next_boundary": "043b: authorized reversible mutation with independent postcondition and explicit unknown-outcome containment",
-        "challenge": "MORPH: a real tool boundary is evidence of transfer, not evidence of unrestricted orchestration. Bind the capability, constrain authority, verify the external postcondition independently, preserve provenance, and DEFER on disagreement or staleness.",
+        "limitation": "This experiment verifies protocol semantics only. The live GitHub read evidence is host-captured and same-provider across two GitHub surfaces, so it does not establish MORPHS runtime integration or provider-independent verification.",
+        "next_boundary": "043b: authorized reversible mutation protocol with separate host-captured live evidence",
     }
     assert all(result["assertions"].values()), result["assertions"]
     return result
