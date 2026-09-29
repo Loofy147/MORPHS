@@ -1,97 +1,69 @@
 # Experiment 043 — Real External Runtime Transfer
 
-## Research question
+## Corrected research question
 
-Can MORPHS transfer its capability, authority, provenance, freshness, and independent-postcondition protocol across a real external provider boundary without treating provider success as world verification?
+Can the read-only protocol require explicit capability, authority, provenance, freshness, cross-surface binding, and independent postcondition verification across an external boundary?
 
-## Why this experiment exists
+## Critical epistemic boundary
 
-042 established dependency cascades and partial state in a deterministic external-world model.
+043 has two distinct evidence surfaces:
 
-043 is deliberately narrower. It crosses a **real provider boundary** using a read-only GitHub observation and checks whether the protocol survives the boundary:
+1. A deterministic MORPHS protocol model executed by CI.
+2. A host-captured GitHub read observation.
 
-discover capability
--> classify authority
--> bind resource
--> execute read
--> independently observe
--> verify postcondition
--> record provenance and freshness
+The second is real external evidence, but the 043 experiment module does not invoke GitHub.
 
-This is a transfer experiment, not a claim of unrestricted external orchestration.
+Therefore:
 
-## Live boundary
+- deterministic protocol semantics: EXPERIMENTALLY_SUPPORTED
+- MORPHS runtime integration with GitHub read: OPEN
+- provider-independent verification: OPEN
 
-Provider: GitHub
+## Protocol
 
-Repository: `Loofy147/MORPHS`
+DISCOVER -> CLASSIFY -> BIND -> AUTHORIZE -> EXECUTE -> OBSERVE -> INDEPENDENT_READ -> VERIFY_POSTCONDITION -> RECORD
 
-Operation: read `README.md` at `main`
+The model protects:
 
-Primary surface: repository contents
+- explicit capability descriptor
+- read-only authority
+- provenance
+- freshness
+- repository/path/ref binding
+- independent postcondition requirement
+- DEFER on disagreement or stale evidence
 
-Independent surface: raw content
+## Host-captured live observation
 
-Authority: `READ_ONLY`
+A real GitHub read was captured separately using two GitHub surfaces:
 
-Side effects: none
+- repository contents
+- raw content
 
-The captured live observation matched across the two surfaces for the same repository/path/ref and was tied to the observed `main` commit and README blob identity.
+They matched for the same repository/path/ref and were tied to the recorded commit/blob identity.
 
-## Deterministic regression cases
+This is evidence about the external provider boundary.
 
-The experiment also tests the protocol against three controlled cases:
+It is not evidence that the MORPHS runtime invoked GitHub.
 
-1. Clean transfer -> VERIFIED.
-2. Provider output differs from the independent observation -> DEFER.
-3. Observation exceeds the freshness budget -> DEFER.
+## What 043 establishes
 
-The second case is the key safety test: a tool/provider response is not accepted as the external postcondition by itself.
+EXPERIMENTALLY_SUPPORTED, within the deterministic protocol-model scope.
 
-## Verification
+## What 043 does not establish
 
-GitHub Actions run 157 passed.
-
-The CI verification included compile, the full pytest suite, and execution through Experiment 043.
-
-The implementation also preserved an engineering failure: the first 043 CI attempts exposed a self-reference during result construction. The confirmed failure was fixed, and Run 157 passed after the repair.
-
-## Epistemic status
-
-`EXPERIMENTALLY_SUPPORTED`
-
-Scope: one real read-only GitHub boundary plus deterministic protocol regression.
-
-## What this does NOT establish
-
+- MORPHS runtime -> GitHub adapter execution
 - provider-independent verification
 - external mutation safety
-- unknown mutation outcome handling in a real provider
+- unknown mutation outcome handling in a live provider
 - irreversible-effect safety
-- distributed transaction semantics
-- real rollback correctness
+- real rollback
 - provider substitution under contract equivalence
-- adversarial external state reporting
 
-Those remain OPEN.
+These remain OPEN.
 
-## Preserved design rule
+## Preserved audit rule
 
-**Capability exists -> addressable -> invoked -> succeeded -> independently observed -> postcondition verified.**
+A live observation may support a claim only at its actual execution surface.
 
-The live observation demonstrates the transfer path through a real external surface. The deterministic cases protect the more important rule: external success is never silently upgraded into equilibrium.
-
-## Next boundary
-
-043b should test a narrowly scoped **authorized reversible mutation** with:
-
-- explicit mutation authority
-- pre-read
-- idempotency check
-- mutation
-- independent post-read
-- unknown-outcome containment
-- rollback or compensating action
-- preserved audit lineage
-
-Mutation remains a separate research step, not an implicit extension of 043.
+CI success for a deterministic simulator cannot silently upgrade a host-side observation into MORPHS runtime evidence.
