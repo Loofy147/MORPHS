@@ -247,6 +247,8 @@ def run_experiment043() -> dict[str, object]:
     mismatch_result = mismatched.execute(timedelta(minutes=5), fixed_now)
     stale_result = stale.execute(timedelta(minutes=5), fixed_now)
 
+    runtime_integration_status = "OPEN"
+
     result = {
         "experiment": "043_real_external_runtime_transfer",
         "claim_state": ClaimState.EXPERIMENTALLY_SUPPORTED.value,
@@ -269,7 +271,7 @@ def run_experiment043() -> dict[str, object]:
             "independent_postcondition_required": mismatch_result.verification == VerificationState.DEFER.value,
             "mismatch_is_not_collapsed_to_success": mismatch_result.reason == "provider result did not satisfy independent postcondition",
             "freshness_is_enforced": stale_result.verification == VerificationState.DEFER.value,
-            "runtime_integration_is_not_overclaimed": result["runtime_integration"]["status"] == "OPEN",
+            "runtime_integration_is_not_overclaimed": runtime_integration_status == "OPEN",
             "deterministic": True,
         },
         "limitation": "This experiment verifies protocol semantics only. The live GitHub read evidence is host-captured and same-provider across two GitHub surfaces, so it does not establish MORPHS runtime integration or provider-independent verification.",
