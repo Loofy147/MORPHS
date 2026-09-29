@@ -1,8 +1,13 @@
 {
   "experiment": "043_real_external_runtime_transfer",
   "claim_state": "EXPERIMENTALLY_SUPPORTED",
-  "scope": "real GitHub read-only boundary with captured cross-surface observation; deterministic protocol regression in CI",
-  "live_evidence": {
+  "scope": "deterministic read-only external-boundary protocol model; host-captured GitHub observation recorded separately",
+  "runtime_integration": {
+    "status": "OPEN",
+    "reason": "The experiment module does not invoke GitHub. The live observation was captured by host-side tooling and is recorded as external evidence only."
+  },
+  "host_captured_live_evidence": {
+    "evidence_origin": "HOST_CAPTURED_EXTERNAL",
     "provider": "github",
     "surface_primary": "repository contents",
     "surface_independent": "raw content",
@@ -13,45 +18,20 @@
     "blob_sha": "dcc769dfd7de612db827393bf82c56a61b29e47c",
     "observed_content_sha256": "3dfd5c5c5b66afbd76ec9fe7cb22216f5f36d071d0a4119564c2ec4b14ba391d",
     "primary_and_independent_content_match": true,
-    "authority": "READ_ONLY",
-    "side_effects": [],
+    "provider_independence": "NOT_ESTABLISHED",
     "captured_at": "2026-09-28T08:38:11Z"
   },
   "verification": {
-    "github_actions": "success",
-    "workflow_run_id": 36398745132,
-    "job_id": 108851288415,
-    "commit_sha": "cd2e250a2e057ede926dfb8bffb610b17e7dcd31"
-  },
-  "failure_history": {
-    "initial_ci_failures": [
-      {
-        "run_number": 154,
-        "classification": "IMPLEMENTATION_FAILURE",
-        "status": "failure"
-      },
-      {
-        "run_number": 155,
-        "classification": "IMPLEMENTATION_FAILURE",
-        "status": "failure"
-      }
-    ],
-    "confirmed_failure": {
-      "run_number": 156,
-      "workflow_run_id": 36398690335,
-      "job_id": 108851106427,
-      "classification": "IMPLEMENTATION_FAILURE",
-      "cause": "run_experiment043 constructed its assertions dictionary while referencing result before result was assigned",
-      "repair": "replace self-reference with explicit live-capture fields",
-      "revalidation_run_number": 157
-    }
+    "github_actions": "revalidation_pending_after_audit_hardening",
+    "prior_full_regression_run": 168,
+    "prior_full_regression_status": "success"
   },
   "limitations": [
-    "read-only external boundary only",
-    "same-provider cross-surface verification, not provider-independent verification",
-    "no real mutation",
-    "no irreversible side effects",
+    "deterministic protocol model only",
+    "host-side live observation rather than MORPHS runtime invocation",
+    "same-provider cross-surface verification",
+    "no mutation",
     "no real unknown mutation outcome",
-    "no real rollback"
+    "no rollback"
   ]
 }
