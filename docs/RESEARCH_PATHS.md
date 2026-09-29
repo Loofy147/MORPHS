@@ -221,7 +221,7 @@ These are branches of one construction, not separate projects.
 - 040: verified reversible adaptation
 - 041: verified deterministic external-world equilibrium
 - 042: verified dependency cascades and partial external failure
-- 043: protocol verified; host-captured live read evidence recorded; MORPHS runtime integration OPEN
-- 043b: protocol hardening in progress; live host canary preserved; MORPHS runtime integration OPEN
+- 043: corrected protocol boundary; host-captured live read evidence recorded; runtime integration OPEN
+- 043b: corrected protocol identity/authority boundary; host-captured live canary preserved; runtime integration OPEN
 
-The next decision point is 043c: establish runtime adapter execution and durable evidence binding before expanding external side effects.
+The current main HEAD must pass the full 028-043b workflow before these corrected claims are treated as revalidated.

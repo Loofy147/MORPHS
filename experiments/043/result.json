@@ -22,9 +22,9 @@
     "captured_at": "2026-09-28T08:38:11Z"
   },
   "verification": {
-    "github_actions": "revalidation_pending_after_audit_hardening",
-    "prior_full_regression_run": 168,
-    "prior_full_regression_status": "success"
+    "source_of_truth": "GitHub Actions on the current main HEAD",
+    "historical_full_regression_run": 168,
+    "current_head_status": "MUST_BE_GREEN_BEFORE_PROMOTION"
   },
   "limitations": [
     "deterministic protocol model only",

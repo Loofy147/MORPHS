@@ -3,9 +3,9 @@
   "claim_state": "EXPERIMENTALLY_SUPPORTED",
   "scope": "deterministic reversible-mutation protocol model; host-captured live canary evidence recorded separately",
   "verification": {
-    "github_actions": "revalidation_pending_after_hardening",
-    "prior_full_regression_run": 168,
-    "prior_full_regression_status": "success",
+    "source_of_truth": "GitHub Actions on the current main HEAD",
+    "historical_full_regression_run": 168,
+    "current_head_status": "MUST_BE_GREEN_BEFORE_PROMOTION",
     "note": "The live GitHub canary was executed through host-side GitHub tooling. The MORPHS experiment module did not invoke GitHub for that mutation."
   },
   "deterministic_protocol_evidence": {

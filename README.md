@@ -10,33 +10,28 @@ Conversation notes and generated snapshots are not authoritative.
 
 ## Current boundary
 
-Experiments 033-035 are repository-verified by GitHub Actions run 59.
+Experiments 033-035 are historical repository experiments.
 
-Experiment 037 established independent verifier diversity and safe DEFER on verifier disagreement.
-
-Experiment 043b is the current research frontier for the external-mutation protocol:
+The current external-mutation frontier is 043b:
 
 > The deterministic MORPHS mutation protocol requires exact state/content identity, capability-bound authorization, independent postcondition verification, unknown-outcome containment, and rollback revalidation.
 
-Epistemic state: EXPERIMENTALLY_SUPPORTED
+Epistemic state: EXPERIMENTALLY_SUPPORTED for the deterministic protocol scope.
 
-Scope: deterministic mutation protocol model. A separate host-side GitHub canary mutation and rollback is recorded as external evidence.
+A separate host-side GitHub canary mutation and rollback is recorded as HOST_CAPTURED_EXTERNAL evidence.
 
 The current repository evidence does NOT establish that the MORPHS runtime itself invoked GitHub mutation.
 
 ### Verification status
 
-- Experiment 036: GitHub Actions run 68 — verified
-- Experiment 037: GitHub Actions run 75 — verified
-- Experiment 038: GitHub Actions run 88 — verified
-- Experiment 039: repository-verified protocol grounding
-- Experiment 040: repository-verified reversible adaptation
-- Experiment 041: repository-verified external-world equilibrium
-- Experiment 042: GitHub Actions run 148 — verified
-- Experiment 043: revalidation pending after evidence-boundary hardening
-- Experiment 043b: revalidation pending after adversarial identity/authority hardening
+The authoritative verification source is GitHub Actions on the current main HEAD.
 
-Prior green CI runs remain historical evidence; they do not certify the newly modified HEAD until the new HEAD passes.
+Historical runs remain evidence of prior states:
+- Experiment 042: run 148
+- Experiment 043: prior full-regression run 168
+- Experiment 043b: prior full-regression run 168
+
+After the audit corrections, the current main HEAD must pass the full 028-043b workflow before the corrected claims are considered revalidated.
 
 ## Development rule
 

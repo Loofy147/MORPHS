@@ -144,12 +144,29 @@ Every material claim SHOULD carry:
 - scope
 - provenance
 - evidence
+- evidence_origin
+- execution_surface
+- runtime_receipt
 - dependencies
 - observed_at
 - freshness
 - limitations
 - unknowns
 - verification
+
+Allowed evidence origins SHOULD distinguish at least:
+- HOST_SPECIFIED
+- DETERMINISTIC_SIMULATION
+- HOST_CAPTURED_EXTERNAL
+- RUNTIME_OBSERVED
+- CI_VERIFIED
+
+Critical separation:
+HOST_CAPTURED_EXTERNAL != RUNTIME_OBSERVED.
+
+A runtime claim requires a runtime invocation receipt bound to the capability, target, result, and postcondition. A host-captured observation may inform research, but must not be promoted into runtime evidence without that binding.
+
+CI_VERIFIED certifies the executed repository path at the verified commit; it does not by itself certify an external live observation.
 
 Conversation repetition is not durable evidence.
 
@@ -290,6 +307,8 @@ Any durable adaptive change SHOULD expose:
 
 Rollback is a new state transition, not deletion of history.
 
+An external "rollback" may be a compensating mutation rather than a transaction rollback. That distinction MUST remain explicit.
+
 Full rollback correctness remains an OPEN research boundary.
 
 ## 17. Cross-Surface Protocol
@@ -356,6 +375,10 @@ MORPHS MUST reject:
 - documentation → runtime evidence
 - tool exists → capability demonstrated
 - tool success → postcondition verified
+- host-captured external evidence → MORPHS runtime evidence
+- CI green → external live-world proof
+- state label → content identity when the resource is content-addressed
+- same-provider cross-surface read → provider-independent verification
 - conversation → durable evidence
 - retry → recovery
 - different provider → valid substitution
