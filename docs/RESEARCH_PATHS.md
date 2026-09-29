@@ -112,13 +112,11 @@ failure
 → rerun regression
 → record changed interpretation
 
-Example from 043:
-the first implementation attempts exposed a result-construction self-reference in the experiment entry point. The confirmed CI failure was preserved in the result record, the implementation was repaired, and the full regression passed in Run 157.
+043 exposed an epistemic-boundary failure: host-captured live evidence had been embedded too close to deterministic runtime assertions. The claim was narrowed so that host evidence and MORPHS runtime evidence are explicitly separated.
 
-Example from 043b:
-the live mutation itself completed with a concrete provider response; no ambiguous network outcome was induced. Unknown-outcome handling was therefore tested as a deterministic containment path rather than falsely labelled as live evidence.
+043b exposed a protocol-integrity failure: state labels were treated as sufficient identity while blob identity was stored but not enforced. Adversarial reproduction produced four false-positive paths. The protocol now requires exact state + content identity.
 
-This is part of the research evidence, not noise to remove.
+These failures are part of the research evidence, not noise to remove.
 
 ## 7. Authority graph
 
@@ -150,13 +148,13 @@ The present lineage does not establish:
 - unrestricted self-rewriting of verifier semantics
 - semantic independence of arbitrary verifier implementations
 - unrestricted automated root-cause identification
-- safe external side effects without a host authorization layer
-- rollback correctness for irreversible changes
-- resilience against adversarial corruption of verifier inputs or investigation traces
-- provider-independent verification of external world state
+- MORPHS runtime execution of the live GitHub mutation tested manually in 043b
+- provider-independent mutation verification
 - real ambiguous mutation outcomes
 - irreversible mutation safety
 - distributed transaction semantics
+- resilience against adversarial corruption of verifier inputs or investigation traces
+- provider substitution under contract equivalence
 
 These remain OPEN boundaries unless later experiments produce stronger evidence.
 
@@ -176,37 +174,34 @@ without corrupting lineage or audit history.
 
 042 extends it to dependency cascades and partial external state.
 
-043 crosses a real GitHub provider boundary in read-only mode:
+043 verifies the read-only protocol model while separately recording a host-captured GitHub observation. It does not establish MORPHS runtime integration.
 
-discover
-→ classify
-→ bind
-→ authorize
-→ execute
-→ observe
-→ independently observe
-→ verify postcondition
-→ record provenance and freshness
-
-043b extends the path one step further with a narrowly scoped real mutation on an isolated branch:
+043b hardens the mutation protocol itself:
 
 pre-read
-→ authority check
-→ idempotency check
-→ explicit mutation
+→ capability-bound authority
+→ exact state/content identity check
+→ mutation
 → independent post-read
 → rollback preflight
 → rollback
-→ revalidate
+→ exact target revalidation
 
-The live mutation and rollback were both independently observed, and the final blob identity matched the original baseline.
+A host-executed live GitHub canary demonstrated a real mutation and compensating rollback, but this remains HOST_CAPTURED_EXTERNAL evidence rather than MORPHS runtime evidence.
 
-### Path E-next — verification independence and controlled uncertainty
+### Path E-next — runtime adapter and verification independence
 
-Before any broader external side effects, the next research step should strengthen one or both of:
+The next research step is not broader mutation.
 
-- provider-independent verification
-- controlled unknown-outcome injection at the adapter boundary
+It is:
+
+provider-adapter execution
+→ durable invocation receipt
+→ independent observation
+→ receipt/postcondition binding
+→ explicit runtime evidence classification
+
+After that, controlled unknown-outcome injection can be tested.
 
 ### Path F — adversarial verification pressure
 
@@ -222,11 +217,11 @@ These are branches of one construction, not separate projects.
 
 ## 10. Current research state
 
-- 039: verified — protocol grounding
-- 040: verified — reversible adaptation
-- 041: verified — external-world equilibrium
-- 042: verified — dependency cascades and partial external failure
-- 043: verified — real external read-only runtime transfer
-- 043b: verified — authorized reversible mutation on an isolated real provider boundary
+- 039: verified protocol grounding
+- 040: verified reversible adaptation
+- 041: verified deterministic external-world equilibrium
+- 042: verified dependency cascades and partial external failure
+- 043: protocol verified; host-captured live read evidence recorded; MORPHS runtime integration OPEN
+- 043b: protocol hardening in progress; live host canary preserved; MORPHS runtime integration OPEN
 
-The next decision point is 043c, focused on verification independence or controlled unknown-outcome handling before expanding mutation scope.
+The next decision point is 043c: establish runtime adapter execution and durable evidence binding before expanding external side effects.
