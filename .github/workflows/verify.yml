@@ -53,3 +53,5 @@ jobs:
         run: python -m morph_core.experiment043
       - name: Run Experiment 043b
         run: python -m morph_core.experiment043b
+      - name: Run Experiment 043c
+        run: python -m morph_core.experiment043c
