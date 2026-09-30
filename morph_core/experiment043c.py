@@ -44,6 +44,11 @@ class InvocationReceipt:
     provider_request_id: str
     response_etag: str
     response_sha256: str
+    ref_requested: str
+    ref_resolved_commit: str
+    ref_resolution_url: str
+    ref_resolution_status: int
+    ref_resolution_request_id: str
 
 
 @dataclass(frozen=True)
@@ -76,6 +81,11 @@ def receipt_payload(receipt: InvocationReceipt) -> dict[str, object]:
         "provider_request_id": receipt.provider_request_id,
         "response_etag": receipt.response_etag,
         "response_sha256": receipt.response_sha256,
+        "ref_requested": receipt.ref_requested,
+        "ref_resolved_commit": receipt.ref_resolved_commit,
+        "ref_resolution_url": receipt.ref_resolution_url,
+        "ref_resolution_status": receipt.ref_resolution_status,
+        "ref_resolution_request_id": receipt.ref_resolution_request_id,
     }
 
 
@@ -97,6 +107,10 @@ def receipt_integrity_ok(receipt: InvocationReceipt) -> bool:
             receipt.status == 200,
             receipt.observed_at,
             receipt.response_sha256,
+            receipt.ref_requested,
+            receipt.ref_resolved_commit,
+            receipt.ref_resolution_url,
+            receipt.ref_resolution_status == 200,
         )
     )
 
@@ -167,18 +181,36 @@ class GitHubRuntimeAdapter:
 
         encoded_path = quote(self.path, safe="/")
         encoded_ref = quote(self.ref, safe="")
-        api_url = (
-            f"https://api.github.com/repos/{self.repository}/contents/"
-            f"{encoded_path}?ref={encoded_ref}"
-        )
-        raw_url = (
-            f"https://raw.githubusercontent.com/{self.repository}/"
-            f"{encoded_ref}/{encoded_path}"
-        )
         headers = {
             "Accept": "application/vnd.github+json",
             "User-Agent": "MORPHS-043c",
         }
+
+        ref_resolution_url = (
+            f"https://api.github.com/repos/{self.repository}/commits/"
+            f"{encoded_ref}"
+        )
+        ref_resolution = self.transport(ref_resolution_url, headers)
+        if ref_resolution.status != 200:
+            raise RuntimeError(
+                "GitHub ref resolution returned "
+                f"status {ref_resolution.status}"
+            )
+        ref_payload = json.loads(
+            ref_resolution.body.decode("utf-8")
+        )
+        resolved_commit = str(ref_payload["sha"])
+        if not resolved_commit:
+            raise RuntimeError("GitHub ref resolution returned no commit SHA")
+
+        api_url = (
+            f"https://api.github.com/repos/{self.repository}/contents/"
+            f"{encoded_path}?ref={quote(resolved_commit, safe='')}"
+        )
+        raw_url = (
+            f"https://raw.githubusercontent.com/{self.repository}/"
+            f"{quote(resolved_commit, safe='')}/{encoded_path}"
+        )
 
         api = self.transport(api_url, headers)
         if api.status != 200:
@@ -218,9 +250,20 @@ class GitHubRuntimeAdapter:
             url=api_url,
             status=api.status,
             observed_at=api.observed_at,
-            provider_request_id=api.headers.get("x-github-request-id", ""),
+            provider_request_id=api.headers.get(
+                "x-github-request-id",
+                "",
+            ),
             response_etag=api.headers.get("etag", ""),
             response_sha256=sha256_hex(api.body),
+            ref_requested=self.ref,
+            ref_resolved_commit=resolved_commit,
+            ref_resolution_url=ref_resolution_url,
+            ref_resolution_status=ref_resolution.status,
+            ref_resolution_request_id=ref_resolution.headers.get(
+                "x-github-request-id",
+                "",
+            ),
         )
         receipt = InvocationReceipt(
             invocation_id=hashlib.sha256(
@@ -248,15 +291,31 @@ def verify_runtime(
 
     binding_match = (
         adapter.repository in receipt.url
-        and f"/{quote(adapter.path, safe='/')}?ref={quote(adapter.ref, safe='')}"
+        and f"?ref={quote(receipt.ref_resolved_commit, safe='')}"
         in receipt.url
+        and (
+            f"/{quote(receipt.ref_resolved_commit, safe='')}/"
+            f"{quote(adapter.path, safe='/')}"
+        )
+        in (
+            f"https://raw.githubusercontent.com/{adapter.repository}/"
+            f"{quote(receipt.ref_resolved_commit, safe='')}/"
+            f"{quote(adapter.path, safe='/')}"
+        )
+        and receipt.ref_resolved_commit
+        and receipt.ref_requested == adapter.ref
+        and receipt.ref_resolution_url.endswith(
+            f"/commits/{quote(adapter.ref, safe='')}"
+        )
         and capability.identity_scope
         == f"{adapter.repository}@{adapter.ref}:{adapter.path}"
     )
 
     if not content_match:
         status = "DEFER"
-        reason = "contents API and raw surface disagree"
+        reason = (
+            "contents API and raw surface disagree at the same resolved commit"
+        )
     elif not blob_identity_match:
         status = "DEFER"
         reason = "provider blob identity does not match observed content"
@@ -265,12 +324,12 @@ def verify_runtime(
         reason = "invocation receipt is incomplete or tampered"
     elif not binding_match:
         status = "DEFER"
-        reason = "receipt is not bound to requested repository/path/ref"
+        reason = "receipt is not bound to requested resource and resolved commit"
     else:
         status = "VERIFIED"
         reason = (
-            "runtime provider invocation, receipt integrity, independent raw "
-            "read, and Git blob identity all agree"
+            "runtime provider invocation, hash-bound receipt, same-commit "
+            "independent read, and Git blob identity all agree"
         )
 
     return (
@@ -287,6 +346,7 @@ def verify_runtime(
             "repository": adapter.repository,
             "path": adapter.path,
             "ref": adapter.ref,
+            "resolved_commit": receipt.ref_resolved_commit,
             "provider_blob_sha": provider_blob_sha,
             "computed_git_blob_sha": computed_blob_sha,
             "contents_sha256": sha256_hex(api_content),
@@ -313,11 +373,12 @@ def run_experiment043c() -> dict[str, object]:
         ),
         "scope": (
             "real MORPHS Python runtime invoking public GitHub read-only endpoints "
-            "for one repository file; independent same-provider raw read and Git blob identity check"
+            "for one repository file; ref is resolved to an exact commit before "
+            "the contents and raw reads"
         ),
         "protocol": (
-            "DISCOVER -> CLASSIFY -> BIND -> AUTHORIZE -> INVOKE -> RECEIPT "
-            "-> INDEPENDENT_READ -> IDENTITY_VERIFY -> CLASSIFY"
+            "DISCOVER -> RESOLVE_REF -> CLASSIFY -> BIND -> AUTHORIZE -> INVOKE "
+            "-> RECEIPT -> INDEPENDENT_READ -> IDENTITY_VERIFY -> CLASSIFY"
         ),
         "runtime_integration": verification.status,
         "provider_independence": "NOT_ESTABLISHED",
