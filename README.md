@@ -10,28 +10,33 @@ Conversation notes and generated snapshots are not authoritative.
 
 ## Current boundary
 
-Experiments 033-035 are historical repository experiments.
+Experiment 043c is the current external-runtime frontier:
 
-The current external-mutation frontier is 043b:
+> The MORPHS Python runtime can invoke a real public GitHub read operation through a bounded adapter, produce a hash-bound invocation receipt, independently read the same resource through a second GitHub surface, and verify content plus Git blob identity before classifying the observation.
 
-> The deterministic MORPHS mutation protocol requires exact state/content identity, capability-bound authorization, independent postcondition verification, unknown-outcome containment, and rollback revalidation.
+Epistemic state: EXPERIMENTALLY_SUPPORTED
 
-Epistemic state: EXPERIMENTALLY_SUPPORTED for the deterministic protocol scope.
+Scope: one real read-only GitHub runtime adapter invocation for \`Loofy147/MORPHS@main:README.md\`.
 
-A separate host-side GitHub canary mutation and rollback is recorded as HOST_CAPTURED_EXTERNAL evidence.
+This does NOT establish provider-independent verification, mutation through the MORPHS runtime, ambiguous network outcome handling, rollback, distributed transactions, or unrestricted capability-registry integration.
 
-The current repository evidence does NOT establish that the MORPHS runtime itself invoked GitHub mutation.
+The 043b mutation canary remains HOST_CAPTURED_EXTERNAL evidence; the MORPHS runtime mutation path remains OPEN.
 
 ### Verification status
 
 The authoritative verification source is GitHub Actions on the current main HEAD.
 
-Historical runs remain evidence of prior states:
-- Experiment 042: run 148
-- Experiment 043: prior full-regression run 168
-- Experiment 043b: prior full-regression run 168
+Historical evidence:
+- 042: run 148 — verified
+- 043 / 043b audit-corrected predecessors were revalidated by run 181
 
-After the audit corrections, the current main HEAD must pass the full 028-043b workflow before the corrected claims are considered revalidated.
+Current external-runtime evidence:
+- 043c: run 189 — verified
+- 043c live receipt: stored in \`experiments/043c/result.json\`
+
+Run 186 is preserved as a TEST_FIXTURE_FAILURE in 043c and was repaired before Runs 187-189.
+
+Prior green runs are historical evidence; the current main HEAD must pass its own full workflow before any new claim is promoted.
 
 ## Development rule
 
@@ -65,6 +70,7 @@ Every material experiment should end in one of:
     python -m morph_core.experiment042
     python -m morph_core.experiment043
     python -m morph_core.experiment043b
+    python -m morph_core.experiment043c
 
 The full construction and evidence path is documented in docs/RESEARCH_PATHS.md.
 
