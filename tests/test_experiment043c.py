@@ -1,5 +1,5 @@
 from dataclasses import replace
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 
 import pytest
 
@@ -13,6 +13,16 @@ from morph_core.experiment043c import (
     sha256_hex,
     verify_runtime,
 )
+
+
+def allowed_registry(adapter):
+    registry = HostCapabilityRegistry()
+    registry.register(
+        adapter.capability(),
+        adapter.invoke,
+        AuthorizationState.ALLOW,
+    )
+    return registry
 
 
 def fake_transport_factory(
@@ -56,9 +66,24 @@ def fake_transport_factory(
     return transport
 
 
+def fixed_now():
+    return datetime(2026, 9, 30, 0, 0, 3, tzinfo=timezone.utc)
+
+
 def test_git_blob_identity_is_stable():
     content = b"hello"
     assert git_blob_sha1(content) == git_blob_sha1(content)
+
+
+def test_runtime_requires_explicit_host_registry():
+    adapter = GitHubRuntimeAdapter(
+        "fixture/repo",
+        "README.md",
+        "main",
+        transport=fake_transport_factory(),
+    )
+    with pytest.raises(PermissionError, match="explicit host capability registry"):
+        verify_runtime(adapter, now=fixed_now())
 
 
 def test_runtime_verification_accepts_matching_surfaces():
@@ -71,7 +96,7 @@ def test_runtime_verification_accepts_matching_surfaces():
     receipt, verification, identity = verify_runtime(
         adapter,
         registry=allowed_registry(adapter),
-        now=datetime(2026, 9, 30, 0, 0, 3, tzinfo=timezone.utc),
+        now=fixed_now(),
     )
     assert verification.status == "VERIFIED"
     assert verification.receipt_complete is True
@@ -82,6 +107,9 @@ def test_runtime_verification_accepts_matching_surfaces():
     assert receipt.ref_resolved_commit == "fixture-commit"
     assert receipt.capability_id == "github.repository.read_file"
     assert receipt.identity_scope == "fixture/repo@main:README.md"
+    assert receipt.execution_surface == "MORPHS_PYTHON_RUNTIME"
+    assert receipt.ci_run_id == "LOCAL"
+    assert receipt.ci_head_sha == "LOCAL"
     assert identity["contents_sha256"] == identity["raw_sha256"]
 
 
@@ -102,7 +130,7 @@ def test_runtime_verification_binds_both_surfaces_to_resolved_commit():
     verify_runtime(
         adapter,
         registry=allowed_registry(adapter),
-        now=datetime(2026, 9, 30, 0, 0, 3, tzinfo=timezone.utc),
+        now=fixed_now(),
     )
     assert any("/commits/main" in url for url in seen)
     assert any("ref=fixture-commit" in url for url in seen)
@@ -119,13 +147,18 @@ def test_receipt_tampering_is_detectable():
     receipt, _, _ = verify_runtime(
         adapter,
         registry=allowed_registry(adapter),
-        now=datetime(2026, 9, 30, 0, 0, 3, tzinfo=timezone.utc),
+        now=fixed_now(),
     )
     assert receipt_self_consistency_ok(receipt) is True
     tampered_hash = replace(receipt, response_sha256="tampered")
     tampered_capability = replace(receipt, capability_id="other.capability")
+    tampered_runtime = replace(
+        receipt,
+        execution_surface="OTHER_RUNTIME",
+    )
     assert receipt_self_consistency_ok(tampered_hash) is False
     assert receipt_self_consistency_ok(tampered_capability) is False
+    assert receipt_self_consistency_ok(tampered_runtime) is False
 
 
 def test_receipt_persistence_is_hash_bound(tmp_path):
@@ -139,7 +172,7 @@ def test_receipt_persistence_is_hash_bound(tmp_path):
         adapter,
         registry=allowed_registry(adapter),
         receipt_store=JsonReceiptStore(tmp_path / "receipt.json"),
-        now=datetime(2026, 9, 30, 0, 0, 3, tzinfo=timezone.utc),
+        now=fixed_now(),
     )
     saved = (tmp_path / "receipt.json").read_bytes()
     assert b"fixture/repo@main:README.md" in saved
@@ -164,7 +197,7 @@ def test_registry_denial_prevents_runtime_invocation():
         verify_runtime(
             adapter,
             registry=registry,
-            now=datetime(2026, 9, 30, 0, 0, 3, tzinfo=timezone.utc),
+            now=fixed_now(),
         )
 
 
@@ -206,7 +239,7 @@ def test_runtime_verification_rejects_content_mismatch():
     _, verification, _ = verify_runtime(
         adapter,
         registry=allowed_registry(adapter),
-        now=datetime(2026, 9, 30, 0, 0, 3, tzinfo=timezone.utc),
+        now=fixed_now(),
     )
     assert verification.status == "DEFER"
     assert verification.content_match is False
@@ -219,7 +252,6 @@ def test_runtime_verification_rejects_blob_identity_mismatch():
         if "/commits/main" in url:
             return transport(url, headers)
         if "api.github.com" in url:
-            content = b"api-content"
             payload = (
                 '{"type":"file","encoding":"base64",'
                 '"content":"YXBpLWNvbnRlbnQ=","sha":"wrong-blob"}'
@@ -247,7 +279,8 @@ def test_runtime_verification_rejects_blob_identity_mismatch():
     )
     _, verification, _ = verify_runtime(
         adapter,
-        now=datetime(2026, 9, 30, 0, 0, 3, tzinfo=timezone.utc),
+        registry=allowed_registry(adapter),
+        now=fixed_now(),
     )
     assert verification.status == "DEFER"
     assert verification.git_blob_identity_match is False
@@ -259,13 +292,17 @@ def test_runtime_verification_rejects_wrong_response_source():
         "README.md",
         "main",
         transport=fake_transport_factory(
-            raw_url_override="https://raw.githubusercontent.com/other/repo/fixture-commit/README.md"
+            raw_url_override=(
+                "https://raw.githubusercontent.com/other/repo/"
+                "fixture-commit/README.md"
+            )
         ),
     )
     with pytest.raises(RuntimeError, match="raw response URL mismatch"):
         verify_runtime(
             adapter,
-            now=datetime(2026, 9, 30, 0, 0, 3, tzinfo=timezone.utc),
+            registry=allowed_registry(adapter),
+            now=fixed_now(),
         )
 
 
@@ -280,7 +317,8 @@ def test_runtime_verification_rejects_stale_observation():
     )
     _, verification, _ = verify_runtime(
         adapter,
-        now=datetime(2026, 9, 30, 0, 0, 3, tzinfo=timezone.utc),
+        registry=allowed_registry(adapter),
+        now=fixed_now(),
     )
     assert verification.status == "DEFER"
     assert verification.fresh_enough is False
@@ -288,4 +326,3 @@ def test_runtime_verification_rejects_stale_observation():
 
 def test_digest_helpers_are_stable():
     assert sha256_hex(b"abc") == sha256_hex(b"abc")
-\n\ndef test_runtime_requires_explicit_host_registry():\n    adapter = GitHubRuntimeAdapter(\n        "fixture/repo",\n        "README.md",\n        "main",\n        transport=fake_transport_factory(),\n    )\n    with pytest.raises(PermissionError, match="explicit host capability registry"):\n        verify_runtime(\n            adapter,\n            now=datetime(2026, 9, 30, 0, 0, 3, tzinfo=timezone.utc),\n        )\n
