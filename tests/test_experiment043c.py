@@ -70,6 +70,7 @@ def test_runtime_verification_accepts_matching_surfaces():
     )
     receipt, verification, identity = verify_runtime(
         adapter,
+        registry=allowed_registry(adapter),
         now=datetime(2026, 9, 30, 0, 0, 3, tzinfo=timezone.utc),
     )
     assert verification.status == "VERIFIED"
@@ -100,6 +101,7 @@ def test_runtime_verification_binds_both_surfaces_to_resolved_commit():
     )
     verify_runtime(
         adapter,
+        registry=allowed_registry(adapter),
         now=datetime(2026, 9, 30, 0, 0, 3, tzinfo=timezone.utc),
     )
     assert any("/commits/main" in url for url in seen)
@@ -116,6 +118,7 @@ def test_receipt_tampering_is_detectable():
     )
     receipt, _, _ = verify_runtime(
         adapter,
+        registry=allowed_registry(adapter),
         now=datetime(2026, 9, 30, 0, 0, 3, tzinfo=timezone.utc),
     )
     assert receipt_self_consistency_ok(receipt) is True
@@ -134,6 +137,7 @@ def test_receipt_persistence_is_hash_bound(tmp_path):
     )
     receipt, _, _ = verify_runtime(
         adapter,
+        registry=allowed_registry(adapter),
         receipt_store=JsonReceiptStore(tmp_path / "receipt.json"),
         now=datetime(2026, 9, 30, 0, 0, 3, tzinfo=timezone.utc),
     )
@@ -201,6 +205,7 @@ def test_runtime_verification_rejects_content_mismatch():
     )
     _, verification, _ = verify_runtime(
         adapter,
+        registry=allowed_registry(adapter),
         now=datetime(2026, 9, 30, 0, 0, 3, tzinfo=timezone.utc),
     )
     assert verification.status == "DEFER"
@@ -283,3 +288,4 @@ def test_runtime_verification_rejects_stale_observation():
 
 def test_digest_helpers_are_stable():
     assert sha256_hex(b"abc") == sha256_hex(b"abc")
+\n\ndef test_runtime_requires_explicit_host_registry():\n    adapter = GitHubRuntimeAdapter(\n        "fixture/repo",\n        "README.md",\n        "main",\n        transport=fake_transport_factory(),\n    )\n    with pytest.raises(PermissionError, match="explicit host capability registry"):\n        verify_runtime(\n            adapter,\n            now=datetime(2026, 9, 30, 0, 0, 3, tzinfo=timezone.utc),\n        )\n
