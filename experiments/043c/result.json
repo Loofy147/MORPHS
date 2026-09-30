@@ -1,40 +1,47 @@
 {
   "experiment": "043c_real_runtime_adapter_and_receipt",
   "claim_state": "EXPERIMENTALLY_SUPPORTED",
-  "scope": "real MORPHS Python runtime invoking public GitHub read-only endpoints for one repository file; independent same-provider raw read and Git blob identity check",
+  "scope": "real MORPHS Python runtime invoking public GitHub read-only endpoints for one repository file; the requested ref is resolved to an exact commit before contents and raw reads",
   "runtime_integration": "VERIFIED",
   "provider_independence": "NOT_ESTABLISHED",
   "verification": {
     "github_actions": "success",
-    "run_number": 189,
-    "workflow_run_id": 36724697630,
-    "job_id": 109918448456,
-    "verified_commit_sha": "c7fa5ac93a601eacf9711bec1c0874b63358da71"
+    "run_number": 196,
+    "workflow_run_id": 36725128816,
+    "job_id": 109919938068,
+    "verified_commit_sha": "48301ce6263f93c4d4e7113828436f346a25870e7"
   },
   "invocation_receipt": {
-    "invocation_id": "6c9938fde0e0462911659dcc4faabcaa2857bfce71ce069291b919ee10efbdc0",
+    "invocation_id": "409c925b7f4a9976a697e5b2a6b6e1bb6dea0f32d0268556f3d56ad8b7149bbd",
     "method": "GET",
-    "observed_at": "2026-09-30T13:51:54.911608+00:00",
+    "observed_at": "2026-09-30T13:55:20.237410+00:00",
     "operation": "read_file",
     "provider": "github",
-    "provider_request_id": "D000:39042C:D612CA:F3DF00:6ABD13FA",
-    "response_etag": "\"3731c5a12c2fe3fad324a85edbcbe13c14ddfd1d\"",
-    "response_sha256": "b19fea07c63750f05d3842469194bec3fb3263e6f3b997c127a71c09d9c8a2eb",
+    "provider_request_id": "C431:3AA6C:518AACE:1104331A:6ABD14C8",
+    "ref_requested": "main",
+    "ref_resolution_request_id": "C430:205A9A:5504893:119474EB:6ABD14C8",
+    "ref_resolution_status": 200,
+    "ref_resolution_url": "https://api.github.com/repos/Loofy147/MORPHS/commits/main",
+    "ref_resolved_commit": "48301ce6263f93c4d4e7113828436f346a25870e7",
+    "response_etag": "\"3c0eb3488e272272ee7a8639e3d53fae3a77ebaf\"",
+    "response_sha256": "10ee99ed97d9634aa96470e82c48d1b6e748db2d23351c8a5fd91aca5a5b6132",
     "status": 200,
-    "url": "https://api.github.com/repos/Loofy147/MORPHS/contents/README.md?ref=main"
+    "url": "https://api.github.com/repos/Loofy147/MORPHS/contents/README.md?ref=48301ce6263f93c4d4e7113828436f346a25870e"
   },
   "identity": {
     "repository": "Loofy147/MORPHS",
     "path": "README.md",
     "ref": "main",
-    "provider_blob_sha": "3731c5a12c2fe3fad324a85edbcbe13c14ddfd1d",
-    "computed_git_blob_sha": "3731c5a12c2fe3fad324a85edbcbe13c14ddfd1d",
-    "contents_sha256": "2d7fa9a16ae31f7dd6569bad3aea97ad87917c9680062d9c342b97118db6edb1",
-    "raw_sha256": "2d7fa9a16ae31f7dd6569bad3aea97ad87917c9680062d9c342b97118db6edb1",
+    "resolved_commit": "48301ce6263f93c4d4e7113828436f346a25870e7",
+    "provider_blob_sha": "3c0eb3488e272272ee7a8639e3d53fae3a77ebaf",
+    "computed_git_blob_sha": "3c0eb3488e272272ee7a8639e3d53fae3a77ebaf",
+    "contents_sha256": "b1d6934c8a3e6bc901e6f504b6ff5e8aad16c833c5f76896556b6e43f755f545",
+    "raw_sha256": "b1d6934c8a3e6bc901e6f504b6ff5e8aad16c833c5f76896556b6e43f755f545",
     "independent_surface": "raw.githubusercontent.com"
   },
   "checks": {
     "runtime_invocation": true,
+    "ref_resolved_to_exact_commit": true,
     "receipt_complete": true,
     "receipt_integrity": true,
     "binding_match": true,
@@ -42,19 +49,34 @@
     "git_blob_identity_match": true,
     "receipt_tamper_tests": true
   },
-  "failure_history": {
-    "run_number": 186,
-    "workflow_run_id": 36724322052,
-    "classification": "TEST_FIXTURE_FAILURE",
-    "observed": "matching-surface unit fixture returned DEFER",
-    "cause": "fixture base64 decoded to MORPSS-043C instead of MORPHS-043C",
-    "repair": "corrected fixture content encoding",
-    "revalidation_run_number": 187
-  },
+  "failure_history": [
+    {
+      "run_number": 186,
+      "workflow_run_id": 36724322052,
+      "classification": "TEST_FIXTURE_FAILURE",
+      "observed": "matching-surface unit fixture returned DEFER",
+      "cause": "fixture base64 decoded to MORPSS-043C instead of MORPHS-043C",
+      "repair": "corrected fixture content encoding",
+      "revalidation_run_number": 187
+    },
+    {
+      "run_number": 194,
+      "workflow_run_id": 36724932756,
+      "classification": "EXTERNAL_CONSISTENCY_FAILURE / TOCTOU",
+      "observed": "Contents API returned newer README content while raw main surface returned the previously observed README content",
+      "evidence": {
+        "contents_sha256": "b1d6934c8a3e6bc901e6f504b6ff5e8aad16c833c5f76896556b6e43f755f545",
+        "raw_sha256": "2d7fa9a16ae31f7dd6569bad3aea97ad87917c9680062d9c342b97118db6edb1",
+        "contents_provider_blob_sha": "3c0eb3488e272272ee7a8639e3d53fae3a77ebaf",
+        "prior_run_raw_sha256": "2d7fa9a16ae31f7dd6569bad3aea97ad87917c9680062d9c342b97118db6edb1"
+      },
+      "interpretation": "The two provider surfaces were bound only to the moving main ref, so the observation window was vulnerable to cross-surface staleness.",
+      "repair": "resolve main to an exact commit SHA first, then use that immutable commit ref for both Contents API and Raw reads",
+      "revalidation_run_number": 196
+    }
+  ],
   "revalidation_history": {
-    "run_187": "success",
-    "run_188": "success",
-    "run_189": "success"
+    "run_196": "success"
   },
   "limitations": [
     "read-only provider operation",
