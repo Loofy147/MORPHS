@@ -12,11 +12,11 @@ Conversation notes and generated snapshots are not authoritative.
 
 Experiment 043c is the current external-runtime frontier:
 
-> The MORPHS Python runtime can invoke a real public GitHub read operation through a bounded adapter, produce a hash-bound invocation receipt, independently read the same resource through a second GitHub surface, and verify content plus Git blob identity before classifying the observation.
+> The MORPHS Python runtime can invoke a real public GitHub read operation through a bounded adapter, produce a hash-bound invocation receipt, independently read the same immutable commit through a second GitHub surface, and verify content plus Git blob identity before classifying the observation.
 
 Epistemic state: EXPERIMENTALLY_SUPPORTED
 
-Scope: one real read-only GitHub runtime adapter invocation for \`Loofy147/MORPHS@main:README.md\`.
+Scope: one real read-only GitHub runtime adapter invocation for \`Loofy147/MORPHS@main:README.md\`, with \`main\` resolved to an exact commit before cross-surface verification.
 
 This does NOT establish provider-independent verification, mutation through the MORPHS runtime, ambiguous network outcome handling, rollback, distributed transactions, or unrestricted capability-registry integration.
 
@@ -26,15 +26,14 @@ The 043b mutation canary remains HOST_CAPTURED_EXTERNAL evidence; the MORPHS run
 
 The authoritative verification source is GitHub Actions on the current main HEAD.
 
-Historical evidence:
-- 042: run 148 — verified
-- 043 / 043b audit-corrected predecessors were revalidated by run 181
-
 Current external-runtime evidence:
-- 043c: run 189 — verified
-- 043c live receipt: stored in \`experiments/043c/result.json\`
+- 043c: run 196 — verified
+- 043c durable receipt: stored in \`experiments/043c/result.json\`
 
-Run 186 is preserved as a TEST_FIXTURE_FAILURE in 043c and was repaired before Runs 187-189.
+Preserved negative evidence:
+- run 186: TEST_FIXTURE_FAILURE
+- run 194: EXTERNAL_CONSISTENCY_FAILURE / TOCTOU; repaired by exact-commit pinning
+- run 196: revalidation success
 
 Prior green runs are historical evidence; the current main HEAD must pass its own full workflow before any new claim is promoted.
 
