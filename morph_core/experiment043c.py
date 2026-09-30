@@ -504,6 +504,7 @@ def run_experiment043c() -> dict[str, object]:
         adapter.capability(),
         adapter.invoke,
         AuthorizationState.ALLOW,
+        require_bound_invoker=True,
     )
     receipt_store = JsonReceiptStore(
         os.environ.get(
