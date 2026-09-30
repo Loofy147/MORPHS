@@ -328,3 +328,26 @@ def test_runtime_verification_rejects_stale_observation():
 
 def test_digest_helpers_are_stable():
     assert sha256_hex(b"abc") == sha256_hex(b"abc")
+
+
+def test_registry_rejects_mismatched_adapter_invoker():
+    primary = GitHubRuntimeAdapter(
+        "fixture/repo",
+        "README.md",
+        "main",
+        transport=fake_transport_factory(),
+    )
+    other = GitHubRuntimeAdapter(
+        "fixture/other",
+        "README.md",
+        "main",
+        transport=fake_transport_factory(),
+    )
+    registry = HostCapabilityRegistry()
+    with pytest.raises(ValueError, match="descriptor mismatch"):
+        registry.register(
+            primary.capability(),
+            other.invoke,
+            AuthorizationState.ALLOW,
+            require_bound_invoker=True,
+        )
