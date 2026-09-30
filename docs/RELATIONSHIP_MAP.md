@@ -11,9 +11,11 @@ The external path now has an explicit evidence chain:
 deterministic protocol semantics
 -> host-captured external evidence
 -> MORPHS runtime invocation
+-> explicit host capability binding
 -> ref-resolution receipt
 -> same-commit independent observation
 -> identity verification
+-> persisted receipt revalidation
 -> provider-independent verification (OPEN)
 
 ## 3. Relationship types
@@ -22,13 +24,29 @@ RECEIPT DEPENDENCY
 An external invocation must retain enough immutable information to bind the observed result to the actual invocation.
 
 Example:
-invocation id + resolved commit + request URL + timestamp + response hash -> receipt integrity.
+invocation id + execution surface + run/head + capability + resolved commit + request URLs + timestamps + response hashes -> receipt integrity.
+
+REGISTRY BINDING
+A runtime invocation must resolve through an explicit host capability registry.
+
+The 043c experiment also tests a stronger binding mode:
+descriptor A + invoker B -> reject.
+
+This prevents accidental capability/invoker substitution inside the experimental host boundary.
 
 REFERENCE DEPENDENCY
 A moving branch/tag ref is not sufficient for cross-surface verification when the external state can change during the observation window.
 
 Rule:
 resolve moving ref -> immutable commit -> bind all verification surfaces to that commit.
+
+PERSISTENCE DEPENDENCY
+Runtime evidence is not complete when a receipt is merely printed.
+
+Rule:
+invoke -> persist -> reread -> revalidate against run/head -> artifact upload
+
+Artifact metadata proves upload existence and digest; it does not by itself establish cryptographic authenticity of the receipt contents.
 
 ## 9. Verification relation
 
@@ -42,11 +60,11 @@ A provider success response is not equivalent to external equilibrium.
 
 043b establishes hardened mutation protocol semantics and host-captured reversible canary evidence.
 
-043c establishes actual MORPHS runtime invocation of a real GitHub read, receipt integrity, exact-commit cross-surface binding, same-provider independent observation, and Git blob identity binding.
+043c establishes actual MORPHS runtime invocation of a real GitHub read, exact-commit cross-surface binding, explicit registry authorization, bound-invoker enforcement, Git blob identity binding, freshness, and receipt persistence revalidation.
 
-Run 194 demonstrated that using a moving branch ref could produce cross-surface disagreement; the correct classification was DEFER and the repair was immutable commit binding.
+Run 194 demonstrated that moving-ref verification can produce cross-surface disagreement; the correct classification was DEFER and the repair was immutable commit binding.
 
-Provider-independent verification remains OPEN.
+Provider-independent verification and cryptographic receipt authenticity remain OPEN.
 
 ## 10. Current architecture frontier
 
@@ -58,15 +76,16 @@ Provider-independent verification remains OPEN.
 042 dependency cascade propagation and partial external state
 043 read-only external protocol boundary
 043b mutation protocol integrity + host-captured reversible canary
-043c real MORPHS runtime read-only provider adapter with immutable reference binding
+043c real MORPHS runtime read-only provider adapter with immutable reference binding and explicit host registry
 
 Next unresolved dimensions:
-- host capability-registry integration
 - provider-independent verification
+- cryptographic receipt authenticity
+- controlled ambiguous runtime outcomes
 - runtime mutation through the bounded adapter
-- real ambiguous mutation outcomes
 - irreversible side effects
 - provider substitution under contract equivalence
 - adversarial world-state reporting
 - long-lived drift and re-equilibration
 - distributed transaction semantics
+- production-grade capability registry
