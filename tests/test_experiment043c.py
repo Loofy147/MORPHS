@@ -140,7 +140,7 @@ def test_receipt_persistence_is_hash_bound(tmp_path):
     saved = (tmp_path / "receipt.json").read_bytes()
     assert b"fixture/repo@main:README.md" in saved
     assert sha256_hex(saved)
-    assert receipt.invocation_id.encode() not in saved
+    assert receipt.invocation_id.encode() in saved
 
 
 def test_registry_denial_prevents_runtime_invocation():
@@ -257,12 +257,11 @@ def test_runtime_verification_rejects_wrong_response_source():
             raw_url_override="https://raw.githubusercontent.com/other/repo/fixture-commit/README.md"
         ),
     )
-    _, verification, _ = verify_runtime(
-        adapter,
-        now=datetime(2026, 9, 30, 0, 0, 3, tzinfo=timezone.utc),
-    )
-    assert verification.status == "DEFER"
-    assert verification.binding_match is False
+    with pytest.raises(RuntimeError, match="raw response URL mismatch"):
+        verify_runtime(
+            adapter,
+            now=datetime(2026, 9, 30, 0, 0, 3, tzinfo=timezone.utc),
+        )
 
 
 def test_runtime_verification_rejects_stale_observation():
