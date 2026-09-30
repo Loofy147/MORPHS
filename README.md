@@ -32,7 +32,7 @@ Current external-runtime evidence:
 - 043c runtime receipt: `experiments/043c/result.json`
 - 043c CI artifact: `morphs-043c-runtime-receipt`
 
-Preserved negative evidence includes the fixture failure, moving-ref TOCTOU, registry-bypass test failures, CI provenance assertion, and persisted-receipt reconstruction failure. Each was repaired and revalidated.
+Preserved negative evidence includes the fixture failure, moving-ref TOCTOU, registry-bypass test failures, CI provenance assertion, persisted-receipt reconstruction failure, and adversarial invoker-binding tests. Each was repaired or classified and then revalidated.
 
 Prior green runs are historical evidence; a later HEAD must pass its own full workflow before any new claim is promoted.
 
