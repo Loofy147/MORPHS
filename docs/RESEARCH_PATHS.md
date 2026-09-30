@@ -112,9 +112,11 @@ failure
 → rerun regression
 → record changed interpretation
 
-043 exposed an epistemic-boundary failure: host-captured live evidence had been embedded too close to deterministic runtime assertions. The claim was narrowed so that host evidence and MORPHS runtime evidence are explicitly separated.
+043 exposed an epistemic-boundary failure: host-captured live evidence had been embedded too close to deterministic runtime assertions.
 
-043b exposed a protocol-integrity failure: state labels were treated as sufficient identity while blob identity was stored but not enforced. Adversarial reproduction produced four false-positive paths. The protocol now requires exact state + content identity.
+043b exposed a protocol-integrity failure: state labels were treated as sufficient identity while blob identity was stored but not enforced.
+
+043c exposed a test-fixture failure: the first live-runtime pass was blocked by an incorrectly encoded fixture string. The failure was preserved and repaired; Runs 187-189 revalidated the corrected runtime adapter.
 
 These failures are part of the research evidence, not noise to remove.
 
@@ -148,13 +150,15 @@ The present lineage does not establish:
 - unrestricted self-rewriting of verifier semantics
 - semantic independence of arbitrary verifier implementations
 - unrestricted automated root-cause identification
-- MORPHS runtime execution of the live GitHub mutation tested manually in 043b
-- provider-independent mutation verification
+- provider-independent verification
+- MORPHS runtime mutation of external systems
 - real ambiguous mutation outcomes
 - irreversible mutation safety
+- rollback of arbitrary external side effects
 - distributed transaction semantics
 - resilience against adversarial corruption of verifier inputs or investigation traces
 - provider substitution under contract equivalence
+- full host capability-registry integration for 043c
 
 These remain OPEN boundaries unless later experiments produce stronger evidence.
 
@@ -174,34 +178,33 @@ without corrupting lineage or audit history.
 
 042 extends it to dependency cascades and partial external state.
 
-043 verifies the read-only protocol model while separately recording a host-captured GitHub observation. It does not establish MORPHS runtime integration.
+043 verifies the read-only protocol model while separately recording a host-captured GitHub observation.
 
-043b hardens the mutation protocol itself:
+043b hardens the mutation protocol itself and preserves a host-captured reversible canary.
 
-pre-read
-→ capability-bound authority
-→ exact state/content identity check
-→ mutation
-→ independent post-read
-→ rollback preflight
-→ rollback
-→ exact target revalidation
+043c establishes the missing runtime bridge for read-only execution:
 
-A host-executed live GitHub canary demonstrated a real mutation and compensating rollback, but this remains HOST_CAPTURED_EXTERNAL evidence rather than MORPHS runtime evidence.
+provider adapter
+→ real invocation
+→ receipt
+→ independent provider surface
+→ identity verification
+→ explicit runtime classification
 
-### Path E-next — runtime adapter and verification independence
+The live 043c evidence is limited to read-only GitHub access.
 
-The next research step is not broader mutation.
+### Path E-next — capability-registry integration and durable runtime evidence
 
-It is:
+The next research step is:
 
-provider-adapter execution
-→ durable invocation receipt
-→ independent observation
-→ receipt/postcondition binding
-→ explicit runtime evidence classification
+host capability registry
+→ adapter binding
+→ invocation
+→ durable receipt artifact
+→ independent verification
+→ explicit evidence classification
 
-After that, controlled unknown-outcome injection can be tested.
+Only after this bridge is established should runtime mutation be considered again.
 
 ### Path F — adversarial verification pressure
 
@@ -221,7 +224,8 @@ These are branches of one construction, not separate projects.
 - 040: verified reversible adaptation
 - 041: verified deterministic external-world equilibrium
 - 042: verified dependency cascades and partial external failure
-- 043: corrected protocol boundary; host-captured live read evidence recorded; runtime integration OPEN
-- 043b: corrected protocol identity/authority boundary; host-captured live canary preserved; runtime integration OPEN
+- 043: corrected protocol boundary; host-captured live read evidence; runtime integration OPEN
+- 043b: corrected mutation identity/authority boundary; host-captured reversible canary; runtime mutation OPEN
+- 043c: verified real MORPHS runtime read-only GitHub adapter with hash-bound receipt
 
-The current main HEAD must pass the full 028-043b workflow before these corrected claims are treated as revalidated.
+The current decision point is capability-registry integration and durable runtime evidence before any broader external mutation.
