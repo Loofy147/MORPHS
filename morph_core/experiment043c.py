@@ -43,6 +43,9 @@ class HttpObservation:
 class InvocationReceipt:
     receipt_version: int
     invocation_id: str
+    execution_surface: str
+    ci_run_id: str
+    ci_head_sha: str
     capability_id: str
     identity_scope: str
     provider: str
@@ -90,6 +93,9 @@ def git_blob_sha1(content: bytes) -> str:
 def receipt_payload(receipt: InvocationReceipt) -> dict[str, object]:
     return {
         "receipt_version": receipt.receipt_version,
+        "execution_surface": receipt.execution_surface,
+        "ci_run_id": receipt.ci_run_id,
+        "ci_head_sha": receipt.ci_head_sha,
         "capability_id": receipt.capability_id,
         "identity_scope": receipt.identity_scope,
         "provider": receipt.provider,
@@ -287,6 +293,9 @@ class GitHubRuntimeAdapter:
         receipt = InvocationReceipt(
             receipt_version=1,
             invocation_id="",
+            execution_surface="MORPHS_PYTHON_RUNTIME",
+            ci_run_id=os.environ.get("GITHUB_RUN_ID", "LOCAL"),
+            ci_head_sha=os.environ.get("GITHUB_SHA", "LOCAL"),
             capability_id=capability.capability_id,
             identity_scope=capability.identity_scope,
             provider=capability.provider,
@@ -345,14 +354,11 @@ def verify_runtime(
     max_age: timedelta = timedelta(seconds=60),
 ) -> tuple[InvocationReceipt, RuntimeVerification, dict[str, object]]:
     capability = adapter.capability()
-    host_registry = registry or HostCapabilityRegistry()
     if registry is None:
-        host_registry.register(
-            capability,
-            adapter.invoke,
-            AuthorizationState.ALLOW,
+        raise PermissionError(
+            "043c requires an explicit host capability registry"
         )
-
+    host_registry = registry
     resolved_binding = host_registry.resolve(capability.capability_id)
     if resolved_binding.descriptor != capability:
         raise RuntimeError("registry capability binding does not match the adapter capability")
@@ -398,6 +404,9 @@ def verify_runtime(
     blob_identity_match = computed_blob_sha == provider_blob_sha
     receipt_complete = all(
         (
+            receipt.execution_surface == "MORPHS_PYTHON_RUNTIME",
+            receipt.ci_run_id,
+            receipt.ci_head_sha,
             receipt.capability_id,
             receipt.identity_scope,
             receipt.provider_request_id,
