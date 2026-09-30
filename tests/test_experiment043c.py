@@ -12,7 +12,7 @@ def fake_transport_factory():
     blob_sha = git_blob_sha1(content)
     payload = (
         '{"type":"file","encoding":"base64",'
-        '"content":"TU9SUFNTLTA0M0MK","sha":"' + blob_sha + '"}'
+        '"content":"TU9SUEhTLTA0M0MK","sha":"' + blob_sha + '"}'
     ).encode("utf-8")
 
     def transport(url, headers):
