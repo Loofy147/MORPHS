@@ -4,95 +4,97 @@
 
 Can MORPHS itself invoke a real external provider through a bounded runtime adapter, retain an invocation receipt, independently read the same resource through a second provider surface, and verify content plus provider identity before classifying the observation?
 
-## Critical runtime boundary
+## Verified scope
 
-043c is a **read-only** experiment.
+043c is read-only.
 
-The MORPHS Python runtime itself performs the HTTP calls. This is materially different from the host-captured GitHub action in 043b.
+The MORPHS Python runtime now:
 
-## Ref binding rule
+1. resolves a moving ref to an exact commit,
+2. binds the capability through an explicit host registry,
+3. requires a bound invoker when the registry enforces adapter binding,
+4. invokes GitHub Contents API at the exact commit,
+5. invokes GitHub Raw at the same exact commit,
+6. verifies freshness and byte equality,
+7. verifies Git blob identity,
+8. persists the invocation receipt,
+9. re-reads and revalidates the persisted receipt against run/head identity,
+10. uploads the receipt as a GitHub Actions artifact.
 
-A moving branch ref is not sufficient for cross-surface verification.
+## Verification
 
-The adapter now:
+GitHub Actions **Run 223** passed on HEAD:
 
-1. resolves the requested ref (for this experiment, \`main\`) to an exact commit SHA,
-2. reads the GitHub Contents API at that exact commit,
-3. reads the GitHub Raw surface at the same exact commit,
-4. binds both observations and the receipt to that resolved commit.
+`2f7c4da58ab5cd6922c745705a2f5d7512987b11`
 
-This prevents a cross-surface race where one provider surface returns a newer state and another returns a stale state for the moving branch.
+The full sequence passed:
 
-## Verified live execution
+`Compile -> pytest -> Experiments 028-043c -> receipt persistence -> artifact upload`
 
-GitHub Actions run **196** passed on commit:
+The runtime receipt was bound to:
 
-\`48301ce6263f93c4d4e7113828436f346a25870e7\`
+- execution surface: `MORPHS_PYTHON_RUNTIME`
+- CI run: `36734688924`
+- CI head: `2f7c4da58ab5cd6922c745705a2f5d7512987b11`
+- capability: `github.repository.read_file`
+- scope: `Loofy147/MORPHS@main:README.md`
 
-The runtime:
+The receipt file was revalidated before upload:
 
-- resolved \`main\` to commit \`48301ce...\`,
-- invoked the Contents API using that commit,
-- invoked Raw Content using the same commit,
-- matched both byte streams,
-- recomputed the Git blob identity,
-- matched the provider blob SHA,
-- verified receipt integrity and exact resource binding,
-- passed receipt-tamper tests.
+- file SHA-256: `9e43eebb...`
+- self-consistent: true
+- run match: true
+- HEAD match: true
 
-The durable receipt is stored in \`experiments/043c/result.json\`.
+GitHub Actions artifact:
 
-## Preserved failures
+- artifact ID: `11106886183`
+- digest: `sha256:548b44ebab35db82a6fc857cd523ce8d3a16053eb7da9ec6d51599b92fd08ee2`
+- size: 862 bytes
 
-### Run 186 — TEST_FIXTURE_FAILURE
+Artifact existence and digest are confirmed from GitHub Actions metadata. The current connector cannot independently download the ZIP bytes for a second content-level inspection.
 
-A unit fixture encoded the wrong text and blocked the first live-runtime attempt.
+## Adversarial hardening
 
-It decoded to \`MORPSS-043C\`, not \`MORPHS-043C\`.
+The audit found and corrected:
 
-It was corrected and revalidated.
+- moving-ref TOCTOU across two provider surfaces,
+- automatic local-registry creation that bypassed the host boundary,
+- descriptor/invoker mismatch at registry binding,
+- stale and incorrect test assumptions,
+- missing CI provenance in the receipt,
+- persisted-receipt reconstruction failure,
+- fixture and test-source failures.
 
-### Run 194 — EXTERNAL_CONSISTENCY_FAILURE / TOCTOU
+The registry now rejects:
 
-The adapter previously read both surfaces using the moving \`main\` ref.
+`descriptor A + invoker B`
 
-During one live invocation:
+when bound-invoker enforcement is enabled.
 
-- Contents API returned SHA-256 \`b1d693...\` and blob \`3c0eb3...\`.
-- Raw \`main\` returned SHA-256 \`2d7fa9...\`, which matched the previous observed README state.
+## Evidence boundary
 
-The correct result was **DEFER**.
+`RUNTIME_OBSERVED` is justified for this exact read-only GitHub scope.
 
-The repair was not a retry. The protocol was changed so that the branch ref is first resolved to an immutable commit and both reads use that commit.
+It is not equivalent to:
 
-Run 196 then passed with byte-identical content and matching Git blob identity.
+- provider-independent verification,
+- cryptographic receipt authenticity,
+- arbitrary external orchestration,
+- runtime mutation,
+- ambiguous outcome safety,
+- rollback correctness.
 
-## Verification rule
-
-The live observation is VERIFIED only when:
-
-1. the runtime invocation returns successfully,
-2. the requested ref resolves to a concrete commit,
-3. the contents response is a file,
-4. the raw response is read at the same resolved commit,
-5. both byte streams match,
-6. Git blob identity matches,
-7. the invocation receipt is complete and hash-bound,
-8. receipt/resource binding is exact,
-9. receipt tampering tests reject modified identity/hash fields.
-
-## Epistemic limits
-
-Established within this scope:
-
-\`MORPHS runtime -> real GitHub read-only provider\`
-
-Still OPEN:
+## Remaining OPEN boundaries
 
 - provider-independent verification
+- cryptographic receipt authenticity
+- real ambiguous network outcome handling
 - mutation through the MORPHS runtime
-- ambiguous network outcome handling
 - irreversible effects
 - rollback
 - distributed transaction semantics
-- host capability-registry integration
+- production-grade capability registry
+- provider substitution under contract equivalence
+
+Runtime mutation remains outside the promotion boundary until a stronger independent-verification gate is established.
