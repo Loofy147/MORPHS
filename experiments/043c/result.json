@@ -1,93 +1,162 @@
 {
   "experiment": "043c_real_runtime_adapter_and_receipt",
   "claim_state": "EXPERIMENTALLY_SUPPORTED",
-  "scope": "real MORPHS Python runtime invoking public GitHub read-only endpoints for one repository file; the requested ref is resolved to an exact commit before contents and raw reads",
+  "scope": "real MORPHS Python runtime invoking public GitHub read-only endpoints for one repository file; requested ref resolved to an exact commit before Contents and Raw reads; explicit host registry binding and run-local receipt revalidation",
   "runtime_integration": "VERIFIED",
   "provider_independence": "NOT_ESTABLISHED",
   "verification": {
     "github_actions": "success",
-    "run_number": 196,
-    "workflow_run_id": 36725128816,
-    "job_id": 109919938068,
-    "verified_commit_sha": "48301ce6263f93c4d4e7113828436f346a25870e7"
+    "run_number": 223,
+    "workflow_run_id": 36734688924,
+    "job_id": 109953174924,
+    "verified_commit_sha": "2f7c4da58ab5cd6922c745705a2f5d7512987b11",
+    "full_sequence": "compile + pytest + experiments 028-043c + receipt persistence + artifact upload"
   },
   "invocation_receipt": {
-    "invocation_id": "409c925b7f4a9976a697e5b2a6b6e1bb6dea0f32d0268556f3d56ad8b7149bbd",
+    "invocation_id": "8c7b539d1de5ef6d3654b04e5b34b769a045eee371e57041a769914b36c7ebff",
+    "execution_surface": "MORPHS_PYTHON_RUNTIME",
+    "ci_run_id": "36734688924",
+    "ci_head_sha": "2f7c4da58ab5cd6922c745705a2f5d7512987b11",
+    "capability_id": "github.repository.read_file",
+    "identity_scope": "Loofy147/MORPHS@main:README.md",
     "method": "GET",
-    "observed_at": "2026-09-30T13:55:20.237410+00:00",
+    "observed_at": "2026-09-30T15:11:00.261028+00:00",
     "operation": "read_file",
     "provider": "github",
-    "provider_request_id": "C431:3AA6C:518AACE:1104331A:6ABD14C8",
+    "provider_request_id": "BC21:46E26:E60FE1:10611ED:6ABD2684",
+    "raw_observed_at": "2026-09-30T15:11:00.450198+00:00",
+    "raw_request_id": "329E:5C491:2782F:664E8:6ABD2683",
+    "raw_response_sha256": "fc10fadf724b4b730a516e7d38f985ea80c29cadee00787f35a0f5f7ac4ecc17",
     "ref_requested": "main",
-    "ref_resolution_request_id": "C430:205A9A:5504893:119474EB:6ABD14C8",
+    "ref_resolution_request_id": "BC20:391269:E3B62F:103BBED:6ABD2684",
     "ref_resolution_status": 200,
     "ref_resolution_url": "https://api.github.com/repos/Loofy147/MORPHS/commits/main",
-    "ref_resolved_commit": "48301ce6263f93c4d4e7113828436f346a25870e7",
-    "response_etag": "\"3c0eb3488e272272ee7a8639e3d53fae3a77ebaf\"",
-    "response_sha256": "10ee99ed97d9634aa96470e82c48d1b6e748db2d23351c8a5fd91aca5a5b6132",
+    "ref_resolved_commit": "2f7c4da58ab5cd6922c745705a2f5d7512987b11",
+    "response_etag": "\"a215281e891458748c316650cc3bcdcc9c8c60cf\"",
+    "response_sha256": "fec20c8762b6d37a4f75cee6dc55afdf161c2865bdc9c842243a3d6989caec9d",
     "status": 200,
-    "url": "https://api.github.com/repos/Loofy147/MORPHS/contents/README.md?ref=48301ce6263f93c4d4e7113828436f346a25870e"
+    "url": "https://api.github.com/repos/Loofy147/MORPHS/contents/README.md?ref=2f7c4da58ab5cd6922c745705a2f5d7512987b11",
+    "raw_url": "https://raw.githubusercontent.com/Loofy147/MORPHS/2f7c4da58ab5cd6922c745705a2f5d7512987b11/README.md"
   },
   "identity": {
     "repository": "Loofy147/MORPHS",
     "path": "README.md",
     "ref": "main",
-    "resolved_commit": "48301ce6263f93c4d4e7113828436f346a25870e7",
-    "provider_blob_sha": "3c0eb3488e272272ee7a8639e3d53fae3a77ebaf",
-    "computed_git_blob_sha": "3c0eb3488e272272ee7a8639e3d53fae3a77ebaf",
-    "contents_sha256": "b1d6934c8a3e6bc901e6f504b6ff5e8aad16c833c5f76896556b6e43f755f545",
-    "raw_sha256": "b1d6934c8a3e6bc901e6f504b6ff5e8aad16c833c5f76896556b6e43f755f545",
+    "resolved_commit": "2f7c4da58ab5cd6922c745705a2f5d7512987b11",
+    "provider_blob_sha": "a215281e891458748c316650cc3bcdcc9c8c60cf",
+    "computed_git_blob_sha": "a215281e891458748c316650cc3bcdcc9c8c60cf",
+    "contents_sha256": "fc10fadf724b4b730a516e7d38f985ea80c29cadee00787f35a0f5f7ac4ecc17",
+    "raw_sha256": "fc10fadf724b4b730a516e7d38f985ea80c29cadee00787f35a0f5f7ac4ecc17",
     "independent_surface": "raw.githubusercontent.com"
+  },
+  "receipt_persistence": {
+    "file_path": "experiments/043c/runtime_receipt.json",
+    "file_sha256": "9e43eebb63200eab3c9ec4cda57890a60ea058787edbfa02c7c8918b1e027653",
+    "revalidation": {
+      "self_consistent": true,
+      "document_flag": true,
+      "run_match": true,
+      "head_match": true,
+      "verified": true
+    },
+    "ci_artifact": {
+      "artifact_id": 11106886183,
+      "name": "morphs-043c-runtime-receipt",
+      "size_in_bytes": 862,
+      "sha256": "548b44ebab35db82a6fc857cd523ce8d3a16053eb7da9ec6d51599b92fd08ee2",
+      "expires_at": "2026-12-29T15:10:24Z"
+    }
+  },
+  "registry_binding": {
+    "authorization_state": "ALLOW",
+    "capability_scope": "Loofy147/MORPHS@main:README.md",
+    "bound_invoker_required": true,
+    "mismatched_invoker_rejected": true,
+    "registry_bypass_rejected": true
   },
   "checks": {
     "runtime_invocation": true,
+    "explicit_host_registry": true,
+    "bound_invoker": true,
     "ref_resolved_to_exact_commit": true,
     "receipt_complete": true,
-    "receipt_integrity": true,
+    "receipt_self_consistent": true,
+    "receipt_file_revalidated": true,
     "binding_match": true,
     "content_match": true,
+    "fresh_enough": true,
     "git_blob_identity_match": true,
-    "receipt_tamper_tests": true
+    "receipt_tamper_tests": true,
+    "persisted_receipt_tamper_tests": true
   },
   "failure_history": [
     {
       "run_number": 186,
-      "workflow_run_id": 36724322052,
       "classification": "TEST_FIXTURE_FAILURE",
-      "observed": "matching-surface unit fixture returned DEFER",
-      "cause": "fixture base64 decoded to MORPSS-043C instead of MORPHS-043C",
-      "repair": "corrected fixture content encoding",
-      "revalidation_run_number": 187
+      "observed": "matching-surface fixture returned DEFER",
+      "cause": "fixture base64 encoded MORPSS-043C instead of MORPHS-043C",
+      "repair": "corrected fixture encoding"
     },
     {
       "run_number": 194,
-      "workflow_run_id": 36724932756,
       "classification": "EXTERNAL_CONSISTENCY_FAILURE / TOCTOU",
-      "observed": "Contents API returned newer README content while raw main surface returned the previously observed README content",
-      "evidence": {
-        "contents_sha256": "b1d6934c8a3e6bc901e6f504b6ff5e8aad16c833c5f76896556b6e43f755f545",
-        "raw_sha256": "2d7fa9a16ae31f7dd6569bad3aea97ad87917c9680062d9c342b97118db6edb1",
-        "contents_provider_blob_sha": "3c0eb3488e272272ee7a8639e3d53fae3a77ebaf",
-        "prior_run_raw_sha256": "2d7fa9a16ae31f7dd6569bad3aea97ad87917c9680062d9c342b97118db6edb1"
-      },
-      "interpretation": "The two provider surfaces were bound only to the moving main ref, so the observation window was vulnerable to cross-surface staleness.",
-      "repair": "resolve main to an exact commit SHA first, then use that immutable commit ref for both Contents API and Raw reads",
-      "revalidation_run_number": 196
+      "observed": "Contents and Raw surfaces disagreed while both referenced moving main",
+      "repair": "resolve main to an exact commit and bind both surfaces to that commit",
+      "result": "DEFER before repair; revalidated successfully afterward"
+    },
+    {
+      "run_number": 205,
+      "classification": "TEST_IMPORT_FAILURE",
+      "observed": "tests imported removed receipt_integrity_ok symbol",
+      "repair": "align tests with receipt_self_consistency_ok"
+    },
+    {
+      "run_number": 207,
+      "classification": "TEST_CONTRACT_FAILURE",
+      "observed": "persistence assertion and wrong-source test did not match hardened transport contract",
+      "repair": "correct test expectations"
+    },
+    {
+      "run_number": 211,
+      "classification": "TEST_AUTHORITY_FAILURE",
+      "observed": "tests omitted now-required explicit host capability registry",
+      "repair": "bind test invocations through registry"
+    },
+    {
+      "run_number": 212,
+      "classification": "TEST_SYNTAX_FAILURE",
+      "observed": "literal newline escape sequence was written into test source",
+      "repair": "rewrite affected test source"
+    },
+    {
+      "run_number": 214,
+      "classification": "TEST_PROVENANCE_FAILURE",
+      "observed": "fixture expected LOCAL CI identifiers inside GitHub Actions",
+      "repair": "assert against GITHUB_RUN_ID and GITHUB_SHA when present"
+    },
+    {
+      "run_number": 221,
+      "classification": "PERSISTENCE_REVALIDATION_FAILURE",
+      "observed": "revalidator reconstructed receipt without separately stored invocation_id",
+      "repair": "reconstruct InvocationReceipt with stored invocation_id"
+    },
+    {
+      "run_number": 223,
+      "classification": "REVALIDATED",
+      "observed": "full repository regression and real runtime adapter execution succeeded",
+      "result": "SUCCESS"
     }
   ],
-  "revalidation_history": {
-    "run_196": "success",
-    "run_201": "success",
-    "latest_green_main_head": "39c7a9cff2334a20fdcfaca177db1988535a4a0e"
-  },
   "limitations": [
     "read-only provider operation",
     "public GitHub endpoints only",
     "same-provider independent surface, not provider-independent verification",
-    "no external mutation",
-    "no unknown network outcome",
+    "receipt is self-consistent and artifact-persisted but not cryptographically signed",
+    "GitHub artifact ZIP digest was verified from GitHub metadata; artifact bytes were not independently downloaded through the current connector path",
+    "no external mutation through MORPHS runtime",
+    "no real ambiguous network outcome",
     "no rollback",
-    "not yet integrated through the host capability registry"
+    "host capability registry remains an experimental fixture rather than a production registry"
   ],
-  "next_boundary": "043c-next: invoke the adapter through the host capability registry and make durable receipt persistence a first-class runtime artifact"
+  "next_boundary": "043c-next: provider-independent verification or controlled unknown-outcome handling; runtime mutation remains blocked until that evidence gate is satisfied"
 }
