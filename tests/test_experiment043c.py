@@ -1,4 +1,5 @@
 from dataclasses import replace
+import os
 from datetime import datetime, timezone
 
 import pytest
@@ -108,8 +109,8 @@ def test_runtime_verification_accepts_matching_surfaces():
     assert receipt.capability_id == "github.repository.read_file"
     assert receipt.identity_scope == "fixture/repo@main:README.md"
     assert receipt.execution_surface == "MORPHS_PYTHON_RUNTIME"
-    assert receipt.ci_run_id == "LOCAL"
-    assert receipt.ci_head_sha == "LOCAL"
+    assert receipt.ci_run_id == os.environ.get("GITHUB_RUN_ID", "LOCAL")
+    assert receipt.ci_head_sha == os.environ.get("GITHUB_SHA", "LOCAL")
     assert identity["contents_sha256"] == identity["raw_sha256"]
 
 
