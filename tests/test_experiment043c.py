@@ -12,6 +12,7 @@ from morph_core.experiment043c import (
     git_blob_sha1,
     receipt_self_consistency_ok,
     sha256_hex,
+    verify_persisted_receipt,
     verify_runtime,
 )
 
@@ -351,3 +352,35 @@ def test_registry_rejects_mismatched_adapter_invoker():
             AuthorizationState.ALLOW,
             require_bound_invoker=True,
         )
+
+
+def test_persisted_receipt_revalidation_detects_tamper(tmp_path):
+    adapter = GitHubRuntimeAdapter(
+        "fixture/repo",
+        "README.md",
+        "main",
+        transport=fake_transport_factory(),
+    )
+    store = JsonReceiptStore(tmp_path / "receipt.json")
+    receipt, _, _ = verify_runtime(
+        adapter,
+        registry=allowed_registry(adapter),
+        receipt_store=store,
+        now=fixed_now(),
+    )
+    good = verify_persisted_receipt(
+        store.path,
+        expected_run_id=receipt.ci_run_id,
+        expected_head_sha=receipt.ci_head_sha,
+    )
+    assert good["verified"] is True
+
+    raw = store.path.read_text()
+    tampered = raw.replace("github.repository.read_file", "other.capability")
+    store.path.write_text(tampered)
+    bad = verify_persisted_receipt(
+        store.path,
+        expected_run_id=receipt.ci_run_id,
+        expected_head_sha=receipt.ci_head_sha,
+    )
+    assert bad["verified"] is False
