@@ -164,7 +164,11 @@ Allowed evidence origins SHOULD distinguish at least:
 Critical separation:
 HOST_CAPTURED_EXTERNAL != RUNTIME_OBSERVED.
 
-A runtime claim requires a runtime invocation receipt bound to the capability, target, result, and postcondition. A host-captured observation may inform research, but must not be promoted into runtime evidence without that binding.
+A runtime claim requires a runtime invocation receipt bound to the capability, target, result, execution surface, and postcondition. External runtime invocations MUST pass through an explicit host capability registry; where the registry enforces bound invokers, the adapter bound to the descriptor must be the invoker.
+
+Receipt self-consistency is integrity evidence, not cryptographic authenticity. Persisted runtime evidence SHOULD be reread and revalidated against the execution run/head before artifact publication.
+
+A host-captured observation may inform research, but must not be promoted into runtime evidence without runtime binding.
 
 CI_VERIFIED certifies the executed repository path at the verified commit; it does not by itself certify an external live observation.
 
@@ -379,6 +383,8 @@ MORPHS MUST reject:
 - CI green → external live-world proof
 - state label → content identity when the resource is content-addressed
 - same-provider cross-surface read → provider-independent verification
+- self-consistent receipt → authenticated receipt
+- uploaded artifact → independently authenticated artifact contents
 - conversation → durable evidence
 - retry → recovery
 - different provider → valid substitution
