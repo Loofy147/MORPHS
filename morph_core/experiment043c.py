@@ -354,8 +354,8 @@ def verify_runtime(
         )
 
     resolved_binding = host_registry.resolve(capability.capability_id)
-    if resolved_binding.descriptor is not capability:
-        raise RuntimeError("registry capability binding is not the adapter capability")
+    if resolved_binding.descriptor != capability:
+        raise RuntimeError("registry capability binding does not match the adapter capability")
 
     (
         receipt,
