@@ -131,6 +131,32 @@ def receipt_self_consistency_ok(receipt: InvocationReceipt) -> bool:
     return receipt.invocation_id == expected_id
 
 
+def verify_persisted_receipt(
+    path: str | Path,
+    expected_run_id: str | None = None,
+    expected_head_sha: str | None = None,
+) -> dict[str, object]:
+    raw = Path(path).read_bytes()
+    document = json.loads(raw.decode("utf-8"))
+    receipt = InvocationReceipt(**document["receipt"])
+    self_consistent = receipt_self_consistency_ok(receipt)
+    run_match = expected_run_id is None or receipt.ci_run_id == expected_run_id
+    head_match = expected_head_sha is None or receipt.ci_head_sha == expected_head_sha
+    document_flag = document.get("receipt_self_consistent") is True
+    return {
+        "file_sha256": sha256_hex(raw),
+        "self_consistent": self_consistent,
+        "document_flag": document_flag,
+        "run_match": run_match,
+        "head_match": head_match,
+        "verified": all(
+            (self_consistent, document_flag, run_match, head_match)
+        ),
+    }
+
+
+
+
 class JsonReceiptStore:
     """Durable-at-run persistence for a runtime invocation receipt.
 
@@ -376,8 +402,20 @@ def verify_runtime(
     )
 
     persistence = None
+    persistence_verification = None
     if receipt_store is not None:
         persistence = receipt_store.persist(receipt)
+        persistence_verification = verify_persisted_receipt(
+            receipt_store.path,
+            expected_run_id=receipt.ci_run_id,
+            expected_head_sha=receipt.ci_head_sha,
+        )
+        if persistence_verification["file_sha256"] != persistence["artifact_sha256"]:
+            raise RuntimeError("persisted receipt hash changed after write")
+        if not persistence_verification["verified"]:
+            raise RuntimeError(
+                "persisted receipt failed revalidation"
+            )
 
     expected_api_url = (
         f"https://api.github.com/repos/{adapter.repository}/contents/"
@@ -487,6 +525,7 @@ def verify_runtime(
             "raw_observed_at": raw_observation.observed_at,
             "max_age_seconds": int(max_age.total_seconds()),
             "receipt_artifact": persistence,
+            "receipt_artifact_revalidation": persistence_verification,
             "provider_independence": "NOT_ESTABLISHED",
             "receipt_authenticity": "OPEN",
         },
