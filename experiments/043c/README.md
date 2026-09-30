@@ -10,7 +10,7 @@ Can MORPHS itself invoke a real external provider through a bounded runtime adap
 
 host-side GitHub tooling performing an action is not the same evidence as the MORPHS runtime performing that action.
 
-043c tests only that missing bridge.
+043c tests that missing bridge.
 
 It deliberately remains read-only.
 
@@ -18,35 +18,32 @@ It deliberately remains read-only.
 
 Provider: GitHub
 
-Operation: read \`README.md\` from \`Loofy147/MORPHS@main\`
+Operation: read `README.md` from `Loofy147/MORPHS@main`
 
-Primary surface:
-\`api.github.com/repos/.../contents/README.md?ref=main\`
+The primary surface is the GitHub Contents API.
 
-Independent surface:
-\`raw.githubusercontent.com/Loofy147/MORPHS/main/README.md\`
+The independent surface is GitHub Raw Content.
 
-The Python experiment invokes both surfaces itself.
+The Python experiment invokes both surfaces itself from GitHub Actions.
 
-## Receipt
+## Verified live execution
 
-Every live invocation records:
+GitHub Actions run **189** passed on commit:
 
-- provider
-- operation
-- HTTP method
-- exact API URL
-- status
-- timestamp
-- provider request id when available
-- response SHA-256
-- derived invocation id
+`c7fa5ac93a601eacf9711bec1c0874b63358da71`
 
-The observation additionally records:
+The runtime:
 
-- provider Git blob SHA
-- locally computed Git blob SHA
-- content SHA-256 from both surfaces
+- performed a real HTTP GET against the GitHub Contents API,
+- received HTTP 200,
+- recorded a provider request id and ETag,
+- independently read the same file through the raw surface,
+- matched the two byte streams,
+- recomputed the Git blob identity,
+- matched the provider-reported blob SHA,
+- produced a hash-bound invocation receipt.
+
+The durable receipt is stored in `experiments/043c/result.json`.
 
 ## Verification rule
 
@@ -57,16 +54,25 @@ The live observation is VERIFIED only when:
 3. the API content decodes successfully,
 4. raw content matches byte-for-byte,
 5. Git blob identity computed from the observed content matches the provider blob SHA,
-6. the receipt is internally complete and hash-bound,
-7. repository/path/ref binding remains exact.
+6. the invocation receipt is complete and internally hash-bound,
+7. repository/path/ref binding remains exact,
+8. receipt tampering tests reject modified identity/hash fields.
 
 Otherwise the experiment fails instead of upgrading the evidence state.
 
+## Preserved failure
+
+Run **186** failed before reaching the live provider because a unit fixture encoded the string incorrectly.
+
+The fixture decoded to `MORPSS-043C`, not `MORPHS-043C`.
+
+This was classified as `TEST_FIXTURE_FAILURE`, repaired, and revalidated by Runs 187-189.
+
 ## Epistemic limits
 
-This establishes a stronger claim than 043:
+This establishes:
 
-\`MORPHS runtime -> real GitHub read\`
+`MORPHS runtime -> real GitHub read-only provider`
 
 It still does not establish:
 
@@ -76,4 +82,6 @@ It still does not establish:
 - irreversible effects
 - rollback
 - distributed transaction semantics
-- general capability-registry integration
+- host capability-registry integration
+
+Those remain OPEN.
