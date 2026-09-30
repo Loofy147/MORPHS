@@ -55,3 +55,9 @@ jobs:
         run: python -m morph_core.experiment043b
       - name: Run Experiment 043c
         run: python -m morph_core.experiment043c
+      - name: Upload Experiment 043c runtime receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: morphs-043c-runtime-receipt
+          path: experiments/043c/runtime_receipt.json
+          if-no-files-found: error
