@@ -22,6 +22,7 @@ def allowed_registry(adapter):
         adapter.capability(),
         adapter.invoke,
         AuthorizationState.ALLOW,
+        require_bound_invoker=True,
     )
     return registry
 
