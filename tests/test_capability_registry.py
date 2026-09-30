@@ -80,3 +80,36 @@ def test_registry_rejects_duplicate_capability():
             lambda: "two",
             AuthorizationState.ALLOW,
         )
+
+
+@dataclass(frozen=True)
+class BoundFixtureCapability:
+    capability_id: str
+    identity_scope: str
+
+    def capability(self):
+        return self
+
+
+def test_registry_can_require_bound_invoker():
+    registry = HostCapabilityRegistry()
+    descriptor = BoundFixtureCapability("bound.read", "fixture/resource")
+    registry.register(
+        descriptor,
+        lambda: "not-bound",
+        AuthorizationState.ALLOW,
+    )
+    with pytest.raises(ValueError, match="invoker bound"):
+        registry.register(
+            BoundFixtureCapability("bound.write", "fixture/resource"),
+            lambda: "not-bound",
+            AuthorizationState.ALLOW,
+            require_bound_invoker=True,
+        )
+    bound = BoundFixtureCapability("bound.ok", "fixture/resource")
+    registry.register(
+        bound,
+        bound.capability,
+        AuthorizationState.ALLOW,
+        require_bound_invoker=True,
+    )
