@@ -43,15 +43,19 @@ propose -> verify -> promote -> active state -> revalidate -> rollback or block 
 
 041: external-world equilibrium
 042: dependency cascades and partial external failure
-043: read-only protocol transfer model + host-captured external observation
+043: read-only protocol boundary + host-captured observation
 043b: mutation protocol hardening + host-captured reversible canary
+043c: real MORPHS runtime read-only provider adapter
 
-The external path now has a strict evidence separation:
+The external path now has an explicit evidence chain:
 
-deterministic protocol evidence
+deterministic protocol semantics
 -> host-captured external evidence
--> MORPHS runtime integration (OPEN)
--> independent provider verification (OPEN)
+-> MORPHS runtime invocation
+-> durable invocation receipt
+-> independent same-provider observation
+-> identity verification
+-> provider-independent verification (OPEN)
 
 ## 3. Relationship types
 
@@ -86,6 +90,10 @@ Example: desired != observed -> replan.
 IDENTITY DEPENDENCY
 Semantic state labels are insufficient when external content identity can change.
 Example: same logical state + different blob -> DEFER.
+
+RECEIPT DEPENDENCY
+An external invocation must retain enough immutable information to bind the observed result to the actual invocation.
+Example: invocation id + request URL + timestamp + response hash -> receipt integrity.
 
 ## 4. External-world model
 
@@ -139,7 +147,7 @@ Possible classification:
 - partially applied
 - unresolved
 
-043b now requires both semantic state and content identity to resolve the known/unknown branch safely.
+043b requires both semantic state and content identity to resolve known/unknown branches safely.
 
 A live ambiguous provider outcome remains OPEN.
 
@@ -147,13 +155,17 @@ A live ambiguous provider outcome remains OPEN.
 
 External execution increases the required independence of verification.
 
-intent -> action -> provider result -> independent read -> postcondition -> dependency check -> convergence decision
+intent -> action -> provider result -> receipt -> independent read -> identity/postcondition -> dependency check -> convergence decision
 
 A provider success response is not equivalent to external equilibrium.
 
-043 demonstrates the deterministic protocol semantics plus a host-captured read observation. It does not establish MORPHS runtime invocation or provider-independent verification.
+043 establishes protocol semantics and host-captured read evidence.
 
-043b demonstrates the hardened mutation protocol and preserves the host-captured canary mutation/compensation sequence. It does not establish MORPHS runtime invocation.
+043b establishes hardened mutation protocol semantics and host-captured reversible canary evidence.
+
+043c establishes actual MORPHS runtime invocation of a real GitHub read, receipt integrity, same-provider independent observation, and Git blob identity binding.
+
+Provider-independent verification remains OPEN.
 
 ## 10. Current architecture frontier
 
@@ -165,11 +177,12 @@ A provider success response is not equivalent to external equilibrium.
 042 dependency cascade propagation and partial external state
 043 read-only external protocol boundary
 043b mutation protocol integrity + host-captured reversible canary
+043c real MORPHS runtime read-only provider adapter
 
 Next unresolved dimensions:
-- MORPHS runtime -> provider adapter execution
-- durable invocation receipts
+- host capability-registry integration
 - provider-independent verification
+- runtime mutation through the bounded adapter
 - real ambiguous mutation outcomes
 - irreversible side effects
 - provider substitution under contract equivalence
