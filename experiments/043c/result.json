@@ -1,0 +1,12 @@
+{
+  "experiment": "043c_real_runtime_adapter_and_receipt",
+  "claim_state": "PENDING_LIVE_EXECUTION",
+  "verification": {
+    "github_actions": "PENDING",
+    "workflow_run_id": null,
+    "job_id": null,
+    "commit_sha": null
+  },
+  "runtime_integration": "PENDING",
+  "provider_independence": "NOT_ESTABLISHED"
+}
