@@ -1,7 +1,10 @@
+from dataclasses import replace
+
 from morph_core.experiment043c import (
     GitHubRuntimeAdapter,
     HttpObservation,
     git_blob_sha1,
+    receipt_integrity_ok,
     sha256_hex,
     verify_runtime,
 )
@@ -52,6 +55,21 @@ def test_runtime_verification_accepts_matching_surfaces():
     assert verification.receipt_complete is True
     assert receipt.status == 200
     assert identity["contents_sha256"] == identity["raw_sha256"]
+
+
+def test_receipt_tampering_is_detectable():
+    adapter = GitHubRuntimeAdapter(
+        "fixture/repo",
+        "README.md",
+        "main",
+        transport=fake_transport_factory(),
+    )
+    receipt, _, _ = verify_runtime(adapter)
+    assert receipt_integrity_ok(receipt) is True
+    tampered_hash = replace(receipt, response_sha256="tampered")
+    tampered_id = replace(receipt, invocation_id="tampered")
+    assert receipt_integrity_ok(tampered_hash) is False
+    assert receipt_integrity_ok(tampered_id) is False
 
 
 def test_runtime_verification_rejects_content_mismatch():
