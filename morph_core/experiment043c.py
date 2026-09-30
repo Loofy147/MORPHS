@@ -65,6 +65,42 @@ def git_blob_sha1(content: bytes) -> str:
     return hashlib.sha1(header + content).hexdigest()
 
 
+def receipt_payload(receipt: InvocationReceipt) -> dict[str, object]:
+    return {
+        "provider": receipt.provider,
+        "operation": receipt.operation,
+        "method": receipt.method,
+        "url": receipt.url,
+        "status": receipt.status,
+        "observed_at": receipt.observed_at,
+        "provider_request_id": receipt.provider_request_id,
+        "response_etag": receipt.response_etag,
+        "response_sha256": receipt.response_sha256,
+    }
+
+
+def receipt_integrity_ok(receipt: InvocationReceipt) -> bool:
+    expected_id = hashlib.sha256(
+        json.dumps(
+            receipt_payload(receipt),
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode("utf-8")
+    ).hexdigest()
+    return all(
+        (
+            receipt.invocation_id == expected_id,
+            receipt.provider,
+            receipt.operation,
+            receipt.method == "GET",
+            receipt.url,
+            receipt.status == 200,
+            receipt.observed_at,
+            receipt.response_sha256,
+        )
+    )
+
+
 class GitHubRuntimeAdapter:
     """Real read-only provider adapter used by the 043c CI experiment."""
 
@@ -174,33 +210,27 @@ class GitHubRuntimeAdapter:
                 f"GitHub raw surface returned status {raw.status}"
             )
 
-        provider_request_id = api.headers.get(
-            "x-github-request-id",
-            "",
-        )
-        etag = api.headers.get("etag", "")
-        receipt_payload = {
-            "provider": capability.provider,
-            "operation": capability.operation,
-            "method": "GET",
-            "url": api_url,
-            "status": api.status,
-            "observed_at": api.observed_at,
-            "provider_request_id": provider_request_id,
-            "response_etag": etag,
-            "response_sha256": sha256_hex(api.body),
-        }
-        invocation_id = hashlib.sha256(
-            json.dumps(
-                receipt_payload,
-                sort_keys=True,
-                separators=(",", ":"),
-            ).encode("utf-8")
-        ).hexdigest()
-
         receipt = InvocationReceipt(
-            invocation_id=invocation_id,
-            **receipt_payload,
+            invocation_id="",
+            provider=capability.provider,
+            operation=capability.operation,
+            method="GET",
+            url=api_url,
+            status=api.status,
+            observed_at=api.observed_at,
+            provider_request_id=api.headers.get("x-github-request-id", ""),
+            response_etag=api.headers.get("etag", ""),
+            response_sha256=sha256_hex(api.body),
+        )
+        receipt = InvocationReceipt(
+            invocation_id=hashlib.sha256(
+                json.dumps(
+                    receipt_payload(receipt),
+                    sort_keys=True,
+                    separators=(",", ":"),
+                ).encode("utf-8")
+            ).hexdigest(),
+            **receipt_payload(receipt),
         )
         return receipt, api_content, raw.body, str(payload["sha"])
 
@@ -214,38 +244,7 @@ def verify_runtime(
     content_match = api_content == raw_content
     computed_blob_sha = git_blob_sha1(api_content)
     blob_identity_match = computed_blob_sha == provider_blob_sha
-
-    receipt_payload = {
-        "provider": receipt.provider,
-        "operation": receipt.operation,
-        "method": receipt.method,
-        "url": receipt.url,
-        "status": receipt.status,
-        "observed_at": receipt.observed_at,
-        "provider_request_id": receipt.provider_request_id,
-        "response_etag": receipt.response_etag,
-        "response_sha256": receipt.response_sha256,
-    }
-    expected_invocation_id = hashlib.sha256(
-        json.dumps(
-            receipt_payload,
-            sort_keys=True,
-            separators=(",", ":"),
-        ).encode("utf-8")
-    ).hexdigest()
-
-    receipt_complete = all(
-        (
-            receipt.invocation_id == expected_invocation_id,
-            receipt.provider == capability.provider,
-            receipt.operation == capability.operation,
-            receipt.method == "GET",
-            receipt.url,
-            receipt.status == 200,
-            receipt.observed_at,
-            receipt.response_sha256,
-        )
-    )
+    receipt_complete = receipt_integrity_ok(receipt)
 
     binding_match = (
         adapter.repository in receipt.url
@@ -263,7 +262,7 @@ def verify_runtime(
         reason = "provider blob identity does not match observed content"
     elif not receipt_complete:
         status = "DEFER"
-        reason = "invocation receipt is incomplete or internally inconsistent"
+        reason = "invocation receipt is incomplete or tampered"
     elif not binding_match:
         status = "DEFER"
         reason = "receipt is not bound to requested repository/path/ref"
