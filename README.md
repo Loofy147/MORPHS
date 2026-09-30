@@ -12,13 +12,13 @@ Conversation notes and generated snapshots are not authoritative.
 
 Experiment 043c is the current external-runtime frontier:
 
-> The MORPHS Python runtime can invoke a real public GitHub read operation through a bounded adapter, produce a hash-bound invocation receipt, independently read the same immutable commit through a second GitHub surface, and verify content plus Git blob identity before classifying the observation.
+> The MORPHS Python runtime can invoke a real public GitHub read operation through a bounded adapter and explicit host capability binding, produce a run-bound invocation receipt, independently read the same immutable commit through a second GitHub surface, revalidate the persisted receipt, and verify content plus Git blob identity before classifying the observation.
 
 Epistemic state: EXPERIMENTALLY_SUPPORTED
 
-Scope: one real read-only GitHub runtime adapter invocation for \`Loofy147/MORPHS@main:README.md\`, with \`main\` resolved to an exact commit before cross-surface verification.
+Scope: one real read-only GitHub runtime adapter invocation for `Loofy147/MORPHS@main:README.md`, with `main` resolved to an exact commit before cross-surface verification.
 
-This does NOT establish provider-independent verification, mutation through the MORPHS runtime, ambiguous network outcome handling, rollback, distributed transactions, or unrestricted capability-registry integration.
+This does NOT establish provider-independent verification, cryptographic receipt authenticity, mutation through the MORPHS runtime, ambiguous network outcome handling, rollback, distributed transactions, or a production-grade capability registry.
 
 The 043b mutation canary remains HOST_CAPTURED_EXTERNAL evidence; the MORPHS runtime mutation path remains OPEN.
 
@@ -27,15 +27,14 @@ The 043b mutation canary remains HOST_CAPTURED_EXTERNAL evidence; the MORPHS run
 The authoritative verification source is GitHub Actions on the current main HEAD.
 
 Current external-runtime evidence:
-- 043c: run 196 — verified
-- 043c durable receipt: stored in \`experiments/043c/result.json\`
+- 043c: Run 223 — verified
+- 043c current HEAD: `2f7c4da58ab5cd6922c745705a2f5d7512987b11`
+- 043c runtime receipt: `experiments/043c/result.json`
+- 043c CI artifact: `morphs-043c-runtime-receipt`
 
-Preserved negative evidence:
-- run 186: TEST_FIXTURE_FAILURE
-- run 194: EXTERNAL_CONSISTENCY_FAILURE / TOCTOU; repaired by exact-commit pinning
-- run 196: revalidation success
+Preserved negative evidence includes the fixture failure, moving-ref TOCTOU, registry-bypass test failures, CI provenance assertion, and persisted-receipt reconstruction failure. Each was repaired and revalidated.
 
-Prior green runs are historical evidence; the current main HEAD must pass its own full workflow before any new claim is promoted.
+Prior green runs are historical evidence; a later HEAD must pass its own full workflow before any new claim is promoted.
 
 ## Development rule
 
