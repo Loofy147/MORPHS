@@ -1,12 +1,69 @@
 {
   "experiment": "043c_real_runtime_adapter_and_receipt",
-  "claim_state": "PENDING_LIVE_EXECUTION",
+  "claim_state": "EXPERIMENTALLY_SUPPORTED",
+  "scope": "real MORPHS Python runtime invoking public GitHub read-only endpoints for one repository file; independent same-provider raw read and Git blob identity check",
+  "runtime_integration": "VERIFIED",
+  "provider_independence": "NOT_ESTABLISHED",
   "verification": {
-    "github_actions": "PENDING",
-    "workflow_run_id": null,
-    "job_id": null,
-    "commit_sha": null
+    "github_actions": "success",
+    "run_number": 189,
+    "workflow_run_id": 36724697630,
+    "job_id": 109918448456,
+    "verified_commit_sha": "c7fa5ac93a601eacf9711bec1c0874b63358da71"
   },
-  "runtime_integration": "PENDING",
-  "provider_independence": "NOT_ESTABLISHED"
+  "invocation_receipt": {
+    "invocation_id": "6c9938fde0e0462911659dcc4faabcaa2857bfce71ce069291b919ee10efbdc0",
+    "method": "GET",
+    "observed_at": "2026-09-30T13:51:54.911608+00:00",
+    "operation": "read_file",
+    "provider": "github",
+    "provider_request_id": "D000:39042C:D612CA:F3DF00:6ABD13FA",
+    "response_etag": "\"3731c5a12c2fe3fad324a85edbcbe13c14ddfd1d\"",
+    "response_sha256": "b19fea07c63750f05d3842469194bec3fb3263e6f3b997c127a71c09d9c8a2eb",
+    "status": 200,
+    "url": "https://api.github.com/repos/Loofy147/MORPHS/contents/README.md?ref=main"
+  },
+  "identity": {
+    "repository": "Loofy147/MORPHS",
+    "path": "README.md",
+    "ref": "main",
+    "provider_blob_sha": "3731c5a12c2fe3fad324a85edbcbe13c14ddfd1d",
+    "computed_git_blob_sha": "3731c5a12c2fe3fad324a85edbcbe13c14ddfd1d",
+    "contents_sha256": "2d7fa9a16ae31f7dd6569bad3aea97ad87917c9680062d9c342b97118db6edb1",
+    "raw_sha256": "2d7fa9a16ae31f7dd6569bad3aea97ad87917c9680062d9c342b97118db6edb1",
+    "independent_surface": "raw.githubusercontent.com"
+  },
+  "checks": {
+    "runtime_invocation": true,
+    "receipt_complete": true,
+    "receipt_integrity": true,
+    "binding_match": true,
+    "content_match": true,
+    "git_blob_identity_match": true,
+    "receipt_tamper_tests": true
+  },
+  "failure_history": {
+    "run_number": 186,
+    "workflow_run_id": 36724322052,
+    "classification": "TEST_FIXTURE_FAILURE",
+    "observed": "matching-surface unit fixture returned DEFER",
+    "cause": "fixture base64 decoded to MORPSS-043C instead of MORPHS-043C",
+    "repair": "corrected fixture content encoding",
+    "revalidation_run_number": 187
+  },
+  "revalidation_history": {
+    "run_187": "success",
+    "run_188": "success",
+    "run_189": "success"
+  },
+  "limitations": [
+    "read-only provider operation",
+    "public GitHub endpoints only",
+    "same-provider independent surface, not provider-independent verification",
+    "no external mutation",
+    "no unknown network outcome",
+    "no rollback",
+    "not yet integrated through the host capability registry"
+  ],
+  "next_boundary": "043c-next: invoke the adapter through the host capability registry and make durable receipt persistence a first-class runtime artifact"
 }
