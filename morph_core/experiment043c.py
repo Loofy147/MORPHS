@@ -138,7 +138,10 @@ def verify_persisted_receipt(
 ) -> dict[str, object]:
     raw = Path(path).read_bytes()
     document = json.loads(raw.decode("utf-8"))
-    receipt = InvocationReceipt(**document["receipt"])
+    receipt = InvocationReceipt(
+        invocation_id=document["invocation_id"],
+        **document["receipt"],
+    )
     self_consistent = receipt_self_consistency_ok(receipt)
     run_match = expected_run_id is None or receipt.ci_run_id == expected_run_id
     head_match = expected_head_sha is None or receipt.ci_head_sha == expected_head_sha
