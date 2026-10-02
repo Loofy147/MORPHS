@@ -1,93 +1,102 @@
 {
   "experiment": "043c_real_runtime_adapter_and_receipt",
   "claim_state": "EXPERIMENTALLY_SUPPORTED",
-  "scope": "real MORPHS Python runtime invoking public GitHub read-only endpoints for one repository file; requested ref resolved to an exact commit before Contents and Raw reads; explicit host registry binding and run-local receipt revalidation",
+  "scope": "real MORPHS Python runtime invoking public GitHub read-only endpoints for one repository file; requested ref resolved to an exact commit before Contents and Raw reads; host-injected capability registry; trusted CI provenance for receipt revalidation",
   "runtime_integration": "VERIFIED",
   "provider_independence": "NOT_ESTABLISHED",
   "verification": {
     "github_actions": "success",
-    "run_number": 229,
-    "workflow_run_id": 36735152039,
-    "job_id": 109954789774,
-    "verified_commit_sha": "ed184bb717049bf5d12b08284bc5bd3f9376f251",
-    "full_sequence": "compile + pytest + experiments 028-043c + receipt persistence + artifact upload"
+    "run_number": 237,
+    "workflow_run_id": 37045789898,
+    "job_id": 110966765760,
+    "verified_commit_sha": "c47674a2f4de7e16054cdee4f3771cc6ddfa325f",
+    "full_sequence": "compile + pytest + Experiments 028-043c + receipt persistence + artifact upload",
+    "workflow_permissions": "contents: read"
   },
   "invocation_receipt": {
-    "invocation_id": "a3a6f0b26a4e49af24c99da0b5847391430282709587d28e38c9e1048079e59b",
+    "receipt_version": 1,
+    "invocation_id": "e35e590122305a00dfe4552db5f2b65b5ea625c1ad0505702ee9ae5ffce8d7a8",
     "execution_surface": "MORPHS_PYTHON_RUNTIME",
-    "ci_run_id": "36735152039",
-    "ci_head_sha": "ed184bb717049bf5d12b08284bc5bd3f9376f251",
+    "ci_run_id": "37045789898",
+    "ci_head_sha": "c47674a2f4de7e16054cdee4f3771cc6ddfa325f",
     "capability_id": "github.repository.read_file",
     "identity_scope": "Loofy147/MORPHS@main:README.md",
-    "method": "GET",
-    "observed_at": "2026-09-30T15:14:33.018458+00:00",
-    "operation": "read_file",
     "provider": "github",
-    "provider_request_id": "0D01:1A0FAD:58CEB67:126D8DBB:6ABD2759",
-    "raw_observed_at": "2026-09-30T15:14:33.282959+00:00",
-    "raw_request_id": "FE20:FCA36:57E16:21250C:6ABD2759",
-    "raw_response_sha256": "a8457998e9c2f1b239311d15334839551e52f45e97337b91f6cfee47ce794718",
-    "ref_requested": "main",
-    "ref_resolution_request_id": "0D00:3596D8:5AF664C:12F6961E:6ABD2758",
-    "ref_resolution_status": 200,
-    "ref_resolution_url": "https://api.github.com/repos/Loofy147/MORPHS/commits/main",
-    "ref_resolved_commit": "ed184bb717049bf5d12b08284bc5bd3f9376f251",
-    "response_etag": "\"5287018ebcf40e978ca841d5659eca56e24344a4\"",
-    "response_sha256": "d036d36bb07b277719a7064fe8abdc66c901e97e424da20bf3746b00cb7077e3",
+    "operation": "read_file",
+    "method": "GET",
+    "url": "https://api.github.com/repos/Loofy147/MORPHS/contents/README.md?ref=c47674a2f4de7e16054cdee4f3771cc6ddfa325f",
     "status": 200,
-    "url": "https://api.github.com/repos/Loofy147/MORPHS/contents/README.md?ref=ed184bb717049bf5d12b08284bc5bd3f9376f251",
-    "raw_url": "https://raw.githubusercontent.com/Loofy147/MORPHS/ed184bb717049bf5d12b08284bc5bd3f9376f251/README.md"
+    "observed_at": "2026-10-02T18:12:11.639246+00:00",
+    "provider_request_id": "0402:3B3028:B0C659:245B460:6ABFF3FB",
+    "response_etag": "\"e64610b26ba4578e7339b34652b53a1d148bc116\"",
+    "response_sha256": "258ec3314490d513fe90302a42f7e4e00ab2a68c21eed93cabfdf39775bad69e",
+    "raw_url": "https://raw.githubusercontent.com/Loofy147/MORPHS/c47674a2f4de7e16054cdee4f3771cc6ddfa325f/README.md",
+    "raw_status": 200,
+    "raw_observed_at": "2026-10-02T18:12:11.861881+00:00",
+    "raw_request_id": "2870:1BB5:1817A:3B076:6ABFF3FA",
+    "raw_response_sha256": "9a91ab924a4ed60327e3365340e8862170be78a10118d28078bf199ba6d5c702",
+    "ref_requested": "main",
+    "ref_resolved_commit": "c47674a2f4de7e16054cdee4f3771cc6ddfa325f",
+    "ref_resolution_url": "https://api.github.com/repos/Loofy147/MORPHS/commits/main",
+    "ref_resolution_status": 200,
+    "ref_resolution_request_id": "0400:28F7D5:BADE4C:2660134:6ABFF3FB"
   },
   "identity": {
     "repository": "Loofy147/MORPHS",
     "path": "README.md",
     "ref": "main",
-    "resolved_commit": "ed184bb717049bf5d12b08284bc5bd3f9376f251",
-    "provider_blob_sha": "a215281e891458748c316650cc3bcdcc9c8c60cf",
-    "computed_git_blob_sha": "a215281e891458748c316650cc3bcdcc9c8c60cf",
-    "contents_sha256": "a8457998e9c2f1b239311d15334839551e52f45e97337b91f6cfee47ce794718",
-    "raw_sha256": "a8457998e9c2f1b239311d15334839551e52f45e97337b91f6cfee47ce794718",
+    "resolved_commit": "c47674a2f4de7e16054cdee4f3771cc6ddfa325f",
+    "provider_blob_sha": "e64610b26ba4578e7339b34652b53a1d148bc116",
+    "computed_git_blob_sha": "e64610b26ba4578e7339b34652b53a1d148bc116",
+    "contents_sha256": "9a91ab924a4ed60327e3365340e8862170be78a10118d28078bf199ba6d5c702",
+    "raw_sha256": "9a91ab924a4ed60327e3365340e8862170be78a10118d28078bf199ba6d5c702",
     "independent_surface": "raw.githubusercontent.com"
+  },
+  "authority": {
+    "authorization_state": "ALLOW",
+    "source": "morph_core/experiment043c_host.py",
+    "workflow_gate": "MORPHS_043C_AUTHORIZATION=ALLOW",
+    "token_permission_scope": "contents: read",
+    "experiment_self_authorization": false,
+    "bound_invoker_required": true
   },
   "receipt_persistence": {
     "file_path": "experiments/043c/runtime_receipt.json",
-    "file_sha256": "c42fa6a85987cf1aabd0636ee14a9572a6ab64dbd722ca37954f9669738f248d",
+    "file_sha256": "07eda1fb1fbbad4e60aaaeea9482c0c0d015d1af38c2fb0d84a016b94ffcc05a",
     "revalidation": {
       "self_consistent": true,
       "document_flag": true,
       "run_match": true,
       "head_match": true,
-      "verified": true
+      "verified": true,
+      "trusted_anchor": "GITHUB_RUN_ID + GITHUB_SHA"
     },
     "ci_artifact": {
-      "artifact_id": 11106862020,
+      "artifact_id": 11244079102,
       "name": "morphs-043c-runtime-receipt",
-      "size_in_bytes": 873,
-      "sha256": "a4ef7f92da5e97dfe5a4b19e292a10215e3bebff7a451da4fb5b9ed423e27e0f",
-      "expires_at": "2026-12-29T15:14:04Z"
+      "size_in_bytes": 865,
+      "sha256": "1d82a92d655bf267b4cd8fd331e9f3a4388754710d8b9e19ed3e6d75db3eed25",
+      "expires_at": "2026-12-31T18:11:45Z"
     }
-  },
-  "registry_binding": {
-    "authorization_state": "ALLOW",
-    "capability_scope": "Loofy147/MORPHS@main:README.md",
-    "bound_invoker_required": true,
-    "mismatched_invoker_rejected": true,
-    "registry_bypass_rejected": true
   },
   "checks": {
     "runtime_invocation": true,
     "explicit_host_registry": true,
+    "host_authorization_injected": true,
+    "workflow_token_read_only": true,
     "bound_invoker": true,
     "ref_resolved_to_exact_commit": true,
     "receipt_complete": true,
     "receipt_self_consistent": true,
     "receipt_file_revalidated": true,
+    "trusted_ci_provenance_binding": true,
     "binding_match": true,
     "content_match": true,
     "fresh_enough": true,
     "git_blob_identity_match": true,
     "receipt_tamper_tests": true,
-    "persisted_receipt_tamper_tests": true
+    "persisted_receipt_tamper_tests": true,
+    "recomputed_receipt_replay_is_rejected": true
   },
   "failure_history": [
     {
@@ -113,13 +122,13 @@
     {
       "run_number": 207,
       "classification": "TEST_CONTRACT_FAILURE",
-      "observed": "persistence assertion and wrong-source test did not match hardened transport contract",
+      "observed": "persistence assertion and wrong-source test did not match the hardened transport contract",
       "repair": "correct test expectations"
     },
     {
       "run_number": 211,
       "classification": "TEST_AUTHORITY_FAILURE",
-      "observed": "tests omitted now-required explicit host capability registry",
+      "observed": "tests omitted the newly required explicit registry",
       "repair": "bind test invocations through registry"
     },
     {
@@ -131,7 +140,7 @@
     {
       "run_number": 214,
       "classification": "TEST_PROVENANCE_FAILURE",
-      "observed": "fixture expected LOCAL CI identifiers inside GitHub Actions",
+      "observed": "fixture expected LOCAL identifiers inside GitHub Actions",
       "repair": "assert against GITHUB_RUN_ID and GITHUB_SHA when present"
     },
     {
@@ -141,9 +150,21 @@
       "repair": "reconstruct InvocationReceipt with stored invocation_id"
     },
     {
-      "run_number": 223,
+      "run_number": 234,
+      "classification": "AUTHORITY_HARDENING",
+      "observed": "CI authority was broader than the read-only experiment required",
+      "repair": "set workflow permissions to contents: read"
+    },
+    {
+      "run_number": 236,
+      "classification": "REDTEAM_TEST_FIXTURE_FAILURE",
+      "observed": "replay regression supplied synthetic trusted identifiers that did not match the CI receipt",
+      "repair": "use the real trusted receipt run/head, then mutate and recompute the receipt self-hash"
+    },
+    {
+      "run_number": 237,
       "classification": "REVALIDATED",
-      "observed": "full repository regression and real runtime adapter execution succeeded",
+      "observed": "full repository regression, live runtime adapter invocation, trusted-provenance receipt revalidation, and artifact upload succeeded",
       "result": "SUCCESS"
     }
   ],
@@ -151,12 +172,14 @@
     "read-only provider operation",
     "public GitHub endpoints only",
     "same-provider independent surface, not provider-independent verification",
-    "receipt is self-consistent and artifact-persisted but not cryptographically signed",
-    "GitHub artifact ZIP digest was verified from GitHub metadata; artifact bytes were not independently downloaded through the current connector path",
+    "receipt authenticity is OPEN because the receipt is self-consistent but not signed",
+    "artifact metadata proves upload existence and digest; artifact bytes were not independently downloaded through the current connector path",
+    "host registry is an experimental in-process boundary, not a production isolation mechanism",
     "no external mutation through MORPHS runtime",
     "no real ambiguous network outcome",
     "no rollback",
-    "host capability registry remains an experimental fixture rather than a production registry"
+    "freshness timestamp is captured immediately before each HTTP request rather than after response completion",
+    "provider substitution and distributed transaction semantics remain OPEN"
   ],
-  "next_boundary": "043c-next: provider-independent verification or controlled unknown-outcome handling; runtime mutation remains blocked until that evidence gate is satisfied"
+  "next_boundary": "043c-next: provider-independent verification or controlled unknown-outcome handling; runtime mutation remains blocked"
 }
