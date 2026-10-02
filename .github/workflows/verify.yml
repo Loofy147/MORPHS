@@ -8,6 +8,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -54,7 +56,9 @@ jobs:
       - name: Run Experiment 043b
         run: python -m morph_core.experiment043b
       - name: Run Experiment 043c
-        run: python -m morph_core.experiment043c
+        env:
+          MORPHS_043C_AUTHORIZATION: ALLOW
+        run: python -m morph_core.experiment043c_host
       - name: Upload Experiment 043c runtime receipt
         uses: actions/upload-artifact@v4
         with:
