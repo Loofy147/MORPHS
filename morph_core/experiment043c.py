@@ -535,25 +535,24 @@ def verify_runtime(
     )
 
 
-def run_experiment043c() -> dict[str, object]:
+def run_experiment043c(
+    registry: HostCapabilityRegistry,
+    receipt_store: JsonReceiptStore | None = None,
+) -> dict[str, object]:
+    """Run 043c only with a registry injected by the host layer."""
     adapter = GitHubRuntimeAdapter(
         repository="Loofy147/MORPHS",
         path="README.md",
         ref="main",
     )
-    registry = HostCapabilityRegistry()
-    registry.register(
-        adapter.capability(),
-        adapter.invoke,
-        AuthorizationState.ALLOW,
-        require_bound_invoker=True,
-    )
-    receipt_store = JsonReceiptStore(
-        os.environ.get(
-            "MORPHS_043C_RECEIPT_PATH",
-            "experiments/043c/runtime_receipt.json",
+    if receipt_store is None:
+        receipt_store = JsonReceiptStore(
+            os.environ.get(
+                "MORPHS_043C_RECEIPT_PATH",
+                "experiments/043c/runtime_receipt.json",
+            )
         )
-    )
+
     receipt, verification, identity = verify_runtime(
         adapter,
         registry=registry,
@@ -577,6 +576,9 @@ def run_experiment043c() -> dict[str, object]:
             "-> RECEIPT_PERSIST -> INDEPENDENT_READ -> IDENTITY_VERIFY -> CLASSIFY"
         ),
         "runtime_integration": verification.status,
+        "authority_integration": (
+            "INJECTED_HOST_REGISTRY"
+        ),
         "invocation_receipt": receipt.__dict__,
         "verification": verification.__dict__,
         "identity": identity,
@@ -585,19 +587,19 @@ def run_experiment043c() -> dict[str, object]:
             "public GitHub endpoints only",
             "same-provider independent surface, not provider-independent verification",
             "receipt authenticity is OPEN because the receipt is hash-self-consistent but not signed",
+            "host registry is an experimental in-process boundary, not a production isolation mechanism",
             "no external mutation",
             "no unknown network outcome",
             "no rollback",
         ],
         "next_boundary": (
-            "043c-next: capability-registry provenance and durable receipt artifact "
-            "verification on the CI run before any runtime mutation attempt"
+            "043c-next: provider-independent verification or controlled "
+            "unknown-outcome handling; runtime mutation remains blocked"
         ),
     }
     if verification.status != "VERIFIED":
         raise RuntimeError(json.dumps(result, indent=2, sort_keys=True))
     return result
-
 
 if __name__ == "__main__":
     import json
