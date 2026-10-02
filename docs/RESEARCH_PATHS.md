@@ -1,5 +1,62 @@
 # MORPHS research paths
 
+## Purpose
+
+This is the construction map for MORPHS.
+
+It answers:
+1. What are we actually assembling?
+2. Through which experimental paths are we trying to assemble it?
+
+Conversation is navigation only. Repository code, tests, captured results, and CI are the evidence source.
+
+## 1. Construction target
+
+The current target is a host-bounded adaptive software ecology.
+
+The intended structure is:
+
+stable host substrate
+→ adaptive ecology
+→ candidate change
+→ evidence collection
+→ independent or protected verification
+→ promotion or DEFER
+→ audit and lineage
+→ revalidation
+
+The important property is not unrestricted autonomy.
+
+The important property is that increasingly adaptive behavior remains observable, resource-bounded, evidence-gated, and authority-separated.
+
+## 2. Path A — learn the substrate constraints
+
+Experiment 028 and the earlier lineage establish machine-observable invariants such as actor authority, budget sufficiency, version alignment, and audit monotonicity.
+
+## 3. Path B — evolve the adaptive language
+
+029-035 progressively increase what the adaptive layer can construct while remaining inside host-specified resource, interface, lineage, and evidence boundaries.
+
+## 4. Path C — evolve verification proposals without authority
+
+036-038 test shadow verification, verifier diversity, disagreement investigation, and DEFER-preserving diagnostics.
+
+## 5. Shared evidence gates
+
+Across the paths:
+
+observe
+→ identify
+→ generate candidate
+→ intervene
+→ holdout or transfer or adversarial test
+→ independent verification
+→ promote or DEFER
+→ record result, scope, and limitation
+→ revalidate later
+
+No stage is allowed to silently upgrade epistemic state.
+
 ## 6. Failure handling path
 
 When a test or experiment exposes a flaw:
@@ -16,17 +73,32 @@ failure
 
 043b exposed a protocol-integrity failure: state labels were treated as sufficient identity while blob identity was stored but not enforced.
 
-043c exposed and repaired:
-- Run 186: fixture encoding failure.
-- Run 194: moving-ref TOCTOU between Contents and Raw surfaces.
-- Run 205: stale test import after receipt API renaming.
-- Run 207: tests inconsistent with the hardened transport contract.
-- Run 211: tests bypassed the newly required explicit registry.
-- Run 212: generated test source contained a literal escape sequence.
-- Run 214: CI provenance test assumed LOCAL identifiers inside Actions.
-- Run 221/222: persisted receipt revalidation reconstructed the receipt without its separately stored invocation_id.
+043c exposed and repaired a sequence of runtime-boundary failures, including moving-ref TOCTOU, registry/invoker mismatch, CI provenance assumptions, receipt reconstruction, broader-than-needed CI token permissions, and a recomputed-receipt replay regression fixture.
 
 These failures are part of the research evidence, not noise to remove.
+
+## 7. Authority graph
+
+HOST
+→ controls execution boundaries
+→ controls verifier integrity
+→ controls audit integrity
+→ authorizes external side effects
+
+ADAPTIVE ECOLOGY
+→ proposes capabilities
+→ proposes rules and operators
+→ proposes policies
+→ proposes shadow verifiers
+→ proposes investigation targets
+
+PROTECTED VERIFICATION
+→ evaluates proposals against evidence
+
+AUDIT
+→ records what happened, why a change was accepted or deferred, and under which scope
+
+No arrow from adaptive proposal state points directly to host authority.
 
 ## 8. Current non-claims
 
@@ -44,7 +116,8 @@ The present lineage does not establish:
 - distributed transaction semantics
 - resilience against adversarial corruption of verifier inputs or investigation traces
 - provider substitution under contract equivalence
-- a production-grade host capability registry
+- production-grade host capability isolation
+- strong post-response freshness semantics
 
 These remain OPEN boundaries unless later experiments produce stronger evidence.
 
@@ -63,20 +136,22 @@ These remain OPEN boundaries unless later experiments produce stronger evidence.
 043c establishes the current runtime bridge for read-only execution:
 
 resolve ref
-→ bind capability in explicit host registry
-→ enforce bound invoker
+→ bind capability through injected host registry
+→ require bound invoker
 → invoke provider
 → durable receipt
-→ receipt revalidation against run/head
+→ revalidate receipt against trusted CI run/head
 → independent same-commit read
 → Git identity verification
 → explicit runtime classification
 
 The Run 194 TOCTOU failure remains part of the design: moving refs are not accepted as sufficient cross-surface binding.
 
+The latest replay regression also established that receipt self-consistency is not enough; trusted CI provenance is required to detect recomputed receipt replay.
+
 ### Path E-next — independent verification and controlled uncertainty
 
-The runtime bridge is now established for read-only GitHub execution.
+The runtime bridge is now established for one read-only GitHub capability.
 
 The next research gate is deliberately narrower:
 
@@ -106,6 +181,6 @@ These are branches of one construction, not separate projects.
 - 042: verified dependency cascades and partial external failure
 - 043: corrected protocol boundary; host-captured live read evidence; runtime integration OPEN
 - 043b: corrected mutation identity/authority boundary; host-captured reversible canary; runtime mutation OPEN
-- 043c: verified real MORPHS runtime read-only GitHub adapter with exact-commit binding, explicit host registry, bound invoker, and revalidated invocation receipt
+- 043c: verified real MORPHS runtime read-only GitHub adapter with exact-commit binding, injected host registry, bound invoker, trusted receipt provenance, and replay-resistant revalidation
 
 The current decision point is provider-independent verification or controlled unknown-outcome handling before any runtime mutation attempt.
