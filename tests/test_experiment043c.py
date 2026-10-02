@@ -1,4 +1,6 @@
 from dataclasses import replace
+import hashlib
+import json
 import os
 from datetime import datetime, timezone
 
@@ -421,3 +423,45 @@ def test_host_runner_requires_bound_invoker(monkeypatch):
     monkeypatch.setenv("MORPHS_043C_AUTHORIZATION", "ALLOW")
     registry = build_host_registry(adapter)
     assert registry.resolve(adapter.capability().capability_id).descriptor == adapter.capability()
+
+
+def test_persisted_receipt_replay_with_recomputed_self_hash_is_detected(tmp_path):
+    adapter = GitHubRuntimeAdapter(
+        "fixture/repo",
+        "README.md",
+        "main",
+        transport=fake_transport_factory(),
+    )
+    store = JsonReceiptStore(tmp_path / "receipt.json")
+    receipt, _, _ = verify_runtime(
+        adapter,
+        registry=allowed_registry(adapter),
+        receipt_store=store,
+        now=fixed_now(),
+        trusted_run_id="trusted-run",
+        trusted_head_sha="trusted-head",
+    )
+
+    document = json.loads(store.path.read_text())
+    document["receipt"]["ci_run_id"] = "attacker-run"
+    document["receipt"]["ci_head_sha"] = "attacker-head"
+    payload = document["receipt"]
+    document["invocation_id"] = hashlib.sha256(
+        json.dumps(
+            payload,
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode("utf-8")
+    ).hexdigest()
+    document["receipt_self_consistent"] = True
+    store.path.write_text(json.dumps(document, sort_keys=True))
+
+    verification = verify_persisted_receipt(
+        store.path,
+        expected_run_id="trusted-run",
+        expected_head_sha="trusted-head",
+    )
+    assert verification["self_consistent"] is True
+    assert verification["run_match"] is False
+    assert verification["head_match"] is False
+    assert verification["verified"] is False
