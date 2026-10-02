@@ -438,8 +438,6 @@ def test_persisted_receipt_replay_with_recomputed_self_hash_is_detected(tmp_path
         registry=allowed_registry(adapter),
         receipt_store=store,
         now=fixed_now(),
-        trusted_run_id="trusted-run",
-        trusted_head_sha="trusted-head",
     )
 
     document = json.loads(store.path.read_text())
@@ -458,8 +456,8 @@ def test_persisted_receipt_replay_with_recomputed_self_hash_is_detected(tmp_path
 
     verification = verify_persisted_receipt(
         store.path,
-        expected_run_id="trusted-run",
-        expected_head_sha="trusted-head",
+        expected_run_id=receipt.ci_run_id,
+        expected_head_sha=receipt.ci_head_sha,
     )
     assert verification["self_consistent"] is True
     assert verification["run_match"] is False
