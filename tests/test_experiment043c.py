@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 import pytest
 
 from morph_core.capability_registry import AuthorizationState, HostCapabilityRegistry
+from morph_core.experiment043c_host import build_host_registry
 from morph_core.experiment043c import (
     GitHubRuntimeAdapter,
     HttpObservation,
@@ -14,6 +15,7 @@ from morph_core.experiment043c import (
     sha256_hex,
     verify_persisted_receipt,
     verify_runtime,
+    run_experiment043c,
 )
 
 
@@ -384,3 +386,38 @@ def test_persisted_receipt_revalidation_detects_tamper(tmp_path):
         expected_head_sha=receipt.ci_head_sha,
     )
     assert bad["verified"] is False
+
+
+def test_experiment_requires_injected_host_registry(monkeypatch):
+    adapter = GitHubRuntimeAdapter(
+        "fixture/repo",
+        "README.md",
+        "main",
+        transport=fake_transport_factory(),
+    )
+    with pytest.raises(TypeError):
+        run_experiment043c()  # registry injection is mandatory
+
+
+def test_host_runner_requires_explicit_allow(monkeypatch):
+    adapter = GitHubRuntimeAdapter(
+        "fixture/repo",
+        "README.md",
+        "main",
+        transport=fake_transport_factory(),
+    )
+    monkeypatch.delenv("MORPHS_043C_AUTHORIZATION", raising=False)
+    with pytest.raises(PermissionError, match="explicit MORPHS_043C_AUTHORIZATION=ALLOW"):
+        build_host_registry(adapter)
+
+
+def test_host_runner_requires_bound_invoker(monkeypatch):
+    adapter = GitHubRuntimeAdapter(
+        "fixture/repo",
+        "README.md",
+        "main",
+        transport=fake_transport_factory(),
+    )
+    monkeypatch.setenv("MORPHS_043C_AUTHORIZATION", "ALLOW")
+    registry = build_host_registry(adapter)
+    assert registry.resolve(adapter.capability().capability_id).descriptor == adapter.capability()
