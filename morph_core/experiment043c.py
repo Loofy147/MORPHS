@@ -381,6 +381,8 @@ def verify_runtime(
     receipt_store: JsonReceiptStore | None = None,
     now: datetime | None = None,
     max_age: timedelta = timedelta(seconds=60),
+    trusted_run_id: str | None = None,
+    trusted_head_sha: str | None = None,
 ) -> tuple[InvocationReceipt, RuntimeVerification, dict[str, object]]:
     capability = adapter.capability()
     if registry is None:
@@ -408,10 +410,16 @@ def verify_runtime(
     persistence_verification = None
     if receipt_store is not None:
         persistence = receipt_store.persist(receipt)
+        expected_run_id = trusted_run_id
+        if expected_run_id is None:
+            expected_run_id = os.environ.get("GITHUB_RUN_ID")
+        expected_head_sha = trusted_head_sha
+        if expected_head_sha is None:
+            expected_head_sha = os.environ.get("GITHUB_SHA")
         persistence_verification = verify_persisted_receipt(
             receipt_store.path,
-            expected_run_id=receipt.ci_run_id,
-            expected_head_sha=receipt.ci_head_sha,
+            expected_run_id=expected_run_id,
+            expected_head_sha=expected_head_sha,
         )
         if persistence_verification["file_sha256"] != persistence["artifact_sha256"]:
             raise RuntimeError("persisted receipt hash changed after write")
