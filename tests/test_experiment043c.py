@@ -22,6 +22,8 @@ from morph_core.experiment043c import (
 
 
 def allowed_registry(adapter):
+    if not adapter.access_token:
+        adapter.access_token = "fixture-token"
     registry = HostCapabilityRegistry()
     registry.register(
         adapter.capability(),
@@ -141,6 +143,35 @@ def test_runtime_verification_is_not_promoted_locally(monkeypatch):
     )
     assert verification.status == "DEFER"
     assert identity["trusted_ci_context"] is False
+
+
+def test_runtime_adapter_sends_host_credential_only_to_provider_calls():
+    seen = []
+    transport = fake_transport_factory()
+
+    def recording_transport(url, headers):
+        seen.append((url, dict(headers)))
+        return transport(url, headers)
+
+    adapter = GitHubRuntimeAdapter(
+        "fixture/repo",
+        "README.md",
+        "main",
+        access_token="fixture-secret",
+        transport=recording_transport,
+    )
+    verify_runtime(
+        adapter,
+        registry=allowed_registry(adapter),
+        now=fixed_now(),
+    )
+    api_headers = [headers for url, headers in seen if "api.github.com" in url]
+    assert api_headers
+    assert all(headers.get("Authorization") == "Bearer fixture-secret" for headers in api_headers)
+    raw_headers = [headers for url, headers in seen if "raw.githubusercontent.com" in url]
+    assert raw_headers
+    assert all("Authorization" not in headers for headers in raw_headers)
+
 
 
 def test_runtime_verification_binds_both_surfaces_to_resolved_commit():
@@ -444,6 +475,7 @@ def test_host_runner_requires_bound_invoker(monkeypatch):
         transport=fake_transport_factory(),
     )
     monkeypatch.setenv("MORPHS_043C_AUTHORIZATION", "ALLOW")
+    monkeypatch.setenv("GITHUB_TOKEN", "fixture-token")
     registry = build_host_registry(adapter)
     assert registry.resolve(adapter.capability().capability_id).descriptor == adapter.capability()
 
