@@ -58,6 +58,7 @@ jobs:
       - name: Run Experiment 043c
         env:
           MORPHS_043C_AUTHORIZATION: ALLOW
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python -m morph_core.experiment043c_host
       - name: Upload Experiment 043c runtime receipt
         uses: actions/upload-artifact@v4
