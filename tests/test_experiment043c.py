@@ -93,7 +93,10 @@ def test_runtime_requires_explicit_host_registry():
         verify_runtime(adapter, now=fixed_now())
 
 
-def test_runtime_verification_accepts_matching_surfaces():
+def test_runtime_verification_accepts_matching_surfaces(monkeypatch):
+    monkeypatch.setenv("GITHUB_ACTIONS", "true")
+    monkeypatch.setenv("GITHUB_RUN_ID", "12345")
+    monkeypatch.setenv("GITHUB_SHA", "a" * 40)
     adapter = GitHubRuntimeAdapter(
         "fixture/repo",
         "README.md",
@@ -118,6 +121,26 @@ def test_runtime_verification_accepts_matching_surfaces():
     assert receipt.ci_run_id == os.environ.get("GITHUB_RUN_ID", "LOCAL")
     assert receipt.ci_head_sha == os.environ.get("GITHUB_SHA", "LOCAL")
     assert identity["contents_sha256"] == identity["raw_sha256"]
+    assert identity["trusted_ci_context"] is True
+
+
+def test_runtime_verification_is_not_promoted_locally(monkeypatch):
+    monkeypatch.delenv("GITHUB_ACTIONS", raising=False)
+    monkeypatch.delenv("GITHUB_RUN_ID", raising=False)
+    monkeypatch.delenv("GITHUB_SHA", raising=False)
+    adapter = GitHubRuntimeAdapter(
+        "fixture/repo",
+        "README.md",
+        "main",
+        transport=fake_transport_factory(),
+    )
+    _, verification, identity = verify_runtime(
+        adapter,
+        registry=allowed_registry(adapter),
+        now=fixed_now(),
+    )
+    assert verification.status == "DEFER"
+    assert identity["trusted_ci_context"] is False
 
 
 def test_runtime_verification_binds_both_surfaces_to_resolved_commit():
