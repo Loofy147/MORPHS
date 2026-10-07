@@ -16,7 +16,7 @@ Experiment 043c is the current external-runtime frontier:
 
 Epistemic state: EXPERIMENTALLY_SUPPORTED
 
-Scope: one real read-only GitHub runtime adapter invocation for `Loofy147/MORPHS@main:README.md), with `main` resolved to an exact commit before cross-surface verification.
+Scope: one real read-only GitHub runtime adapter invocation for `Loofy147/MORPHS@main:README.md`, with `main` resolved to an exact commit before cross-surface verification.
 
 This does NOT establish provider-independent verification, cryptographic receipt authenticity, independent CI-run attestation, runtime mutation, ambiguous network outcome handling, rollback, distributed transactions, or a production-grade capability registry.
 
@@ -27,14 +27,13 @@ The 043b mutation canary remains HOST_CAPTURED_EXTERNAL evidence; the MORPHS run
 The authoritative verification source is GitHub Actions on the current main HEAD.
 
 Current external-runtime evidence:
-- 043c: Run 248 — verified
-- verified experiment HEAD: `b1b9dca15847d8c4d629e246c4d449321f724fc8`
+- 043c: Run 253 — runtime verified
+- authoritative final revalidation after the evidence-record update: pending on the next main HEAD
+- latest runtime evidence HEAD: `9fb25681c6c821e823f66f038e2327f3a9166098`
 - runtime receipt: `experiments/043c/result.json`
 - CI artifact: `morphs-043c-runtime-receipt`
 - workflow permission: `contents: read`
 - provider credential path: host-injected `GITHUB_TOKEN`
-
-The next documentation-only commits must be revalidated before becoming the authoritative HEAD.
 
 Preserved negative evidence includes the moving-ref TOCTOU failure, registry/invoker binding failures, CI provenance failures, persisted-receipt reconstruction failure, broader-than-needed CI permission audit, replay regression, premature freshness timestamp, local-untrusted-runtime promotion, credential propagation failures, and stale credential fixtures.
 
