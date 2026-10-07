@@ -12,13 +12,13 @@ Conversation notes and generated snapshots are not authoritative.
 
 Experiment 043c is the current external-runtime frontier:
 
-> The MORPHS Python runtime can invoke a real public GitHub read operation through a bounded adapter and explicit host-injected capability binding, produce a run-bound invocation receipt, independently read the same immutable commit through a second GitHub surface, revalidate the persisted receipt against trusted CI provenance, and verify content plus Git blob identity before classifying the observation.
+> The MORPHS Python runtime can invoke a real public GitHub read operation through a bounded adapter and explicit host-injected capability binding, use a host-provided read-only GitHub credential for provider requests, produce a run-bound invocation receipt, independently read the same immutable commit through a second GitHub surface, revalidate the persisted receipt against trusted CI provenance, and verify content plus Git blob identity before classifying the observation.
 
 Epistemic state: EXPERIMENTALLY_SUPPORTED
 
-Scope: one real read-only GitHub runtime adapter invocation for `Loofy147/MORPHS@main:README.md`, with `main` resolved to an exact commit before cross-surface verification.
+Scope: one real read-only GitHub runtime adapter invocation for `Loofy147/MORPHS@main:README.md), with `main` resolved to an exact commit before cross-surface verification.
 
-This does NOT establish provider-independent verification, cryptographic receipt authenticity, runtime mutation, ambiguous network outcome handling, rollback, distributed transactions, or a production-grade capability registry.
+This does NOT establish provider-independent verification, cryptographic receipt authenticity, independent CI-run attestation, runtime mutation, ambiguous network outcome handling, rollback, distributed transactions, or a production-grade capability registry.
 
 The 043b mutation canary remains HOST_CAPTURED_EXTERNAL evidence; the MORPHS runtime mutation path remains OPEN.
 
@@ -27,13 +27,16 @@ The 043b mutation canary remains HOST_CAPTURED_EXTERNAL evidence; the MORPHS run
 The authoritative verification source is GitHub Actions on the current main HEAD.
 
 Current external-runtime evidence:
-- 043c: Run 237 — verified
-- current verified HEAD: `c47674a2f4de7e16054cdee4f3771cc6ddfa325f`
+- 043c: Run 248 — verified
+- verified experiment HEAD: `b1b9dca15847d8c4d629e246c4d449321f724fc8`
 - runtime receipt: `experiments/043c/result.json`
 - CI artifact: `morphs-043c-runtime-receipt`
-- CI token permission for 043c: `contents: read`
+- workflow permission: `contents: read`
+- provider credential path: host-injected `GITHUB_TOKEN`
 
-Preserved negative evidence includes the moving-ref TOCTOU failure, registry/invoker binding failures, CI provenance failures, persisted-receipt reconstruction failure, broader-than-needed CI permission audit, and the recomputed-receipt replay regression fixture failure. Each was repaired or classified and then revalidated.
+The next documentation-only commits must be revalidated before becoming the authoritative HEAD.
+
+Preserved negative evidence includes the moving-ref TOCTOU failure, registry/invoker binding failures, CI provenance failures, persisted-receipt reconstruction failure, broader-than-needed CI permission audit, replay regression, premature freshness timestamp, local-untrusted-runtime promotion, credential propagation failures, and stale credential fixtures.
 
 Prior green runs are historical evidence; a later HEAD must pass its own full workflow before any new claim is promoted.
 
@@ -69,7 +72,7 @@ Every material experiment should end in one of:
     python -m morph_core.experiment042
     python -m morph_core.experiment043
     python -m morph_core.experiment043b
-    python -m morph_core.experiment043c
+    python -m morph_core.experiment043c_host
 
 The full construction and evidence path is documented in docs/RESEARCH_PATHS.md.
 
