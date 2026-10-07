@@ -197,17 +197,18 @@ class GitHubRuntimeAdapter:
         repository: str,
         path: str,
         ref: str,
+        access_token: str | None = None,
         transport: Callable[[str, dict[str, str]], HttpObservation] | None = None,
     ) -> None:
         self.repository = repository
         self.path = path
         self.ref = ref
+        self.access_token = access_token
         self.transport = transport or self._http_get
 
     @staticmethod
     def _http_get(url: str, headers: dict[str, str]) -> HttpObservation:
         request = Request(url, headers=headers, method="GET")
-        observed_at = datetime.now(timezone.utc).isoformat()
         try:
             with urlopen(request, timeout=15) as response:
                 body = response.read()
@@ -220,7 +221,7 @@ class GitHubRuntimeAdapter:
                     status=response.status,
                     headers=response_headers,
                     body=body,
-                    observed_at=observed_at,
+                    observed_at=datetime.now(timezone.utc).isoformat(),
                 )
         except HTTPError as exc:
             body = exc.read()
@@ -261,9 +262,13 @@ class GitHubRuntimeAdapter:
         encoded_path = quote(self.path, safe="/")
         encoded_ref = quote(self.ref, safe="")
 
+        if not self.access_token:
+            raise PermissionError("043c requires a host-provided GitHub access token")
+
         api_headers = {
             "Accept": "application/vnd.github+json",
             "User-Agent": "MORPHS-043c",
+            "Authorization": f"Bearer {self.access_token}",
         }
 
         ref_resolution_url = (
