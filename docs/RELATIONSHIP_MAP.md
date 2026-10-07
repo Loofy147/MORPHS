@@ -27,6 +27,7 @@ deterministic protocol semantics
 -> host-captured external evidence
 -> MORPHS runtime invocation
 -> injected host capability binding
+-> host-provided least-privilege credential
 -> immutable ref resolution
 -> same-commit independent observation
 -> Git identity verification
@@ -70,6 +71,18 @@ Rule:
 invoke -> persist -> reread -> revalidate against trusted run/head -> artifact upload
 
 Artifact metadata proves upload existence and digest; it does not establish cryptographic authenticity of receipt contents.
+
+CREDENTIAL DEPENDENCY
+Least-privilege authority declared by the host is not sufficient by itself.
+
+Rule:
+host authorization
+-> credential injection
+-> provider request
+-> observable success
+-> record authentication mode without recording the secret
+
+The 043c live run verifies this path for GitHub Contents/ref-resolution reads with `contents: read`.
 
 ## 4. External-world model
 
@@ -130,7 +143,7 @@ A provider success response is not equivalent to external equilibrium.
 
 043b establishes hardened mutation protocol semantics and host-captured reversible canary evidence.
 
-043c establishes actual MORPHS runtime invocation of a real GitHub read, exact-commit cross-surface binding, injected host registry, bound invoker enforcement, Git blob identity binding, freshness, persisted receipt revalidation, and trusted CI provenance binding.
+043c establishes actual MORPHS runtime invocation of a real GitHub read, exact-commit cross-surface binding, injected host registry, bound invoker enforcement, provider credential propagation, Git blob identity binding, freshness, persisted receipt revalidation, and trusted CI provenance binding.
 
 The latest replay regression establishes an additional rule:
 
@@ -138,7 +151,7 @@ receipt self-consistency != receipt authenticity.
 
 A receipt can be internally self-consistent after malicious recomputation, so trusted external provenance must anchor replay detection.
 
-Provider-independent verification and cryptographic receipt authenticity remain OPEN.
+Provider-independent verification, independent CI attestation, and cryptographic receipt authenticity remain OPEN.
 
 ## 10. Current architecture frontier
 
@@ -150,10 +163,11 @@ Provider-independent verification and cryptographic receipt authenticity remain 
 042 dependency cascade propagation and partial external state
 043 read-only external protocol boundary
 043b mutation protocol integrity + host-captured reversible canary
-043c real MORPHS runtime read-only provider adapter with immutable reference binding, injected host registry, and trusted receipt provenance
+043c real MORPHS runtime read-only provider adapter with immutable reference binding, injected host registry, host-provided credential, and trusted receipt provenance
 
 Next unresolved dimensions:
 - provider-independent verification
+- independent CI-run attestation
 - cryptographic receipt authenticity
 - controlled ambiguous runtime outcomes
 - runtime mutation through the bounded adapter
