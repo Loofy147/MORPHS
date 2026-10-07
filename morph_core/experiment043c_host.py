@@ -27,10 +27,16 @@ def build_host_registry(adapter: GitHubRuntimeAdapter) -> HostCapabilityRegistry
 
 
 def main() -> None:
+    access_token = os.environ.get("GITHUB_TOKEN", "")
+    if not access_token:
+        raise PermissionError(
+            "043c host runner requires GitHub's injected GITHUB_TOKEN"
+        )
     adapter = GitHubRuntimeAdapter(
         repository="Loofy147/MORPHS",
         path="README.md",
         ref="main",
+        access_token=access_token,
     )
     registry = build_host_registry(adapter)
     receipt_store = JsonReceiptStore(
