@@ -197,6 +197,6 @@ These are branches of one construction, not separate projects.
 - 043b: corrected mutation identity/authority boundary; host-captured reversible canary; runtime mutation OPEN
 - 043c: verified real MORPHS runtime read-only GitHub adapter with exact-commit binding, injected host registry, host-provided read-only credential, bound invoker, trusted receipt provenance, and replay-resistant revalidation
 
-The latest authoritative 043c runtime verification was Run 248 on commit `b1b9dca15847d8c4d629e246c4d449321f724fc8`. Documentation commits after that run require a new CI pass before they become authoritative evidence.
+The latest runtime evidence is Run 253 on commit `9fb25681c6c821e823f66f038e2327f3a9166098`. A subsequent evidence-record update requires its own full CI pass before it is authoritative.
 
 The current decision point remains provider-independent verification or controlled unknown-outcome handling before any runtime mutation attempt.
