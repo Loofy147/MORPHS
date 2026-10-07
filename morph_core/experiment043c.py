@@ -451,8 +451,14 @@ def verify_runtime(
     content_match = api_content == raw_content
     computed_blob_sha = git_blob_sha1(api_content)
     blob_identity_match = computed_blob_sha == provider_blob_sha
+    trusted_ci_context = (
+        os.environ.get("GITHUB_ACTIONS", "").lower() == "true"
+        and receipt.ci_run_id.isdigit()
+        and len(receipt.ci_head_sha) == 40
+    )
     receipt_complete = all(
         (
+            trusted_ci_context,
             receipt.execution_surface == "MORPHS_PYTHON_RUNTIME",
             receipt.ci_run_id,
             receipt.ci_head_sha,
@@ -539,6 +545,7 @@ def verify_runtime(
             "receipt_artifact_revalidation": persistence_verification,
             "provider_independence": "NOT_ESTABLISHED",
             "receipt_authenticity": "OPEN",
+            "trusted_ci_context": trusted_ci_context,
         },
     )
 
@@ -595,6 +602,7 @@ def run_experiment043c(
             "public GitHub endpoints only",
             "same-provider independent surface, not provider-independent verification",
             "receipt authenticity is OPEN because the receipt is hash-self-consistent but not signed",
+            "local execution without a trusted GitHub Actions context cannot be promoted to VERIFIED",
             "host registry is an experimental in-process boundary, not a production isolation mechanism",
             "no external mutation",
             "no unknown network outcome",
