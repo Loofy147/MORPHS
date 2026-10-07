@@ -73,7 +73,17 @@ failure
 
 043b exposed a protocol-integrity failure: state labels were treated as sufficient identity while blob identity was stored but not enforced.
 
-043c exposed and repaired a sequence of runtime-boundary failures, including moving-ref TOCTOU, registry/invoker mismatch, CI provenance assumptions, receipt reconstruction, broader-than-needed CI token permissions, and a recomputed-receipt replay regression fixture.
+043c exposed and repaired runtime-boundary failures across:
+- moving-ref TOCTOU,
+- registry/invoker mismatch,
+- CI provenance assumptions,
+- persisted-receipt reconstruction,
+- broader-than-needed CI token permissions,
+- recomputed-receipt replay,
+- premature freshness timestamps,
+- local-untrusted-runtime promotion,
+- missing provider credential propagation,
+- stale credential fixtures.
 
 These failures are part of the research evidence, not noise to remove.
 
@@ -109,6 +119,7 @@ The present lineage does not establish:
 - unrestricted automated root-cause identification
 - provider-independent verification
 - cryptographic receipt authenticity
+- independent attestation of the CI run used as provenance
 - MORPHS runtime mutation of external systems
 - real ambiguous mutation outcomes
 - irreversible mutation safety
@@ -117,7 +128,7 @@ The present lineage does not establish:
 - resilience against adversarial corruption of verifier inputs or investigation traces
 - provider substitution under contract equivalence
 - production-grade host capability isolation
-- strong post-response freshness semantics
+- fully independent post-response freshness semantics
 
 These remain OPEN boundaries unless later experiments produce stronger evidence.
 
@@ -133,11 +144,12 @@ These remain OPEN boundaries unless later experiments produce stronger evidence.
 
 043b hardens the mutation protocol itself and preserves a host-captured reversible canary.
 
-043c establishes the current runtime bridge for read-only execution:
+043c establishes a real MORPHS runtime bridge for one read-only GitHub capability:
 
 resolve ref
 → bind capability through injected host registry
 → require bound invoker
+→ inject read-only provider credential
 → invoke provider
 → durable receipt
 → revalidate receipt against trusted CI run/head
@@ -147,11 +159,13 @@ resolve ref
 
 The Run 194 TOCTOU failure remains part of the design: moving refs are not accepted as sufficient cross-surface binding.
 
-The latest replay regression also established that receipt self-consistency is not enough; trusted CI provenance is required to detect recomputed receipt replay.
+The later replay regression establishes that receipt self-consistency is insufficient; trusted provenance is needed for replay detection.
+
+The later credential-hardening failures establish a second rule: host-declared least privilege is not evidence that a provider credential was actually propagated. Runtime evidence must observe the bound credential path without exposing the secret.
 
 ### Path E-next — independent verification and controlled uncertainty
 
-The runtime bridge is now established for one read-only GitHub capability.
+The runtime bridge is established for one authenticated read-only GitHub capability.
 
 The next research gate is deliberately narrower:
 
@@ -181,6 +195,8 @@ These are branches of one construction, not separate projects.
 - 042: verified dependency cascades and partial external failure
 - 043: corrected protocol boundary; host-captured live read evidence; runtime integration OPEN
 - 043b: corrected mutation identity/authority boundary; host-captured reversible canary; runtime mutation OPEN
-- 043c: verified real MORPHS runtime read-only GitHub adapter with exact-commit binding, injected host registry, bound invoker, trusted receipt provenance, and replay-resistant revalidation
+- 043c: verified real MORPHS runtime read-only GitHub adapter with exact-commit binding, injected host registry, host-provided read-only credential, bound invoker, trusted receipt provenance, and replay-resistant revalidation
 
-The current decision point is provider-independent verification or controlled unknown-outcome handling before any runtime mutation attempt.
+The latest authoritative 043c runtime verification was Run 248 on commit `b1b9dca15847d8c4d629e246c4d449321f724fc8`. Documentation commits after that run require a new CI pass before they become authoritative evidence.
+
+The current decision point remains provider-independent verification or controlled unknown-outcome handling before any runtime mutation attempt.
