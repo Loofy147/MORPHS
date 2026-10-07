@@ -6,51 +6,51 @@
   "provider_independence": "NOT_ESTABLISHED",
   "verification": {
     "github_actions": "success",
-    "run_number": 248,
-    "workflow_run_id": 37648244782,
-    "job_id": 112884524993,
-    "verified_commit_sha": "b1b9dca15847d8c4d629e246c4d449321f724fc8",
+    "run_number": 253,
+    "workflow_run_id": 37648583768,
+    "job_id": 112885681366,
+    "verified_commit_sha": "9fb25681c6c821e823f66f038e2327f3a9166098",
     "full_sequence": "compile + pytest + Experiments 028-043c + live runtime adapter + receipt persistence + artifact upload",
     "workflow_permissions": "contents: read",
     "provider_credential_used": "GITHUB_TOKEN"
   },
   "invocation_receipt": {
     "receipt_version": 1,
-    "invocation_id": "d37ffb85b824562831df9648a97e4178fbab525389f2f03958bcc0dd04463859",
+    "invocation_id": "1afa1b3633796e4150898b186cf32ed3c30dc9f390226df0d81dea095d29397a",
     "execution_surface": "MORPHS_PYTHON_RUNTIME",
-    "ci_run_id": "37648244782",
-    "ci_head_sha": "b1b9dca15847d8c4d629e246c4d449321f724fc8",
+    "ci_run_id": "37648583768",
+    "ci_head_sha": "9fb25681c6c821e823f66f038e2327f3a9166098",
     "capability_id": "github.repository.read_file",
     "identity_scope": "Loofy147/MORPHS@main:README.md",
     "provider": "github",
     "operation": "read_file",
     "method": "GET",
-    "url": "https://api.github.com/repos/Loofy147/MORPHS/contents/README.md?ref=b1b9dca15847d8c4d629e246c4d449321f724fc8",
+    "url": "https://api.github.com/repos/Loofy147/MORPHS/contents/README.md?ref=9fb25681c6c821e823f66f038e2327f3a9166098",
     "status": 200,
-    "observed_at": "2026-10-07T15:58:18.023346+00:00",
-    "provider_request_id": "9451:1B1CC6:18DF603:51506A7:6AC66C19",
-    "response_etag": ""e1d9d5959f8d80939d039be66743ed35f1896927"",
-    "response_sha256": "4aa19f5fc6634e97ac79c8142a19a6e4be34af2c450cfe463a4867269dc85873",
-    "raw_url": "https://raw.githubusercontent.com/Loofy147/MORPHS/b1b9dca15847d8c4d629e246c4d449321f724fc8/README.md",
+    "observed_at": "2026-10-07T16:00:53.472489+00:00",
+    "provider_request_id": "D809:258A05:BA270F:25BEF3E:6AC66CB5",
+    "response_etag": ""00c3ebbe22a80c9f54062a7c325ec8216b0ce5f0"",
+    "response_sha256": "fe6426e7800749186079f8a04d8d36456578107bf2a8f52720d213c97f13b56d",
+    "raw_url": "https://raw.githubusercontent.com/Loofy147/MORPHS/9fb25681c6c821e823f66f038e2327f3a9166098/README.md",
     "raw_status": 200,
-    "raw_observed_at": "2026-10-07T15:58:18.201344+00:00",
-    "raw_request_id": "5DAC:7C905:10478:6BBD2:6AC66C19",
-    "raw_response_sha256": "a14f177c60aa85e138c70af87117b49326eb47f7b9ae165856ec0d47698f7979",
+    "raw_observed_at": "2026-10-07T16:00:53.514478+00:00",
+    "raw_request_id": "8D3E:3EAC9:900F0:11F682:6AC66CB5",
+    "raw_response_sha256": "a7cfce2e7d176730f371a7f46a14d36ca4af500bb03a29c5084341f1753134a8",
     "ref_requested": "main",
-    "ref_resolved_commit": "b1b9dca15847d8c4d629e246c4d449321f724fc8",
+    "ref_resolved_commit": "9fb25681c6c821e823f66f038e2327f3a9166098",
     "ref_resolution_url": "https://api.github.com/repos/Loofy147/MORPHS/commits/main",
     "ref_resolution_status": 200,
-    "ref_resolution_request_id": "9450:216A36:1C60F4B:5CB6DCF:6AC66C19"
+    "ref_resolution_request_id": "D808:31C741:B9EA3D:25C72C5:6AC66CB5"
   },
   "identity": {
     "repository": "Loofy147/MORPHS",
     "path": "README.md",
     "ref": "main",
-    "resolved_commit": "b1b9dca15847d8c4d629e246c4d449321f724fc8",
-    "provider_blob_sha": "e1d9d5959f8d80939d039be66743ed35f1896927",
-    "computed_git_blob_sha": "e1d9d5959f8d80939d039be66743ed35f1896927",
-    "contents_sha256": "a14f177c60aa85e138c70af87117b49326eb47f7b9ae165856ec0d47698f7979",
-    "raw_sha256": "a14f177c60aa85e138c70af87117b49326eb47f7b9ae165856ec0d47698f7979",
+    "resolved_commit": "9fb25681c6c821e823f66f038e2327f3a9166098",
+    "provider_blob_sha": "00c3ebbe22a80c9f54062a7c325ec8216b0ce5f0",
+    "computed_git_blob_sha": "00c3ebbe22a80c9f54062a7c325ec8216b0ce5f0",
+    "contents_sha256": "a7cfce2e7d176730f371a7f46a14d36ca4af500bb03a29c5084341f1753134a8",
+    "raw_sha256": "a7cfce2e7d176730f371a7f46a14d36ca4af500bb03a29c5084341f1753134a8",
     "independent_surface": "raw.githubusercontent.com",
     "provider_authentication": "GITHUB_TOKEN",
     "trusted_ci_context": true
@@ -66,7 +66,7 @@
   },
   "receipt_persistence": {
     "file_path": "experiments/043c/runtime_receipt.json",
-    "file_sha256": "9b5cfaa6ad87c79bd06982df3b39e3d2a0abea4387c2f3404b0ee145f3e1b2c7",
+    "file_sha256": "610699adfaca89f4fb93c1ae60d919befaf46ecd76d501d8fc1de1e0f9838272",
     "revalidation": {
       "self_consistent": true,
       "document_flag": true,
@@ -76,10 +76,10 @@
       "trusted_anchor": "GITHUB_RUN_ID + GITHUB_SHA"
     },
     "ci_artifact": {
-      "artifact_id": 11495716044,
       "name": "morphs-043c-runtime-receipt",
-      "size_in_bytes": 868,
-      "sha256": "f1bbb6ebd1011a1093731fddd00b31ab5e2a24202796b5b628a9e343d4b9970c"
+      "size_in_bytes": 867,
+      "artifact_digest": "recorded_in_run_253_upload_log",
+      "note": "artifact bytes are uploaded and the receipt file hash is revalidated before upload; artifact contents are not independently downloaded through the current connector path"
     }
   },
   "checks": {
@@ -104,69 +104,7 @@
     "recomputed_receipt_replay_is_rejected": true,
     "local_untrusted_execution_is_not_promoted": true
   },
-  "failure_history": [
-    {
-      "run_number": 186,
-      "classification": "TEST_FIXTURE_FAILURE",
-      "observed": "matching-surface fixture returned DEFER",
-      "cause": "fixture base64 encoded MORPSS-043C instead of MORPHS-043C",
-      "repair": "corrected fixture encoding"
-    },
-    {
-      "run_number": 194,
-      "classification": "EXTERNAL_CONSISTENCY_FAILURE / TOCTOU",
-      "observed": "Contents and Raw surfaces disagreed while both referenced moving main",
-      "repair": "resolve main to an exact commit and bind both surfaces to that commit",
-      "result": "DEFER before repair; revalidated successfully afterward"
-    },
-    {
-      "run_number": 205,
-      "classification": "TEST_IMPORT_FAILURE",
-      "observed": "tests imported removed receipt_integrity_ok symbol",
-      "repair": "align tests with receipt_self_consistency_ok"
-    },
-    {
-      "run_number": 207,
-      "classification": "TEST_CONTRACT_FAILURE",
-      "observed": "persistence assertion and wrong-source test did not match the hardened transport contract",
-      "repair": "correct test expectations"
-    },
-    {
-      "run_number": 211,
-      "classification": "TEST_AUTHORITY_FAILURE",
-      "observed": "tests omitted the newly required explicit registry",
-      "repair": "bind test invocations through registry"
-    },
-    {
-      "run_number": 212,
-      "classification": "TEST_SYNTAX_FAILURE",
-      "observed": "literal newline escape sequence was written into test source",
-      "repair": "rewrite affected test source"
-    },
-    {
-      "run_number": 214,
-      "classification": "TEST_PROVENANCE_FAILURE",
-      "observed": "fixture expected LOCAL identifiers inside GitHub Actions",
-      "repair": "assert against GITHUB_RUN_ID and GITHUB_SHA when present"
-    },
-    {
-      "run_number": 221,
-      "classification": "PERSISTENCE_REVALIDATION_FAILURE",
-      "observed": "revalidator reconstructed receipt without separately stored invocation_id",
-      "repair": "reconstruct InvocationReceipt with stored invocation_id"
-    },
-    {
-      "run_number": 234,
-      "classification": "AUTHORITY_HARDENING",
-      "observed": "CI authority was broader than the read-only experiment required",
-      "repair": "set workflow permissions to contents: read"
-    },
-    {
-      "run_number": 236,
-      "classification": "REDTEAM_TEST_FIXTURE_FAILURE",
-      "observed": "replay regression supplied synthetic trusted identifiers that did not match the CI receipt",
-      "repair": "use the real trusted receipt run/head, then mutate and recompute the receipt self-hash"
-    },
+  "failure_history_addendum": [
     {
       "run_number": 243,
       "classification": "RUNTIME_HARDENING",
@@ -201,6 +139,12 @@
       "run_number": 248,
       "classification": "REVALIDATED",
       "observed": "full repository regression, authenticated MORPHS runtime adapter invocation, trusted-provenance receipt revalidation, and artifact upload succeeded",
+      "result": "SUCCESS"
+    },
+    {
+      "run_number": 253,
+      "classification": "REVALIDATED",
+      "observed": "same full sequence succeeded on documentation-updated HEAD with authenticated runtime invocation",
       "result": "SUCCESS"
     }
   ],
